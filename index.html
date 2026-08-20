@@ -1,1048 +1,1378 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Muscle Lab Singapore</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>The Muscle Lab</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  :root {
-    --black: #0E0E0E;
-    --orange: #E8600A;
-    --orange-dim: #C04E06;
-    --white: #F8F6F2;
-    --grey: #888580;
-    --light: #F0EDE8;
-    --mid: #2A2A2A;
-    --border: rgba(232,96,10,0.15);
+  [data-theme="dark"] {
+    --bg:         #080810;
+    --bg2:        #10101C;
+    --bg3:        #18182A;
+    --bg4:        #1E1E30;
+    --surface:    rgba(255,255,255,0.05);
+    --border:     rgba(255,255,255,0.07);
+    --border-hi:  #FF6B1A;
+    --text:       #F2F0FF;
+    --text2:      #8A88AA;
+    --text3:      #50506A;
+    --accent:     #FF6B1A;
+    --accent2:    #FF9B5C;
+    --accent-bg:  rgba(255,107,26,0.12);
+    --accent-bg2: rgba(255,107,26,0.06);
+    --green:      #3EFFA0;
+    --green-bg:   rgba(62,255,160,0.1);
+    --red:        #FF5A6E;
+    --red-bg:     rgba(255,90,110,0.1);
+    --nav-bg:     rgba(8,8,16,0.88);
+    --tab-active: #FF6B1A;
+    --card-bg:    rgba(255,255,255,0.04);
+    --input-bg:   rgba(255,255,255,0.06);
+    --wa-bg:      #0C0C18;
+    --wa-in:      #1A1A2E;
+    --wa-out:     #0E2A1A;
+    --wa-out-t:   #A8E6C0;
+    --pill:       rgba(255,255,255,0.08);
+  }
+
+  [data-theme="light"] {
+    --bg:         #F7F5F0;
+    --bg2:        #EEEAE3;
+    --bg3:        #E4DFD6;
+    --bg4:        #DAD4C9;
+    --surface:    rgba(0,0,0,0.03);
+    --border:     rgba(0,0,0,0.08);
+    --border-hi:  #C84400;
+    --text:       #18140E;
+    --text2:      #6A6258;
+    --text3:      #A09880;
+    --accent:     #C84400;
+    --accent2:    #E86020;
+    --accent-bg:  rgba(200,68,0,0.1);
+    --accent-bg2: rgba(200,68,0,0.05);
+    --green:      #007A42;
+    --green-bg:   rgba(0,122,66,0.09);
+    --red:        #B8002A;
+    --red-bg:     rgba(184,0,42,0.08);
+    --nav-bg:     rgba(247,245,240,0.9);
+    --tab-active: #C84400;
+    --card-bg:    rgba(255,255,255,0.7);
+    --input-bg:   rgba(255,255,255,0.8);
+    --wa-bg:      #EBE7E0;
+    --wa-in:      #DDD9D0;
+    --wa-out:     #D4EDD9;
+    --wa-out-t:   #18401E;
+    --pill:       rgba(0,0,0,0.06);
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
   }
 
   body {
-    font-family: 'Inter', sans-serif;
-    background: var(--black);
-    color: var(--white);
-    min-height: 100vh;
-    overflow-x: hidden;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    height: 100dvh;
+    transition: background 0.25s, color 0.25s;
+    overscroll-behavior: none;
   }
 
-  nav {
+  /* ── STATUS BAR SAFE AREA ── */
+  .safe-top {
+    height: env(safe-area-inset-top, 0px);
+    background: var(--nav-bg);
+    flex-shrink: 0;
+  }
+
+  /* ── TOP NAV ── */
+  .top-nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    position: sticky;
-    top: 0;
-    background: var(--black);
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
     z-index: 100;
   }
 
   .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--white);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    line-height: 1;
   }
 
-  .logo span { color: var(--orange); }
+  .logo em { font-style: italic; color: var(--accent); }
 
-  .stage-tabs {
-    display: flex;
-    gap: 4px;
-    background: rgba(255,255,255,0.05);
-    padding: 4px;
-    border-radius: 8px;
-  }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
 
-  .stage-tab {
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
     cursor: pointer;
-    border: none;
-    background: transparent;
-    color: var(--grey);
-    transition: all 0.2s;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    transition: transform 0.15s;
+    touch-action: manipulation;
+    color: var(--text2);
   }
 
-  .stage-tab.active {
-    background: var(--orange);
-    color: white;
+  .icon-btn:active { transform: scale(0.88); }
+
+  [data-theme="dark"] .icon-sun { display: none; }
+  [data-theme="light"] .icon-moon { display: none; }
+
+  /* ── SCROLL AREA ── */
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+    scroll-behavior: smooth;
   }
 
-  .screen { display: none; }
+  /* ── SCREENS ── */
+  .screen { display: none; min-height: 100%; }
   .screen.active { display: block; }
 
+  /* slide animation */
+  .screen.slide-in {
+    animation: slideIn 0.28s cubic-bezier(0.32,0.72,0,1) forwards;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(32px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    display: flex;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    padding: 8px 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+    flex-shrink: 0;
+    z-index: 100;
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 4px 0;
+    border: none;
+    background: none;
+    touch-action: manipulation;
+    transition: opacity 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-item:active { opacity: 0.6; }
+
+  .nav-icon {
+    font-size: 20px;
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    line-height: 1;
+  }
+
+  .nav-item.active .nav-icon { transform: scale(1.15); }
+
+  .nav-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text3);
+    text-transform: uppercase;
+    transition: color 0.15s;
+  }
+
+  .nav-item.active .nav-label { color: var(--accent); }
+
+  .nav-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: -2px;
+  }
+
+  .nav-item.active .nav-dot { opacity: 1; }
+
+  /* ── HERO ── */
   .hero {
-    min-height: calc(100vh - 65px);
+    padding: 36px 22px 40px;
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 80px 40px;
-    position: relative;
-    overflow: hidden;
   }
 
-  .hero::before {
-    content: '';
+  .glow-orb {
     position: absolute;
-    top: 0; right: 0;
-    width: 45%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(232,96,10,0.08) 0%, transparent 60%);
+    border-radius: 50%;
     pointer-events: none;
   }
 
-  .hero-eyebrow {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
+  .glow-1 {
+    width: 280px; height: 280px;
+    top: -80px; right: -80px;
+    background: radial-gradient(circle, rgba(255,107,26,0.18) 0%, transparent 70%);
+  }
+
+  .glow-2 {
+    width: 220px; height: 220px;
+    bottom: 40px; left: -60px;
+    background: radial-gradient(circle, rgba(120,80,255,0.09) 0%, transparent 70%);
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-bg);
+    border: 1px solid rgba(255,107,26,0.2);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--orange);
+    color: var(--accent);
     margin-bottom: 24px;
+    width: fit-content;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
   }
 
   .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(48px, 7vw, 88px);
-    line-height: 1.0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(54px, 14vw, 90px);
+    line-height: 0.92;
     font-weight: 700;
-    max-width: 720px;
-    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    position: relative;
   }
 
-  .hero h1 em {
-    font-style: italic;
-    color: var(--orange);
-  }
+  .hero h1 span { display: block; }
+  .hero h1 .accent { color: var(--accent); font-style: italic; }
 
   .hero-sub {
-    font-size: 16px;
-    color: var(--grey);
-    max-width: 420px;
-    line-height: 1.7;
-    margin-bottom: 48px;
-    font-weight: 300;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.75;
+    margin-bottom: 32px;
+    font-weight: 400;
+    max-width: 320px;
+    position: relative;
   }
 
   .hero-cta {
     display: flex;
-    gap: 16px;
-    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
   }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.15s, box-shadow 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:active { transform: scale(0.95); }
 
   .btn-primary {
-    background: var(--orange);
+    background: var(--accent);
     color: white;
-    border: none;
-    padding: 16px 32px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-    text-transform: uppercase;
+    padding: 14px 24px;
+    box-shadow: 0 4px 20px rgba(255,107,26,0.35);
   }
 
-  .btn-primary:hover { background: var(--orange-dim); transform: translateY(-1px); }
+  .btn-primary:active { box-shadow: 0 2px 8px rgba(255,107,26,0.2); }
 
   .btn-ghost {
-    background: transparent;
-    color: var(--grey);
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 16px 32px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-    letter-spacing: 0.03em;
+    background: var(--surface);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    padding: 14px 20px;
   }
 
-  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+  .btn-block { width: 100%; padding: 16px; font-size: 14px; }
 
+  /* hero stats */
   .hero-stats {
-    display: flex;
-    gap: 48px;
-    margin-top: 80px;
-    padding-top: 48px;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 36px;
+    position: relative;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    backdrop-filter: blur(8px);
   }
 
   .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
     font-weight: 700;
-    color: var(--white);
+    line-height: 1;
+    color: var(--text);
   }
 
   .stat-label {
-    font-size: 11px;
-    color: var(--grey);
+    font-size: 10px;
+    color: var(--text3);
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: 3px;
   }
 
-  .booking-screen {
-    padding: 60px 40px;
-    max-width: 900px;
-    margin: 0 auto;
+  /* ── SHARED SCREEN ── */
+  .screen-content {
+    padding: 24px 18px 32px;
   }
 
-  .screen-eyebrow {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
+  .screen-header { margin-bottom: 24px; }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 12px;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 14px; height: 1.5px;
+    background: var(--accent);
+    border-radius: 2px;
   }
 
   .screen-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
     font-weight: 700;
-    margin-bottom: 8px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
   }
 
   .screen-sub {
-    color: var(--grey);
-    font-size: 14px;
-    margin-bottom: 48px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
   }
 
-  .booking-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-
-  .booking-card {
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 24px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: rgba(255,255,255,0.02);
-  }
-
-  .booking-card:hover, .booking-card.selected {
-    border-color: var(--orange);
-    background: rgba(232,96,10,0.06);
-  }
-
-  .booking-card-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-  .booking-card-detail { font-size: 12px; color: var(--grey); margin-bottom: 12px; }
-  .booking-card-price { font-size: 20px; font-weight: 700; color: var(--orange); font-family: 'Playfair Display', serif; }
-  .booking-card-price span { font-size: 12px; color: var(--grey); font-family: 'Inter', sans-serif; font-weight: 400; }
-
-  .therapist-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 32px;
-    overflow-x: auto;
+  /* section headers */
+  .sec-head {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin: 20px 0 10px;
     padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .therapist-card {
-    flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 16px 20px;
+  /* ── BOOKING CARDS ── */
+  .option-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .option-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
     cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    min-width: 120px;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    touch-action: manipulation;
+    position: relative;
+    overflow: hidden;
   }
 
-  .therapist-card:hover, .therapist-card.selected {
-    border-color: var(--orange);
-    background: rgba(232,96,10,0.06);
+  .option-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-bg2);
   }
 
-  .therapist-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--orange), #C04E06);
-    margin: 0 auto 8px;
+  .option-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Playfair Display', serif;
-    color: white;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: background 0.2s;
   }
 
-  .therapist-name { font-size: 13px; font-weight: 500; }
-  .therapist-spec { font-size: 11px; color: var(--grey); margin-top: 2px; }
+  .option-card.selected .option-card-icon { background: var(--accent); }
 
+  .option-card-body { flex: 1; min-width: 0; }
+  .option-card-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .option-card-sub { font-size: 11px; color: var(--text3); }
+
+  .option-card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .selected-check {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .option-card.selected .selected-check { opacity: 1; }
+
+  /* therapists */
+  .therapist-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .therapist-scroll::-webkit-scrollbar { display: none; }
+
+  .therapist-pill {
+    flex-shrink: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    transition: all 0.2s;
+    touch-action: manipulation;
+    white-space: nowrap;
+  }
+
+  .therapist-pill.selected {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  .t-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #FF4000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .t-info {}
+  .t-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .t-spec { font-size: 10px; color: var(--text3); }
+
+  /* time slots */
   .slots-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-bottom: 32px;
   }
 
   .slot {
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 6px;
-    padding: 10px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 6px;
     text-align: center;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    color: var(--text);
+    touch-action: manipulation;
   }
 
-  .slot:hover, .slot.selected {
-    border-color: var(--orange);
-    background: rgba(232,96,10,0.1);
-    color: var(--orange);
-  }
+  .slot.selected { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); }
+  .slot.unavailable { opacity: 0.2; pointer-events: none; }
 
-  .slot.unavailable { opacity: 0.3; cursor: not-allowed; }
-
-  .booking-summary {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 24px;
+  /* summary card */
+  .summary-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 20px;
   }
 
   .summary-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
     font-size: 13px;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
   .summary-row:last-child { border-bottom: none; }
-  .summary-row .label { color: var(--grey); }
-  .summary-row .value { font-weight: 500; }
-  .summary-row.total .value { color: var(--orange); font-size: 16px; font-weight: 700; }
+  .summary-row .lbl { color: var(--text3); font-size: 12px; font-weight: 500; }
+  .summary-row .val { font-weight: 600; color: var(--text); text-align: right; }
+  .summary-row.total .val { color: var(--accent); font-size: 20px; font-family: 'Cormorant Garamond', serif; }
 
-  .bundle-nudge {
-    background: rgba(232,96,10,0.08);
-    border: 1px solid rgba(232,96,10,0.2);
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .nudge-icon { font-size: 20px; }
-  .nudge-text { font-size: 13px; color: var(--grey); flex: 1; }
-  .nudge-text strong { color: var(--white); }
-  .nudge-link { color: var(--orange); cursor: pointer; font-weight: 500; white-space: nowrap; font-size: 13px; }
-
-  .post-screen {
-    padding: 60px 40px;
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  .whatsapp-thread {
-    background: #0B1118;
+  /* nudge */
+  .nudge {
+    background: var(--accent-bg);
+    border: 1px solid rgba(255,107,26,0.18);
     border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 32px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 12px;
   }
 
-  .wa-header {
-    background: #1A2530;
-    padding: 16px 20px;
+  .nudge-icon { font-size: 16px; flex-shrink: 0; }
+  .nudge-body { flex: 1; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .nudge-body strong { color: var(--text); font-weight: 600; }
+  .nudge-action { font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; cursor: pointer; align-self: center; }
+
+  /* forms */
+  .form-group { margin-bottom: 14px; }
+
+  .form-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+
+  .form-input, .form-select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-size: 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .form-input:focus, .form-select:focus { border-color: var(--accent); }
+  .form-select option { background: var(--bg2); }
+
+  /* ── WHATSAPP ── */
+  .wa-wrapper {
+    background: var(--wa-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .wa-bar {
+    background: var(--bg3);
+    padding: 14px 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .wa-avatar {
-    width: 40px;
-    height: 40px;
+  .wa-av {
+    width: 36px; height: 36px;
     border-radius: 50%;
-    background: var(--orange);
+    background: linear-gradient(135deg, var(--accent), #FF4000);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 700;
     color: white;
+    flex-shrink: 0;
   }
 
-  .wa-name { font-size: 14px; font-weight: 600; }
-  .wa-status { font-size: 11px; color: var(--grey); }
+  .wa-nm { font-size: 13px; font-weight: 600; color: var(--text); }
+  .wa-st { font-size: 10px; color: var(--text3); }
 
-  .wa-messages {
-    padding: 20px;
+  .wa-msgs {
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    background: #0D1117;
-    min-height: 280px;
+    gap: 10px;
+    background: var(--wa-bg);
   }
 
   .wa-msg {
-    max-width: 80%;
-    padding: 10px 14px;
-    border-radius: 10px;
+    max-width: 82%;
+    padding: 10px 12px;
+    border-radius: 16px;
     font-size: 13px;
     line-height: 1.5;
   }
 
-  .wa-msg.incoming {
-    background: #1E2C3A;
+  .wa-msg.in {
+    background: var(--wa-in);
     align-self: flex-start;
-    border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 4px;
+    color: var(--text);
   }
 
-  .wa-msg.outgoing {
-    background: #1A3A2A;
+  .wa-msg.out {
+    background: var(--wa-out);
     align-self: flex-end;
-    border-bottom-right-radius: 3px;
-    color: #D4EDD9;
+    border-bottom-right-radius: 4px;
+    color: var(--wa-out-t);
   }
 
-  .wa-msg .time { font-size: 10px; color: var(--grey); margin-top: 4px; text-align: right; }
+  .wa-msg .t { font-size: 10px; color: var(--text3); margin-top: 5px; text-align: right; }
 
-  .timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+  /* timeline */
+  .timeline { display: flex; flex-direction: column; margin-top: 4px; }
 
-  .timeline-item {
-    display: flex;
-    gap: 20px;
-    position: relative;
-  }
+  .tl-item { display: flex; gap: 14px; position: relative; }
 
-  .timeline-item::before {
+  .tl-item::before {
     content: '';
     position: absolute;
-    left: 15px;
-    top: 32px;
+    left: 17px; top: 36px;
     width: 1px;
-    height: 100%;
-    background: rgba(232,96,10,0.2);
+    height: calc(100% - 10px);
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    opacity: 0.25;
   }
 
-  .timeline-item:last-child::before { display: none; }
+  .tl-item:last-child::before { display: none; }
 
-  .timeline-dot {
-    width: 32px;
-    height: 32px;
+  .tl-dot {
+    width: 36px; height: 36px;
     border-radius: 50%;
-    background: rgba(232,96,10,0.15);
-    border: 1px solid var(--orange);
+    background: var(--accent-bg);
+    border: 1.5px solid var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-size: 11px;
-    color: var(--orange);
-    font-weight: 600;
-    margin-top: 4px;
+    font-size: 9px;
+    color: var(--accent);
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
-  .timeline-content { padding-bottom: 28px; }
-  .timeline-day { font-size: 11px; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 4px; }
-  .timeline-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .timeline-body { font-size: 13px; color: var(--grey); line-height: 1.6; }
+  .tl-body { padding-bottom: 24px; flex: 1; }
+  .tl-day { font-size: 9px; color: var(--accent); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .tl-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
 
-  .membership-screen { padding: 60px 40px; max-width: 960px; margin: 0 auto; }
-
-  .pricing-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-  }
+  /* ── PRICING ── */
+  .pricing-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 
   .pricing-card {
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 32px 24px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
     position: relative;
+    transition: border-color 0.2s;
   }
 
   .pricing-card.featured {
-    border-color: var(--orange);
-    background: rgba(232,96,10,0.05);
+    border-color: var(--accent);
+    background: var(--accent-bg2);
   }
 
   .pricing-badge {
     position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--orange);
+    top: -10px; left: 20px;
+    background: var(--accent);
     color: white;
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 9px;
+    font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 4px 14px;
+    padding: 3px 10px;
     border-radius: 20px;
-    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(255,107,26,0.4);
   }
 
-  .card-tier { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); margin-bottom: 12px; }
-  .card-price { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-  .card-price-sub { font-size: 12px; color: var(--grey); margin-bottom: 20px; }
-  .card-desc { font-size: 13px; color: var(--grey); line-height: 1.6; margin-bottom: 24px; min-height: 56px; }
+  .pc-tier { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
 
-  .card-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .pc-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+  .pc-price { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 700; color: var(--text); line-height: 1; }
+  .pricing-card.featured .pc-price { color: var(--accent); }
+  .pc-period { font-size: 12px; color: var(--text3); }
 
-  .card-features li {
-    font-size: 13px;
+  .pc-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; margin-top: 4px; }
+
+  .pc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .pc-pill.up { background: var(--green-bg); color: var(--green); }
+  .pc-pill.base { background: var(--pill); color: var(--text3); }
+
+  .pc-features { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+
+  .pc-features li {
+    font-size: 12px;
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    color: rgba(255,255,255,0.8);
+    color: var(--text2);
   }
 
-  .card-features li::before { content: '✓'; color: var(--orange); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .pc-features li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
 
-  .card-vs-rack { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-bottom: 20px; font-weight: 500; }
-  .card-vs-rack.above { background: rgba(34,197,94,0.1); color: #4ADE80; }
-  .card-vs-rack.below { background: rgba(239,68,68,0.1); color: #F87171; }
+  /* stat pills */
+  .stat-pills { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
 
-  .annual-screen { padding: 60px 40px; max-width: 800px; margin: 0 auto; }
+  .stat-pill {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+  }
 
+  .sp-num { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .sp-label { font-size: 9px; color: var(--text3); margin-top: 4px; line-height: 1.4; font-weight: 500; }
+
+  /* ── ANNUAL ── */
   .personal-card {
-    background: rgba(232,96,10,0.06);
-    border: 1px solid rgba(232,96,10,0.25);
-    border-radius: 12px;
-    padding: 32px;
-    margin-bottom: 32px;
+    background: var(--accent-bg2);
+    border: 1.5px solid rgba(255,107,26,0.2);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .personal-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
-  .personal-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-  .personal-body { font-size: 14px; color: var(--grey); line-height: 1.7; margin-bottom: 24px; }
-
-  .personal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
-
-  .pstat { text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 8px; }
-  .pstat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--orange); }
-  .pstat-label { font-size: 11px; color: var(--grey); margin-top: 4px; }
-
-  .annual-options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
-
-  .annual-card {
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 28px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .annual-card:hover, .annual-card.selected {
-    border-color: var(--orange);
-    background: rgba(232,96,10,0.06);
-  }
-
-  .annual-tier { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); margin-bottom: 8px; }
-  .annual-price { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; margin-bottom: 4px; }
-  .annual-saving { font-size: 13px; color: #4ADE80; font-weight: 500; margin-bottom: 12px; }
-  .annual-desc { font-size: 13px; color: var(--grey); line-height: 1.6; }
-
-  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); margin-bottom: 16px; margin-top: 32px; }
-
-  .progress-bar { display: flex; align-items: center; gap: 0; margin-bottom: 48px; padding: 24px 40px 0; }
-
-  .progress-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; }
-
-  .progress-step::before {
+  .personal-card::after {
     content: '';
     position: absolute;
-    top: 14px;
-    left: 50%;
-    width: 100%;
-    height: 1px;
-    background: rgba(255,255,255,0.1);
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,107,26,0.14), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
   }
 
-  .progress-step:last-child::before { display: none; }
-  .progress-step.done::before { background: var(--orange); }
+  .pc-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .pc-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--text); position: relative; line-height: 1.2; }
+  .pc-body { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
 
-  .step-dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: var(--black);
+  .mini-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+
+  .mini-stat {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+
+  [data-theme="light"] .mini-stat { background: rgba(255,255,255,0.5); }
+
+  .ms-num { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--accent); }
+  .ms-label { font-size: 9px; color: var(--text3); margin-top: 2px; font-weight: 500; line-height: 1.3; }
+
+  .annual-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+  .annual-card {
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    cursor: pointer;
+    background: var(--card-bg);
+    transition: all 0.2s;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .annual-card.selected { border-color: var(--accent); background: var(--accent-bg2); }
+
+  .annual-card-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: var(--accent-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--grey);
-    position: relative;
-    z-index: 1;
-    margin-bottom: 8px;
+    font-size: 22px;
+    flex-shrink: 0;
   }
 
-  .progress-step.active .step-dot { border-color: var(--orange); background: var(--orange); color: white; }
-  .progress-step.done .step-dot { border-color: var(--orange); background: rgba(232,96,10,0.2); color: var(--orange); }
+  .annual-card.selected .annual-card-icon { background: var(--accent); }
 
-  .step-label { font-size: 10px; color: var(--grey); text-align: center; letter-spacing: 0.05em; text-transform: uppercase; }
-  .progress-step.active .step-label { color: var(--orange); }
+  .annual-card-body { flex: 1; }
+  .ac-tier { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); font-weight: 700; margin-bottom: 4px; }
+  .ac-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 2px; }
+  .ac-save { font-size: 11px; color: var(--green); font-weight: 600; }
 
-  .form-group { margin-bottom: 20px; }
-  .form-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey); margin-bottom: 8px; display: block; }
+  .annual-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: white;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
 
-  .form-input {
-    width: 100%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
+  .annual-card.selected .annual-check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .order-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .order-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 12px 16px;
-    font-size: 14px;
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    gap: 12px;
   }
 
-  .form-input:focus { border-color: var(--orange); }
-
-  .form-select {
-    width: 100%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
-    padding: 12px 16px;
-    font-size: 14px;
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    appearance: none;
-    cursor: pointer;
-  }
-
-  .form-select option { background: #1a1a1a; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .order-row:last-child { border-bottom: none; }
+  .order-row .lbl { color: var(--text3); font-size: 12px; }
+  .order-row .val { font-weight: 600; color: var(--text); }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">The Muscle Lab <span>·</span> SG</div>
-  <div class="stage-tabs">
-    <button class="stage-tab active" onclick="showScreen(0)">Discovery</button>
-    <button class="stage-tab" onclick="showScreen(1)">Book</button>
-    <button class="stage-tab" onclick="showScreen(2)">After</button>
-    <button class="stage-tab" onclick="showScreen(3)">Member</button>
-    <button class="stage-tab" onclick="showScreen(4)">Annual</button>
-  </div>
-</nav>
+<div class="safe-top"></div>
 
-<div class="progress-bar" id="progressBar">
-  <div class="progress-step active" id="step0">
-    <div class="step-dot">1</div>
-    <div class="step-label">Discover</div>
-  </div>
-  <div class="progress-step" id="step1">
-    <div class="step-dot">2</div>
-    <div class="step-label">Book</div>
-  </div>
-  <div class="progress-step" id="step2">
-    <div class="step-dot">3</div>
-    <div class="step-label">Post-session</div>
-  </div>
-  <div class="progress-step" id="step3">
-    <div class="step-dot">4</div>
-    <div class="step-label">Membership</div>
-  </div>
-  <div class="progress-step" id="step4">
-    <div class="step-dot">5</div>
-    <div class="step-label">Annual</div>
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="logo">Muscle Lab <em>·</em> SG</div>
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="toggleTheme()">
+      <span class="icon-moon">🌙</span>
+      <span class="icon-sun">☀️</span>
+    </button>
   </div>
 </div>
 
-<!-- SCREEN 1: DISCOVERY -->
-<div class="screen active" id="screen0">
-  <div class="hero">
-    <div class="hero-eyebrow">Singapore's performance recovery studio</div>
-    <h1>Recovery is<br>the <em>work.</em></h1>
-    <p class="hero-sub">Sports massage, stretch therapy, and clinical recovery for athletes who take their training seriously. Three outlets. Zero compromises.</p>
-    <div class="hero-cta">
-      <button class="btn-primary" onclick="showScreen(1)">Book a session</button>
-      <button class="btn-ghost">See our therapists</button>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">18K+</div>
-        <div class="stat-label">Appointments</div>
+<!-- SCROLL AREA -->
+<div class="scroll-area" id="scrollArea">
+
+  <!-- SCREEN 0: HOME -->
+  <div class="screen active" id="screen0">
+    <div class="hero">
+      <div class="glow-orb glow-1"></div>
+      <div class="glow-orb glow-2"></div>
+      <div class="hero-tag">Singapore · Performance Recovery</div>
+      <h1>
+        <span>Recovery</span>
+        <span>is</span>
+        <span class="accent">the work.</span>
+      </h1>
+      <p class="hero-sub">Sports massage and clinical recovery for athletes who take their training seriously. Three outlets, zero compromises.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="showScreen(1)">Book a session</button>
+        <button class="btn btn-ghost">Our therapists</button>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">480</div>
-        <div class="stat-label">Five-star reviews</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">70</div>
-        <div class="stat-label">Nationalities</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">3</div>
-        <div class="stat-label">Outlets</div>
+      <div class="hero-stats">
+        <div class="stat-card"><div class="stat-num">18K+</div><div class="stat-label">Appointments</div></div>
+        <div class="stat-card"><div class="stat-num">480</div><div class="stat-label">Five-star reviews</div></div>
+        <div class="stat-card"><div class="stat-num">70</div><div class="stat-label">Nationalities</div></div>
+        <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Outlets</div></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- SCREEN 2: BOOKING -->
-<div class="screen" id="screen1">
-  <div class="booking-screen">
-    <div class="screen-eyebrow">New client booking</div>
-    <div class="screen-title">Choose your session</div>
-    <div class="screen-sub">Your first visit. No commitment. We'll take care of the rest.</div>
+  <!-- SCREEN 1: BOOK -->
+  <div class="screen" id="screen1">
+    <div class="screen-content">
+      <div class="screen-header">
+        <div class="eyebrow">New client booking</div>
+        <div class="screen-title">Book your session</div>
+        <div class="screen-sub">First visit. No commitment.</div>
+      </div>
 
-    <div class="section-label">Session type</div>
-    <div class="booking-grid">
-      <div class="booking-card selected" onclick="selectCard(this,'session')">
-        <div class="booking-card-name">Sports Massage — 60 min</div>
-        <div class="booking-card-detail">Targeted treatment for muscle tension, recovery, and performance. Most popular.</div>
-        <div class="booking-card-price">SGD 99 <span>/ session</span></div>
+      <div class="sec-head">Session type</div>
+      <div class="option-list">
+        <div class="option-card selected" onclick="selectOption(this,'session')">
+          <div class="option-card-icon">💆</div>
+          <div class="option-card-body">
+            <div class="option-card-name">Sports Massage</div>
+            <div class="option-card-sub">60 min · Most popular</div>
+          </div>
+          <div class="option-card-price">SGD 99</div>
+          <div class="selected-check">✓</div>
+        </div>
+        <div class="option-card" onclick="selectOption(this,'session')">
+          <div class="option-card-icon">💆</div>
+          <div class="option-card-body">
+            <div class="option-card-name">Sports Massage</div>
+            <div class="option-card-sub">90 min · Recommended post-race</div>
+          </div>
+          <div class="option-card-price">SGD 139</div>
+          <div class="selected-check">✓</div>
+        </div>
+        <div class="option-card" onclick="selectOption(this,'session')">
+          <div class="option-card-icon">🧘</div>
+          <div class="option-card-body">
+            <div class="option-card-name">Stretch Therapy</div>
+            <div class="option-card-sub">50 min · Mobility and range</div>
+          </div>
+          <div class="option-card-price">SGD 89</div>
+          <div class="selected-check">✓</div>
+        </div>
+        <div class="option-card" onclick="selectOption(this,'session')">
+          <div class="option-card-icon">🔥</div>
+          <div class="option-card-body">
+            <div class="option-card-name">Cupping</div>
+            <div class="option-card-sub">45 min · Fire or hijama</div>
+          </div>
+          <div class="option-card-price">SGD 89</div>
+          <div class="selected-check">✓</div>
+        </div>
       </div>
-      <div class="booking-card" onclick="selectCard(this,'session')">
-        <div class="booking-card-name">Sports Massage — 90 min</div>
-        <div class="booking-card-detail">Extended session for deeper work or full-body treatment. Recommended post-race.</div>
-        <div class="booking-card-price">SGD 139 <span>/ session</span></div>
-      </div>
-      <div class="booking-card" onclick="selectCard(this,'session')">
-        <div class="booking-card-name">Stretch Therapy — 50 min</div>
-        <div class="booking-card-detail">Facilitated assisted stretching for mobility, range of motion, and recovery.</div>
-        <div class="booking-card-price">SGD 89 <span>/ session</span></div>
-      </div>
-      <div class="booking-card" onclick="selectCard(this,'session')">
-        <div class="booking-card-name">Cupping — 45 min</div>
-        <div class="booking-card-detail">Fire or hijama cupping for deep tissue work and circulation.</div>
-        <div class="booking-card-price">SGD 89 <span>/ session</span></div>
-      </div>
-    </div>
 
-    <div class="section-label">Choose your therapist</div>
-    <div class="therapist-row">
-      <div class="therapist-card selected" onclick="selectCard(this,'therapist')">
-        <div class="therapist-avatar">I</div>
-        <div class="therapist-name">Ivan</div>
-        <div class="therapist-spec">Sports rehab</div>
+      <div class="sec-head">Therapist</div>
+      <div class="therapist-scroll">
+        <div class="therapist-pill selected" onclick="selectPill(this,'therapist')">
+          <div class="t-avatar">I</div>
+          <div class="t-info"><div class="t-name">Ivan</div><div class="t-spec">Sports rehab</div></div>
+        </div>
+        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
+          <div class="t-avatar">C</div>
+          <div class="t-info"><div class="t-name">Cindy</div><div class="t-spec">Deep tissue</div></div>
+        </div>
+        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
+          <div class="t-avatar">H</div>
+          <div class="t-info"><div class="t-name">Husni</div><div class="t-spec">Mobility</div></div>
+        </div>
+        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
+          <div class="t-avatar">Ch</div>
+          <div class="t-info"><div class="t-name">Christine</div><div class="t-spec">Recovery</div></div>
+        </div>
+        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
+          <div class="t-avatar">?</div>
+          <div class="t-info"><div class="t-name">Any</div><div class="t-spec">First available</div></div>
+        </div>
       </div>
-      <div class="therapist-card" onclick="selectCard(this,'therapist')">
-        <div class="therapist-avatar">C</div>
-        <div class="therapist-name">Cindy</div>
-        <div class="therapist-spec">Deep tissue</div>
-      </div>
-      <div class="therapist-card" onclick="selectCard(this,'therapist')">
-        <div class="therapist-avatar">H</div>
-        <div class="therapist-name">Husni</div>
-        <div class="therapist-spec">Mobility</div>
-      </div>
-      <div class="therapist-card" onclick="selectCard(this,'therapist')">
-        <div class="therapist-avatar">Ch</div>
-        <div class="therapist-name">Christine</div>
-        <div class="therapist-spec">Recovery</div>
-      </div>
-      <div class="therapist-card" onclick="selectCard(this,'therapist')">
-        <div class="therapist-avatar">?</div>
-        <div class="therapist-name">Any</div>
-        <div class="therapist-spec">First available</div>
-      </div>
-    </div>
 
-    <div class="section-label">Available slots — Tanjong Pagar · Thu 22 Aug</div>
-    <div class="slots-grid">
-      <div class="slot unavailable">10:00</div>
-      <div class="slot unavailable">11:00</div>
-      <div class="slot" onclick="selectCard(this,'slot')">12:00</div>
-      <div class="slot selected" onclick="selectCard(this,'slot')">13:00</div>
-      <div class="slot" onclick="selectCard(this,'slot')">14:00</div>
-      <div class="slot unavailable">15:00</div>
-      <div class="slot" onclick="selectCard(this,'slot')">16:00</div>
-      <div class="slot" onclick="selectCard(this,'slot')">17:00</div>
-      <div class="slot unavailable">18:00</div>
-      <div class="slot" onclick="selectCard(this,'slot')">19:00</div>
-    </div>
+      <div class="sec-head">Thu 22 Aug · Tanjong Pagar</div>
+      <div class="slots-grid">
+        <div class="slot unavailable">10:00</div>
+        <div class="slot unavailable">11:00</div>
+        <div class="slot" onclick="selectSlot(this)">12:00</div>
+        <div class="slot selected" onclick="selectSlot(this)">13:00</div>
+        <div class="slot" onclick="selectSlot(this)">14:00</div>
+        <div class="slot unavailable">15:00</div>
+        <div class="slot" onclick="selectSlot(this)">16:00</div>
+        <div class="slot" onclick="selectSlot(this)">17:00</div>
+        <div class="slot unavailable">18:00</div>
+        <div class="slot" onclick="selectSlot(this)">19:00</div>
+        <div class="slot" onclick="selectSlot(this)">20:00</div>
+        <div class="slot unavailable">21:00</div>
+      </div>
 
-    <div class="bundle-nudge">
-      <div class="nudge-icon">💡</div>
-      <div class="nudge-text"><strong>Save SGD 150</strong> — regular clients buy a 10-session bundle at SGD 84/session instead of SGD 99. You can add one after your first session.</div>
-      <div class="nudge-link" onclick="showScreen(3)">See bundles →</div>
-    </div>
+      <div class="nudge">
+        <div class="nudge-icon">💡</div>
+        <div class="nudge-body"><strong>Save SGD 150</strong> — a 10-session bundle works out to SGD 84/session. Add after your first visit.</div>
+        <div class="nudge-action" onclick="showScreen(3)">See →</div>
+      </div>
 
-    <div class="booking-summary">
-      <div class="summary-row"><span class="label">Session</span><span class="value">Sports Massage — 60 min</span></div>
-      <div class="summary-row"><span class="label">Therapist</span><span class="value">Ivan · Tanjong Pagar</span></div>
-      <div class="summary-row"><span class="label">Date and time</span><span class="value">Thu 22 Aug · 1:00 PM</span></div>
-      <div class="summary-row total"><span class="label">Total</span><span class="value">SGD 99</span></div>
-    </div>
+      <div class="summary-card">
+        <div class="summary-row"><span class="lbl">Session</span><span class="val">Sports Massage · 60 min</span></div>
+        <div class="summary-row"><span class="lbl">With</span><span class="val">Ivan · Tanjong Pagar</span></div>
+        <div class="summary-row"><span class="lbl">When</span><span class="val">Thu 22 Aug · 1:00 PM</span></div>
+        <div class="summary-row total"><span class="lbl">Total</span><span class="val">SGD 99</span></div>
+      </div>
 
-    <div class="form-grid" style="margin-bottom:16px;">
-      <div class="form-group">
-        <label class="form-label">First name</label>
-        <input class="form-input" type="text" placeholder="Your name">
+      <div class="form-group" style="margin-top:16px;">
+        <label class="form-label">Your name</label>
+        <input class="form-input" type="text" placeholder="First name" autocomplete="given-name">
       </div>
       <div class="form-group">
-        <label class="form-label">WhatsApp number</label>
-        <input class="form-input" type="text" placeholder="+65 9XXX XXXX">
+        <label class="form-label">WhatsApp</label>
+        <input class="form-input" type="tel" placeholder="+65 9XXX XXXX" autocomplete="tel">
       </div>
-    </div>
+      <div class="form-group">
+        <label class="form-label">What brings you in?</label>
+        <select class="form-select">
+          <option>Post-training recovery</option>
+          <option>Chronic pain or tension</option>
+          <option>Race preparation</option>
+          <option>Injury rehabilitation</option>
+          <option>General maintenance</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label class="form-label">What brings you in today?</label>
-      <select class="form-select">
-        <option>Post-training recovery</option>
-        <option>Chronic pain or tension</option>
-        <option>Race or event preparation</option>
-        <option>Injury rehabilitation</option>
-        <option>General maintenance</option>
-      </select>
+      <button class="btn btn-primary btn-block" style="margin-top:8px;" onclick="showScreen(2)">Confirm — SGD 99</button>
     </div>
-
-    <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="showScreen(2)">Confirm booking — SGD 99</button>
   </div>
-</div>
 
-<!-- SCREEN 3: POST SESSION -->
-<div class="screen" id="screen2">
-  <div class="post-screen">
-    <div class="screen-eyebrow">After your session</div>
-    <div class="screen-title">The session ends.<br>The system begins.</div>
-    <div class="screen-sub" style="margin-bottom:32px;">This is what fires automatically after every visit.</div>
+  <!-- SCREEN 2: AFTER -->
+  <div class="screen" id="screen2">
+    <div class="screen-content">
+      <div class="screen-header">
+        <div class="eyebrow">Post-session</div>
+        <div class="screen-title">The session ends.<br>The system begins.</div>
+        <div class="screen-sub">What fires automatically after every visit. Zero manual effort required.</div>
+      </div>
 
-    <div class="whatsapp-thread">
-      <div class="wa-header">
-        <div class="wa-avatar">ML</div>
-        <div>
-          <div class="wa-name">The Muscle Lab SG</div>
-          <div class="wa-status">WhatsApp · Automated lifecycle</div>
+      <div class="wa-wrapper" style="margin-bottom:24px;">
+        <div class="wa-bar">
+          <div class="wa-av">ML</div>
+          <div>
+            <div class="wa-nm">The Muscle Lab SG</div>
+            <div class="wa-st">WhatsApp · Automated</div>
+          </div>
+        </div>
+        <div class="wa-msgs">
+          <div class="wa-msg in">Hey Marcus — hope you're feeling the difference after your session with Ivan. He left a note: keep stretching those hip flexors this week, especially after runs. 🙌<div class="t">Today · 7:30 PM</div></div>
+          <div class="wa-msg out">Thanks! Exactly what I needed before the race on Sunday<div class="t">8:12 PM</div></div>
+          <div class="wa-msg in">Perfect timing. Good luck Sunday! We'll check in next week. 🏁<div class="t">8:14 PM</div></div>
         </div>
       </div>
-      <div class="wa-messages">
-        <div class="wa-msg incoming">
-          <div>Hey Marcus — hope you're feeling the difference after your session with Ivan today. He left a note: keep stretching those hip flexors this week, especially after runs. 🙌</div>
-          <div class="time">Today · 7:30 PM</div>
+
+      <div class="sec-head">Lifecycle sequence</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot">1h</div>
+          <div class="tl-body">
+            <div class="tl-day">Same day — evening</div>
+            <div class="tl-title">Post-session check-in</div>
+            <div class="tl-text">Personalised WhatsApp from the therapist with a recovery note. Builds the relationship automatically.</div>
+          </div>
         </div>
-        <div class="wa-msg outgoing">
-          <div>Thanks! That was exactly what I needed before the race on Sunday</div>
-          <div class="time">Today · 8:12 PM</div>
+        <div class="tl-item">
+          <div class="tl-dot">7d</div>
+          <div class="tl-body">
+            <div class="tl-day">Day 7</div>
+            <div class="tl-title">Rebooking prompt</div>
+            <div class="tl-text">"It's been a week. Ivan has availability next week — want to lock in your slot?" Direct booking link.</div>
+          </div>
         </div>
-        <div class="wa-msg incoming">
-          <div>Perfect timing then. Good luck Sunday! We'll check in with you next week. 🏁</div>
-          <div class="time">Today · 8:14 PM</div>
+        <div class="tl-item">
+          <div class="tl-dot">21d</div>
+          <div class="tl-body">
+            <div class="tl-day">Day 21</div>
+            <div class="tl-title">Bundle offer</div>
+            <div class="tl-text">"Two sessions in. A bundle saves you SGD 150 and locks in your rate. Want me to set that up?"</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">45d</div>
+          <div class="tl-body">
+            <div class="tl-day">Day 45 — if no rebook</div>
+            <div class="tl-title">Lapsed client reactivation</div>
+            <div class="tl-text">"It's been a while. No pressure — we're here when you need us. First session back is SGD 99."</div>
+          </div>
         </div>
       </div>
+
+      <button class="btn btn-primary btn-block" onclick="showScreen(3)">See membership options →</button>
     </div>
-
-    <div class="section-label">Lifecycle sequence</div>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot">1h</div>
-        <div class="timeline-content">
-          <div class="timeline-day">Same day — evening</div>
-          <div class="timeline-title">Post-session check-in</div>
-          <div class="timeline-body">Personalised WhatsApp from Ivan with a recovery note specific to the treatment. Zero manual effort.</div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot">7d</div>
-        <div class="timeline-content">
-          <div class="timeline-day">Day 7</div>
-          <div class="timeline-title">Rebooking prompt</div>
-          <div class="timeline-body">"It's been a week since your session. Ivan has availability next week — want to lock in your slot?" Direct booking link included.</div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot">21d</div>
-        <div class="timeline-content">
-          <div class="timeline-day">Day 21</div>
-          <div class="timeline-title">Bundle offer</div>
-          <div class="timeline-body">"You've now had two sessions with us. A bundle saves you SGD 150 and locks in your rate. Want me to set that up?"</div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot">45d</div>
-        <div class="timeline-content">
-          <div class="timeline-day">Day 45 — if no rebook</div>
-          <div class="timeline-title">Lapsed client reactivation</div>
-          <div class="timeline-body">"It's been a while. No pressure — we're here when you need us. Your first session back is SGD 99."</div>
-        </div>
-      </div>
-    </div>
-
-    <button class="btn-primary" onclick="showScreen(3)">See membership options →</button>
   </div>
-</div>
 
-<!-- SCREEN 4: MEMBERSHIP -->
-<div class="screen" id="screen3">
-  <div class="membership-screen">
-    <div class="screen-eyebrow">Membership</div>
-    <div class="screen-title">Move from client<br>to member.</div>
-    <div class="screen-sub" style="margin-bottom:40px;">Triggered after session three — or when a client visits more than once a month.</div>
-
-    <div class="pricing-cards">
-      <div class="pricing-card">
-        <div class="card-tier">Drop in</div>
-        <div class="card-price">SGD 99</div>
-        <div class="card-price-sub">per session · rack rate</div>
-        <div class="card-desc">No commitment. Pay as you go. Full flexibility.</div>
-        <div class="card-vs-rack below">Baseline rate</div>
-        <ul class="card-features">
-          <li>Any outlet, any therapist</li>
-          <li>Book online anytime</li>
-          <li>No expiry</li>
-        </ul>
-        <button class="btn-ghost" style="width:100%;font-size:13px;">Book a session</button>
+  <!-- SCREEN 3: MEMBER -->
+  <div class="screen" id="screen3">
+    <div class="screen-content">
+      <div class="screen-header">
+        <div class="eyebrow">Membership</div>
+        <div class="screen-title">From client<br>to member.</div>
+        <div class="screen-sub">Triggered after session three. The pitch is the maths, not the sell.</div>
       </div>
 
-      <div class="pricing-card featured">
-        <div class="pricing-badge">Most popular</div>
-        <div class="card-tier">Perform — monthly</div>
-        <div class="card-price" style="color:var(--orange);">SGD 149</div>
-        <div class="card-price-sub">per month · auto-renewing</div>
-        <div class="card-desc">One session per month, guaranteed. Priority access for the athlete who trains on a schedule.</div>
-        <div class="card-vs-rack above">SGD 40 above rack · margin-accretive</div>
-        <ul class="card-features">
-          <li>1 session per month included</li>
-          <li>Priority booking guaranteed</li>
-          <li>10% off additional sessions</li>
-          <li>Cross-outlet flexibility</li>
-          <li>Cancel anytime — 30 days notice</li>
-        </ul>
-        <button class="btn-primary" style="width:100%;font-size:13px;" onclick="showScreen(4)">Become a Perform member</button>
+      <div class="pricing-stack">
+        <div class="pricing-card">
+          <div class="pc-tier">Drop in</div>
+          <div class="pc-price-row"><div class="pc-price">SGD 99</div><div class="pc-period">/ session</div></div>
+          <div class="pc-desc">No commitment. Pay per visit. Full flexibility.</div>
+          <div class="pc-pill base">Baseline rate</div>
+          <ul class="pc-features">
+            <li>Any outlet, any therapist</li>
+            <li>Book online anytime</li>
+          </ul>
+          <button class="btn btn-ghost" style="width:100%;font-size:12px;padding:12px;">Book a session</button>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Most popular</div>
+          <div class="pc-tier">Perform — monthly</div>
+          <div class="pc-price-row"><div class="pc-price">SGD 149</div><div class="pc-period">/ month</div></div>
+          <div class="pc-desc">One guaranteed session per month. Priority access for the athlete on a training schedule.</div>
+          <div class="pc-pill up">↑ SGD 40 above rack · margin-accretive</div>
+          <ul class="pc-features">
+            <li>1 session per month included</li>
+            <li>Priority booking guaranteed</li>
+            <li>10% off additional sessions</li>
+            <li>Cross-outlet flexibility</li>
+            <li>Cancel anytime with 30 days notice</li>
+          </ul>
+          <button class="btn btn-primary" style="width:100%;font-size:12px;padding:12px;" onclick="showScreen(4)">Become a Perform member</button>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pc-tier">Recover — monthly</div>
+          <div class="pc-price-row"><div class="pc-price">SGD 249</div><div class="pc-period">/ month</div></div>
+          <div class="pc-desc">Two sessions per month for the high-frequency performer who treats recovery as non-negotiable.</div>
+          <div class="pc-pill up">↑ SGD 15 above rack per session</div>
+          <ul class="pc-features">
+            <li>2 sessions per month included</li>
+            <li>Priority booking all outlets</li>
+            <li>10% off additional sessions</li>
+            <li>Cross-outlet flexibility</li>
+            <li>Cancel anytime with 30 days notice</li>
+          </ul>
+          <button class="btn btn-ghost" style="width:100%;font-size:12px;padding:12px;" onclick="showScreen(4)">Become a Recover member</button>
+        </div>
       </div>
 
-      <div class="pricing-card">
-        <div class="card-tier">Recover — monthly</div>
-        <div class="card-price">SGD 249</div>
-        <div class="card-price-sub">per month · auto-renewing</div>
-        <div class="card-desc">Two sessions per month for the high-frequency performer who treats recovery as non-negotiable.</div>
-        <div class="card-vs-rack above">SGD 15 above rack per session</div>
-        <ul class="card-features">
-          <li>2 sessions per month included</li>
-          <li>Priority booking across all outlets</li>
-          <li>10% off additional sessions</li>
-          <li>Cross-outlet flexibility</li>
-          <li>Cancel anytime — 30 days notice</li>
-        </ul>
-        <button class="btn-ghost" style="width:100%;font-size:13px;" onclick="showScreen(4)">Become a Recover member</button>
-      </div>
-    </div>
-
-    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;">
-      <div>
-        <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--orange);">SGD 39,800</div>
-        <div style="font-size:12px;color:var(--grey);margin-top:4px;">Recurring MRR at 200 members</div>
-      </div>
-      <div>
-        <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--orange);">74%</div>
-        <div style="font-size:12px;color:var(--grey);margin-top:4px;">Fixed costs covered before a walk-in books</div>
-      </div>
-      <div>
-        <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--orange);">SGD 0</div>
-        <div style="font-size:12px;color:var(--grey);margin-top:4px;">CAC for a member's 12th session</div>
+      <div class="sec-head">The business case</div>
+      <div class="stat-pills">
+        <div class="stat-pill"><div class="sp-num">$39.8K</div><div class="sp-label">Monthly MRR at 200 members</div></div>
+        <div class="stat-pill"><div class="sp-num">74%</div><div class="sp-label">Fixed costs covered before walk-ins book</div></div>
+        <div class="stat-pill"><div class="sp-num">$0</div><div class="sp-label">CAC for a member's 12th session</div></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- SCREEN 5: ANNUAL -->
-<div class="screen" id="screen4">
-  <div class="annual-screen">
-    <div class="screen-eyebrow">Annual commitment</div>
-    <div class="screen-title">You have not missed<br>a month in four months.</div>
-    <div class="screen-sub" style="margin-bottom:32px;">This offer appears only for members who have been consistent. Personalised, not broadcast.</div>
+  <!-- SCREEN 4: ANNUAL -->
+  <div class="screen" id="screen4">
+    <div class="screen-content">
+      <div class="screen-header">
+        <div class="eyebrow">Annual commitment</div>
+        <div class="screen-title">You haven't missed<br>a month in four.</div>
+        <div class="screen-sub">This offer is personalised. Not broadcast. Shown only to consistent members.</div>
+      </div>
 
-    <div class="personal-card">
-      <div class="personal-tag">Your journey · Marcus</div>
-      <div class="personal-title">Lock in your rate. Save SGD 298.</div>
-      <div class="personal-body">You have attended every month since you joined as a Perform member. At your current cadence, an annual pack saves you SGD 298 and guarantees your rate for the next 12 months.</div>
-      <div class="personal-stats">
-        <div class="pstat">
-          <div class="pstat-num">4</div>
-          <div class="pstat-label">Months as member</div>
-        </div>
-        <div class="pstat">
-          <div class="pstat-num">4</div>
-          <div class="pstat-label">Sessions completed</div>
-        </div>
-        <div class="pstat">
-          <div class="pstat-num">SGD 298</div>
-          <div class="pstat-label">Saved with annual</div>
+      <div class="personal-card">
+        <div class="pc-tag">Your journey · Marcus</div>
+        <div class="pc-title">Lock in your rate. Save SGD 298.</div>
+        <div class="pc-body">At your current cadence an annual pack saves you SGD 298 and guarantees your rate for 12 months — whatever happens to pricing.</div>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="ms-num">4</div><div class="ms-label">Months as member</div></div>
+          <div class="mini-stat"><div class="ms-num">4</div><div class="ms-label">Sessions done</div></div>
+          <div class="mini-stat"><div class="ms-num">$298</div><div class="ms-label">Saved with annual</div></div>
         </div>
       </div>
-    </div>
 
-    <div class="section-label">Choose your annual plan</div>
-    <div class="annual-options">
-      <div class="annual-card selected" onclick="selectAnnual(this)">
-        <div class="annual-tier">Perform Annual</div>
-        <div class="annual-price">SGD 1,490</div>
-        <div class="annual-saving">Save SGD 298 vs monthly</div>
-        <div class="annual-desc">12 sessions across 12 months. Priority booking. 10% off additional sessions. One payment, zero admin for the year.</div>
+      <div class="sec-head">Choose your plan</div>
+      <div class="annual-stack">
+        <div class="annual-card selected" onclick="selectAnnual(this)">
+          <div class="annual-card-icon">⚡</div>
+          <div class="annual-card-body">
+            <div class="ac-tier">Perform Annual</div>
+            <div class="ac-price">SGD 1,490</div>
+            <div class="ac-save">Save SGD 298 vs monthly</div>
+          </div>
+          <div class="annual-check">✓</div>
+        </div>
+        <div class="annual-card" onclick="selectAnnual(this)">
+          <div class="annual-card-icon">🏆</div>
+          <div class="annual-card-body">
+            <div class="ac-tier">Recover Annual</div>
+            <div class="ac-price">SGD 2,490</div>
+            <div class="ac-save">Save SGD 498 vs monthly</div>
+          </div>
+          <div class="annual-check">✓</div>
+        </div>
       </div>
-      <div class="annual-card" onclick="selectAnnual(this)">
-        <div class="annual-tier">Recover Annual</div>
-        <div class="annual-price">SGD 2,490</div>
-        <div class="annual-saving">Save SGD 498 vs monthly</div>
-        <div class="annual-desc">24 sessions across 12 months. Full cross-outlet flexibility. Priority booking. The highest-commitment tier.</div>
-      </div>
-    </div>
 
-    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:24px;margin-bottom:24px;">
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-        <span style="color:var(--grey);">Plan</span>
-        <span style="font-weight:500;">Perform Annual — 12 sessions</span>
+      <div class="order-card">
+        <div class="order-row"><span class="lbl">Plan</span><span class="val">Perform Annual · 12 sessions</span></div>
+        <div class="order-row"><span class="lbl">Per session</span><span class="val">SGD 124.17</span></div>
+        <div class="order-row"><span class="lbl">Saving</span><span class="val" style="color:var(--green);">SGD 298 vs monthly</span></div>
+        <div class="order-row">
+          <span class="lbl" style="font-size:14px;">Total today</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--accent);">SGD 1,490</span>
+        </div>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-        <span style="color:var(--grey);">Monthly equivalent</span>
-        <span style="font-weight:500;">SGD 124.17 per session</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-        <span style="color:var(--grey);">vs rack rate</span>
-        <span style="font-weight:500;color:#4ADE80;">Saving SGD 298 vs monthly membership</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:12px 0 4px;">
-        <span style="color:var(--grey);font-size:15px;">Total today</span>
-        <span style="font-weight:700;color:var(--orange);font-size:22px;font-family:'Playfair Display',serif;">SGD 1,490</span>
-      </div>
-    </div>
 
-    <button class="btn-primary" style="width:100%;padding:18px;font-size:15px;">Confirm annual membership — SGD 1,490</button>
-    <p style="text-align:center;font-size:12px;color:var(--grey);margin-top:12px;">One payment. 12 months of priority access. No further admin required.</p>
+      <button class="btn btn-primary btn-block">Lock in annual membership</button>
+      <p style="text-align:center;font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6;">One payment. 12 months of priority access. No further admin.</p>
+    </div>
   </div>
+
+</div><!-- end scroll-area -->
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="showScreen(0)" id="nav0">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label">Home</div>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="showScreen(1)" id="nav1">
+    <div class="nav-icon">📅</div>
+    <div class="nav-label">Book</div>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="showScreen(2)" id="nav2">
+    <div class="nav-icon">💬</div>
+    <div class="nav-label">After</div>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="showScreen(3)" id="nav3">
+    <div class="nav-icon">⭐</div>
+    <div class="nav-label">Member</div>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="showScreen(4)" id="nav4">
+    <div class="nav-icon">🔑</div>
+    <div class="nav-label">Annual</div>
+    <div class="nav-dot"></div>
+  </button>
 </div>
 
 <script>
+  let current = 0;
+
   function showScreen(n) {
-    document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
-    document.querySelectorAll('.stage-tab').forEach((t,i) => t.classList.toggle('active', i===n));
-    document.querySelectorAll('.progress-step').forEach((s,i) => {
-      s.classList.remove('active','done');
-      if (i < n) s.classList.add('done');
-      if (i === n) s.classList.add('active');
+    document.querySelectorAll('.screen').forEach((s,i) => {
+      if (i === n && i !== current) {
+        s.classList.add('active');
+        s.classList.remove('slide-in');
+        void s.offsetWidth;
+        s.classList.add('slide-in');
+      } else {
+        s.classList.toggle('active', i === n);
+      }
     });
-    window.scrollTo(0,0);
+    document.querySelectorAll('.nav-item').forEach((t,i) => t.classList.toggle('active', i === n));
+    document.getElementById('scrollArea').scrollTo({ top: 0, behavior: 'instant' });
+    current = n;
   }
 
-  function selectCard(el, group) {
-    const parent = el.closest('.booking-grid,.therapist-row,.slots-grid');
-    if (parent) parent.querySelectorAll('.booking-card,.therapist-card,.slot').forEach(c => c.classList.remove('selected'));
+  function selectOption(el, group) {
+    el.closest('.option-list').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectPill(el, group) {
+    el.closest('.therapist-scroll').querySelectorAll('.therapist-pill').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectSlot(el) {
+    el.closest('.slots-grid').querySelectorAll('.slot').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
   }
 
@@ -1050,6 +1380,15 @@
     document.querySelectorAll('.annual-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
   }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    localStorage.setItem('ml-theme', html.getAttribute('data-theme'));
+  }
+
+  const saved = localStorage.getItem('ml-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
 </script>
 </body>
 </html>
