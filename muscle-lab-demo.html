@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Muscle Lab Singapore</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0E0E0E;
+    --orange: #E8600A;
+    --orange-dim: #C04E06;
+    --white: #F8F6F2;
+    --grey: #888580;
+    --light: #F0EDE8;
+    --mid: #2A2A2A;
+    --border: rgba(232,96,10,0.15);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky;
+    top: 0;
+    background: var(--black);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .logo span { color: var(--orange); }
+
+  .stage-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.05);
+    padding: 4px;
+    border-radius: 8px;
+  }
+
+  .stage-tab {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--grey);
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .stage-tab.active {
+    background: var(--orange);
+    color: white;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .hero {
+    min-height: calc(100vh - 65px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(232,96,10,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1.0;
+    font-weight: 700;
+    max-width: 720px;
+    margin-bottom: 32px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--grey);
+    max-width: 420px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .btn-primary:hover { background: var(--orange-dim); transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--grey);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--grey);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .booking-screen {
+    padding: 60px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .screen-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  .screen-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .screen-sub {
+    color: var(--grey);
+    font-size: 14px;
+    margin-bottom: 48px;
+  }
+
+  .booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .booking-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .booking-card:hover, .booking-card.selected {
+    border-color: var(--orange);
+    background: rgba(232,96,10,0.06);
+  }
+
+  .booking-card-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .booking-card-detail { font-size: 12px; color: var(--grey); margin-bottom: 12px; }
+  .booking-card-price { font-size: 20px; font-weight: 700; color: var(--orange); font-family: 'Playfair Display', serif; }
+  .booking-card-price span { font-size: 12px; color: var(--grey); font-family: 'Inter', sans-serif; font-weight: 400; }
+
+  .therapist-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .therapist-card {
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .therapist-card:hover, .therapist-card.selected {
+    border-color: var(--orange);
+    background: rgba(232,96,10,0.06);
+  }
+
+  .therapist-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange), #C04E06);
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    color: white;
+  }
+
+  .therapist-name { font-size: 13px; font-weight: 500; }
+  .therapist-spec { font-size: 11px; color: var(--grey); margin-top: 2px; }
+
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .slot {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .slot:hover, .slot.selected {
+    border-color: var(--orange);
+    background: rgba(232,96,10,0.1);
+    color: var(--orange);
+  }
+
+  .slot.unavailable { opacity: 0.3; cursor: not-allowed; }
+
+  .booking-summary {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .label { color: var(--grey); }
+  .summary-row .value { font-weight: 500; }
+  .summary-row.total .value { color: var(--orange); font-size: 16px; font-weight: 700; }
+
+  .bundle-nudge {
+    background: rgba(232,96,10,0.08);
+    border: 1px solid rgba(232,96,10,0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nudge-icon { font-size: 20px; }
+  .nudge-text { font-size: 13px; color: var(--grey); flex: 1; }
+  .nudge-text strong { color: var(--white); }
+  .nudge-link { color: var(--orange); cursor: pointer; font-weight: 500; white-space: nowrap; font-size: 13px; }
+
+  .post-screen {
+    padding: 60px 40px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .whatsapp-thread {
+    background: #0B1118;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .wa-header {
+    background: #1A2530;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .wa-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .wa-name { font-size: 14px; font-weight: 600; }
+  .wa-status { font-size: 11px; color: var(--grey); }
+
+  .wa-messages {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #0D1117;
+    min-height: 280px;
+  }
+
+  .wa-msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .wa-msg.incoming {
+    background: #1E2C3A;
+    align-self: flex-start;
+    border-bottom-left-radius: 3px;
+  }
+
+  .wa-msg.outgoing {
+    background: #1A3A2A;
+    align-self: flex-end;
+    border-bottom-right-radius: 3px;
+    color: #D4EDD9;
+  }
+
+  .wa-msg .time { font-size: 10px; color: var(--grey); margin-top: 4px; text-align: right; }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+
+  .timeline-item {
+    display: flex;
+    gap: 20px;
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    width: 1px;
+    height: 100%;
+    background: rgba(232,96,10,0.2);
+  }
+
+  .timeline-item:last-child::before { display: none; }
+
+  .timeline-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(232,96,10,0.15);
+    border: 1px solid var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: var(--orange);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .timeline-content { padding-bottom: 28px; }
+  .timeline-day { font-size: 11px; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 4px; }
+  .timeline-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .timeline-body { font-size: 13px; color: var(--grey); line-height: 1.6; }
+
+  .membership-screen { padding: 60px 40px; max-width: 960px; margin: 0 auto; }
+
+  .pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .pricing-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 32px 24px;
+    position: relative;
+  }
+
+  .pricing-card.featured {
+    border-color: var(--orange);
+    background: rgba(232,96,10,0.05);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .card-tier { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); margin-bottom: 12px; }
+  .card-price { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .card-price-sub { font-size: 12px; color: var(--grey); margin-bottom: 20px; }
+  .card-desc { font-size: 13px; color: var(--grey); line-height: 1.6; margin-bottom: 24px; min-height: 56px; }
+
+  .card-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+  .card-features li {
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .card-features li::before { content: '✓'; color: var(--orange); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .card-vs-rack { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-bottom: 20px; font-weight: 500; }
+  .card-vs-rack.above { background: rgba(34,197,94,0.1); color: #4ADE80; }
+  .card-vs-rack.below { background: rgba(239,68,68,0.1); color: #F87171; }
+
+  .annual-screen { padding: 60px 40px; max-width: 800px; margin: 0 auto; }
+
+  .personal-card {
+    background: rgba(232,96,10,0.06);
+    border: 1px solid rgba(232,96,10,0.25);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+
+  .personal-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+  .personal-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+  .personal-body { font-size: 14px; color: var(--grey); line-height: 1.7; margin-bottom: 24px; }
+
+  .personal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+
+  .pstat { text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+  .pstat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--orange); }
+  .pstat-label { font-size: 11px; color: var(--grey); margin-top: 4px; }
+
+  .annual-options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+
+  .annual-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .annual-card:hover, .annual-card.selected {
+    border-color: var(--orange);
+    background: rgba(232,96,10,0.06);
+  }
+
+  .annual-tier { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); margin-bottom: 8px; }
+  .annual-price { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; margin-bottom: 4px; }
+  .annual-saving { font-size: 13px; color: #4ADE80; font-weight: 500; margin-bottom: 12px; }
+  .annual-desc { font-size: 13px; color: var(--grey); line-height: 1.6; }
+
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); margin-bottom: 16px; margin-top: 32px; }
+
+  .progress-bar { display: flex; align-items: center; gap: 0; margin-bottom: 48px; padding: 24px 40px 0; }
+
+  .progress-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; }
+
+  .progress-step::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .progress-step:last-child::before { display: none; }
+  .progress-step.done::before { background: var(--orange); }
+
+  .step-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--grey);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 8px;
+  }
+
+  .progress-step.active .step-dot { border-color: var(--orange); background: var(--orange); color: white; }
+  .progress-step.done .step-dot { border-color: var(--orange); background: rgba(232,96,10,0.2); color: var(--orange); }
+
+  .step-label { font-size: 10px; color: var(--grey); text-align: center; letter-spacing: 0.05em; text-transform: uppercase; }
+  .progress-step.active .step-label { color: var(--orange); }
+
+  .form-group { margin-bottom: 20px; }
+  .form-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey); margin-bottom: 8px; display: block; }
+
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus { border-color: var(--orange); }
+
+  .form-select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .form-select option { background: #1a1a1a; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">The Muscle Lab <span>·</span> SG</div>
+  <div class="stage-tabs">
+    <button class="stage-tab active" onclick="showScreen(0)">Discovery</button>
+    <button class="stage-tab" onclick="showScreen(1)">Book</button>
+    <button class="stage-tab" onclick="showScreen(2)">After</button>
+    <button class="stage-tab" onclick="showScreen(3)">Member</button>
+    <button class="stage-tab" onclick="showScreen(4)">Annual</button>
+  </div>
+</nav>
+
+<div class="progress-bar" id="progressBar">
+  <div class="progress-step active" id="step0">
+    <div class="step-dot">1</div>
+    <div class="step-label">Discover</div>
+  </div>
+  <div class="progress-step" id="step1">
+    <div class="step-dot">2</div>
+    <div class="step-label">Book</div>
+  </div>
+  <div class="progress-step" id="step2">
+    <div class="step-dot">3</div>
+    <div class="step-label">Post-session</div>
+  </div>
+  <div class="progress-step" id="step3">
+    <div class="step-dot">4</div>
+    <div class="step-label">Membership</div>
+  </div>
+  <div class="progress-step" id="step4">
+    <div class="step-dot">5</div>
+    <div class="step-label">Annual</div>
+  </div>
+</div>
+
+<!-- SCREEN 1: DISCOVERY -->
+<div class="screen active" id="screen0">
+  <div class="hero">
+    <div class="hero-eyebrow">Singapore's performance recovery studio</div>
+    <h1>Recovery is<br>the <em>work.</em></h1>
+    <p class="hero-sub">Sports massage, stretch therapy, and clinical recovery for athletes who take their training seriously. Three outlets. Zero compromises.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="showScreen(1)">Book a session</button>
+      <button class="btn-ghost">See our therapists</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">18K+</div>
+        <div class="stat-label">Appointments</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">480</div>
+        <div class="stat-label">Five-star reviews</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">70</div>
+        <div class="stat-label">Nationalities</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Outlets</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2: BOOKING -->
+<div class="screen" id="screen1">
+  <div class="booking-screen">
+    <div class="screen-eyebrow">New client booking</div>
+    <div class="screen-title">Choose your session</div>
+    <div class="screen-sub">Your first visit. No commitment. We'll take care of the rest.</div>
+
+    <div class="section-label">Session type</div>
+    <div class="booking-grid">
+      <div class="booking-card selected" onclick="selectCard(this,'session')">
+        <div class="booking-card-name">Sports Massage — 60 min</div>
+        <div class="booking-card-detail">Targeted treatment for muscle tension, recovery, and performance. Most popular.</div>
+        <div class="booking-card-price">SGD 99 <span>/ session</span></div>
+      </div>
+      <div class="booking-card" onclick="selectCard(this,'session')">
+        <div class="booking-card-name">Sports Massage — 90 min</div>
+        <div class="booking-card-detail">Extended session for deeper work or full-body treatment. Recommended post-race.</div>
+        <div class="booking-card-price">SGD 139 <span>/ session</span></div>
+      </div>
+      <div class="booking-card" onclick="selectCard(this,'session')">
+        <div class="booking-card-name">Stretch Therapy — 50 min</div>
+        <div class="booking-card-detail">Facilitated assisted stretching for mobility, range of motion, and recovery.</div>
+        <div class="booking-card-price">SGD 89 <span>/ session</span></div>
+      </div>
+      <div class="booking-card" onclick="selectCard(this,'session')">
+        <div class="booking-card-name">Cupping — 45 min</div>
+        <div class="booking-card-detail">Fire or hijama cupping for deep tissue work and circulation.</div>
+        <div class="booking-card-price">SGD 89 <span>/ session</span></div>
+      </div>
+    </div>
+
+    <div class="section-label">Choose your therapist</div>
+    <div class="therapist-row">
+      <div class="therapist-card selected" onclick="selectCard(this,'therapist')">
+        <div class="therapist-avatar">I</div>
+        <div class="therapist-name">Ivan</div>
+        <div class="therapist-spec">Sports rehab</div>
+      </div>
+      <div class="therapist-card" onclick="selectCard(this,'therapist')">
+        <div class="therapist-avatar">C</div>
+        <div class="therapist-name">Cindy</div>
+        <div class="therapist-spec">Deep tissue</div>
+      </div>
+      <div class="therapist-card" onclick="selectCard(this,'therapist')">
+        <div class="therapist-avatar">H</div>
+        <div class="therapist-name">Husni</div>
+        <div class="therapist-spec">Mobility</div>
+      </div>
+      <div class="therapist-card" onclick="selectCard(this,'therapist')">
+        <div class="therapist-avatar">Ch</div>
+        <div class="therapist-name">Christine</div>
+        <div class="therapist-spec">Recovery</div>
+      </div>
+      <div class="therapist-card" onclick="selectCard(this,'therapist')">
+        <div class="therapist-avatar">?</div>
+        <div class="therapist-name">Any</div>
+        <div class="therapist-spec">First available</div>
+      </div>
+    </div>
+
+    <div class="section-label">Available slots — Tanjong Pagar · Thu 22 Aug</div>
+    <div class="slots-grid">
+      <div class="slot unavailable">10:00</div>
+      <div class="slot unavailable">11:00</div>
+      <div class="slot" onclick="selectCard(this,'slot')">12:00</div>
+      <div class="slot selected" onclick="selectCard(this,'slot')">13:00</div>
+      <div class="slot" onclick="selectCard(this,'slot')">14:00</div>
+      <div class="slot unavailable">15:00</div>
+      <div class="slot" onclick="selectCard(this,'slot')">16:00</div>
+      <div class="slot" onclick="selectCard(this,'slot')">17:00</div>
+      <div class="slot unavailable">18:00</div>
+      <div class="slot" onclick="selectCard(this,'slot')">19:00</div>
+    </div>
+
+    <div class="bundle-nudge">
+      <div class="nudge-icon">💡</div>
+      <div class="nudge-text"><strong>Save SGD 150</strong> — regular clients buy a 10-session bundle at SGD 84/session instead of SGD 99. You can add one after your first session.</div>
+      <div class="nudge-link" onclick="showScreen(3)">See bundles →</div>
+    </div>
+
+    <div class="booking-summary">
+      <div class="summary-row"><span class="label">Session</span><span class="value">Sports Massage — 60 min</span></div>
+      <div class="summary-row"><span class="label">Therapist</span><span class="value">Ivan · Tanjong Pagar</span></div>
+      <div class="summary-row"><span class="label">Date and time</span><span class="value">Thu 22 Aug · 1:00 PM</span></div>
+      <div class="summary-row total"><span class="label">Total</span><span class="value">SGD 99</span></div>
+    </div>
+
+    <div class="form-grid" style="margin-bottom:16px;">
+      <div class="form-group">
+        <label class="form-label">First name</label>
+        <input class="form-input" type="text" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">WhatsApp number</label>
+        <input class="form-input" type="text" placeholder="+65 9XXX XXXX">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What brings you in today?</label>
+      <select class="form-select">
+        <option>Post-training recovery</option>
+        <option>Chronic pain or tension</option>
+        <option>Race or event preparation</option>
+        <option>Injury rehabilitation</option>
+        <option>General maintenance</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="showScreen(2)">Confirm booking — SGD 99</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: POST SESSION -->
+<div class="screen" id="screen2">
+  <div class="post-screen">
+    <div class="screen-eyebrow">After your session</div>
+    <div class="screen-title">The session ends.<br>The system begins.</div>
+    <div class="screen-sub" style="margin-bottom:32px;">This is what fires automatically after every visit.</div>
+
+    <div class="whatsapp-thread">
+      <div class="wa-header">
+        <div class="wa-avatar">ML</div>
+        <div>
+          <div class="wa-name">The Muscle Lab SG</div>
+          <div class="wa-status">WhatsApp · Automated lifecycle</div>
+        </div>
+      </div>
+      <div class="wa-messages">
+        <div class="wa-msg incoming">
+          <div>Hey Marcus — hope you're feeling the difference after your session with Ivan today. He left a note: keep stretching those hip flexors this week, especially after runs. 🙌</div>
+          <div class="time">Today · 7:30 PM</div>
+        </div>
+        <div class="wa-msg outgoing">
+          <div>Thanks! That was exactly what I needed before the race on Sunday</div>
+          <div class="time">Today · 8:12 PM</div>
+        </div>
+        <div class="wa-msg incoming">
+          <div>Perfect timing then. Good luck Sunday! We'll check in with you next week. 🏁</div>
+          <div class="time">Today · 8:14 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Lifecycle sequence</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">1h</div>
+        <div class="timeline-content">
+          <div class="timeline-day">Same day — evening</div>
+          <div class="timeline-title">Post-session check-in</div>
+          <div class="timeline-body">Personalised WhatsApp from Ivan with a recovery note specific to the treatment. Zero manual effort.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">7d</div>
+        <div class="timeline-content">
+          <div class="timeline-day">Day 7</div>
+          <div class="timeline-title">Rebooking prompt</div>
+          <div class="timeline-body">"It's been a week since your session. Ivan has availability next week — want to lock in your slot?" Direct booking link included.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">21d</div>
+        <div class="timeline-content">
+          <div class="timeline-day">Day 21</div>
+          <div class="timeline-title">Bundle offer</div>
+          <div class="timeline-body">"You've now had two sessions with us. A bundle saves you SGD 150 and locks in your rate. Want me to set that up?"</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">45d</div>
+        <div class="timeline-content">
+          <div class="timeline-day">Day 45 — if no rebook</div>
+          <div class="timeline-title">Lapsed client reactivation</div>
+          <div class="timeline-body">"It's been a while. No pressure — we're here when you need us. Your first session back is SGD 99."</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="showScreen(3)">See membership options →</button>
+  </div>
+</div>
+
+<!-- SCREEN 4: MEMBERSHIP -->
+<div class="screen" id="screen3">
+  <div class="membership-screen">
+    <div class="screen-eyebrow">Membership</div>
+    <div class="screen-title">Move from client<br>to member.</div>
+    <div class="screen-sub" style="margin-bottom:40px;">Triggered after session three — or when a client visits more than once a month.</div>
+
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <div class="card-tier">Drop in</div>
+        <div class="card-price">SGD 99</div>
+        <div class="card-price-sub">per session · rack rate</div>
+        <div class="card-desc">No commitment. Pay as you go. Full flexibility.</div>
+        <div class="card-vs-rack below">Baseline rate</div>
+        <ul class="card-features">
+          <li>Any outlet, any therapist</li>
+          <li>Book online anytime</li>
+          <li>No expiry</li>
+        </ul>
+        <button class="btn-ghost" style="width:100%;font-size:13px;">Book a session</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most popular</div>
+        <div class="card-tier">Perform — monthly</div>
+        <div class="card-price" style="color:var(--orange);">SGD 149</div>
+        <div class="card-price-sub">per month · auto-renewing</div>
+        <div class="card-desc">One session per month, guaranteed. Priority access for the athlete who trains on a schedule.</div>
+        <div class="card-vs-rack above">SGD 40 above rack · margin-accretive</div>
+        <ul class="card-features">
+          <li>1 session per month included</li>
+          <li>Priority booking guaranteed</li>
+          <li>10% off additional sessions</li>
+          <li>Cross-outlet flexibility</li>
+          <li>Cancel anytime — 30 days notice</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;font-size:13px;" onclick="showScreen(4)">Become a Perform member</button>
+      </div>
+
+      <div class="pricing-card">
+        <div class="card-tier">Recover — monthly</div>
+        <div class="card-price">SGD 249</div>
+        <div class="card-price-sub">per month · auto-renewing</div>
+        <div class="card-desc">Two sessions per month for the high-frequency performer who treats recovery as non-negotiable.</div>
+        <div class="card-vs-rack above">SGD 15 above rack per session</div>
+        <ul class="card-features">
+          <li>2 sessions per month included</li>
+          <li>Priority booking across all outlets</li>
+          <li>10% off additional sessions</li>
+          <li>Cross-outlet flexibility</li>
+          <li>Cancel anytime — 30 days notice</li>
+        </ul>
+        <button class="btn-ghost" style="width:100%;font-size:13px;" onclick="showScreen(4)">Become a Recover member</button>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--orange);">SGD 39,800</div>
+        <div style="font-size:12px;color:var(--grey);margin-top:4px;">Recurring MRR at 200 members</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--orange);">74%</div>
+        <div style="font-size:12px;color:var(--grey);margin-top:4px;">Fixed costs covered before a walk-in books</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--orange);">SGD 0</div>
+        <div style="font-size:12px;color:var(--grey);margin-top:4px;">CAC for a member's 12th session</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 5: ANNUAL -->
+<div class="screen" id="screen4">
+  <div class="annual-screen">
+    <div class="screen-eyebrow">Annual commitment</div>
+    <div class="screen-title">You have not missed<br>a month in four months.</div>
+    <div class="screen-sub" style="margin-bottom:32px;">This offer appears only for members who have been consistent. Personalised, not broadcast.</div>
+
+    <div class="personal-card">
+      <div class="personal-tag">Your journey · Marcus</div>
+      <div class="personal-title">Lock in your rate. Save SGD 298.</div>
+      <div class="personal-body">You have attended every month since you joined as a Perform member. At your current cadence, an annual pack saves you SGD 298 and guarantees your rate for the next 12 months.</div>
+      <div class="personal-stats">
+        <div class="pstat">
+          <div class="pstat-num">4</div>
+          <div class="pstat-label">Months as member</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">4</div>
+          <div class="pstat-label">Sessions completed</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">SGD 298</div>
+          <div class="pstat-label">Saved with annual</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Choose your annual plan</div>
+    <div class="annual-options">
+      <div class="annual-card selected" onclick="selectAnnual(this)">
+        <div class="annual-tier">Perform Annual</div>
+        <div class="annual-price">SGD 1,490</div>
+        <div class="annual-saving">Save SGD 298 vs monthly</div>
+        <div class="annual-desc">12 sessions across 12 months. Priority booking. 10% off additional sessions. One payment, zero admin for the year.</div>
+      </div>
+      <div class="annual-card" onclick="selectAnnual(this)">
+        <div class="annual-tier">Recover Annual</div>
+        <div class="annual-price">SGD 2,490</div>
+        <div class="annual-saving">Save SGD 498 vs monthly</div>
+        <div class="annual-desc">24 sessions across 12 months. Full cross-outlet flexibility. Priority booking. The highest-commitment tier.</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:24px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span style="color:var(--grey);">Plan</span>
+        <span style="font-weight:500;">Perform Annual — 12 sessions</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span style="color:var(--grey);">Monthly equivalent</span>
+        <span style="font-weight:500;">SGD 124.17 per session</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span style="color:var(--grey);">vs rack rate</span>
+        <span style="font-weight:500;color:#4ADE80;">Saving SGD 298 vs monthly membership</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0 4px;">
+        <span style="color:var(--grey);font-size:15px;">Total today</span>
+        <span style="font-weight:700;color:var(--orange);font-size:22px;font-family:'Playfair Display',serif;">SGD 1,490</span>
+      </div>
+    </div>
+
+    <button class="btn-primary" style="width:100%;padding:18px;font-size:15px;">Confirm annual membership — SGD 1,490</button>
+    <p style="text-align:center;font-size:12px;color:var(--grey);margin-top:12px;">One payment. 12 months of priority access. No further admin required.</p>
+  </div>
+</div>
+
+<script>
+  function showScreen(n) {
+    document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
+    document.querySelectorAll('.stage-tab').forEach((t,i) => t.classList.toggle('active', i===n));
+    document.querySelectorAll('.progress-step').forEach((s,i) => {
+      s.classList.remove('active','done');
+      if (i < n) s.classList.add('done');
+      if (i === n) s.classList.add('active');
+    });
+    window.scrollTo(0,0);
+  }
+
+  function selectCard(el, group) {
+    const parent = el.closest('.booking-grid,.therapist-row,.slots-grid');
+    if (parent) parent.querySelectorAll('.booking-card,.therapist-card,.slot').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectAnnual(el) {
+    document.querySelectorAll('.annual-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+</script>
+</body>
+</html>
