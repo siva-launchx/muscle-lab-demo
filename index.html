@@ -52,11 +52,11 @@
 ═══════════════════════════════════════════════════════════════════ */
 [data-theme="light"]{
   --bg:#fff8f6;
-  --bg2:#fce5df;
-  --bg3:#f29ebd;
-  --bg4:#db3c8a;
+  --bg2:#f0f5f2;
+  --bg3:#dceade;
+  --bg4:#c4d9c8;
   --card:#ffffff;
-  --card2:#fce5df;
+  --card2:#f0f5f2;
   --border:rgba(0,82,45,0.15);
   --border2:#00522d;
   --text:#00522d;
@@ -100,7 +100,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 /* Inject text labels via data attributes — fallback: show icon */
 [data-theme="dark"] .nav-btn::after{content:attr(data-label);}
 /* FOUDRE: pink circular buttons */
-[data-theme="light"] .nav-btn{width:32px;height:32px;border-radius:50%;background:var(--accent2);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
+[data-theme="light"] .nav-btn{width:32px;height:32px;border-radius:50%;background:#dceade;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
 [data-theme="light"] .nav-btn svg{width:14px;height:14px;stroke:var(--text);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 
 .nav-btn:active{opacity:.7;}
@@ -108,14 +108,14 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 [data-theme="light"] .moon-ico{display:none;}
 
 /* ── SCROLL / SCREENS ── */
-.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:none;position:relative;z-index:1;}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:none;position:relative;z-index:1;padding-bottom:calc(56px + max(6px,env(safe-area-inset-bottom,6px)));}
 .screen{display:none;min-height:100%;}
 .screen.active{display:block;}
 .screen.in{animation:sIn .22s ease-out forwards;}
 @keyframes sIn{from{transform:translateX(16px);opacity:0;}to{transform:none;opacity:1;}}
 
 /* ── BOTTOM NAV ── */
-.bnav{display:flex;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom,6px));flex-shrink:0;z-index:200;}
+.bnav{display:flex;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom,6px));position:fixed;bottom:0;left:0;right:0;z-index:200;}
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 0;border:none;background:none;touch-action:manipulation;}
 
 /* ORYZO: Cork Dust / Rust active */
@@ -336,7 +336,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 .nudge-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;}
 
 /* Book footer */
-.book-foot{position:sticky;bottom:0;background:var(--nav);border-top:1px solid var(--border);padding:12px 18px max(12px,env(safe-area-inset-bottom,12px));display:flex;align-items:center;justify-content:space-between;gap:12px;backdrop-filter:blur(20px);}
+.book-foot{position:sticky;bottom:calc(56px + max(6px,env(safe-area-inset-bottom,6px)));background:var(--nav);border-top:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;backdrop-filter:blur(20px);}
 [data-theme="dark"] .bf-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);}
 [data-theme="light"] .bf-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);}
 [data-theme="dark"] .bf-val{font-family:'Inter',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.04em;color:var(--text);line-height:1;}
@@ -424,7 +424,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 [data-theme="light"] .t-pill-tag.base{background:var(--ai);color:var(--text3);border-radius:10px;}
 
 /* Biz footer */
-.biz-foot{position:sticky;bottom:0;background:var(--nav);border-top:1px solid var(--border);padding:10px 18px max(10px,env(safe-area-inset-bottom,10px));backdrop-filter:blur(20px);}
+.biz-foot{position:sticky;bottom:calc(56px + max(6px,env(safe-area-inset-bottom,6px)));background:var(--nav);border-top:1px solid var(--border);padding:10px 18px;backdrop-filter:blur(20px);}
 [data-theme="dark"] .biz-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 [data-theme="dark"] .bp{text-align:center;padding:10px 6px;background:var(--card2);border:1px solid var(--border);border-radius:12px;}
 [data-theme="light"] .biz-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
@@ -532,19 +532,21 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 .lph-v{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:var(--text);width:46px;text-align:right;flex-shrink:0;}
 
 /* Proj bars */
-.proj-bars{display:flex;align-items:flex-end;gap:6px;height:88px;margin-bottom:8px;}
-.pbar-w{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.proj-bars{display:flex;align-items:flex-end;gap:6px;height:88px;margin-bottom:8px;border-bottom:1px solid var(--border);}
+.pbar-w{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;}
 .pbar{width:100%;border-radius:4px 4px 0 0;}
-.pbar.cur{background:var(--card2);}
-[data-theme="light"] .pbar.cur{background:var(--bg3);}
-.pbar.y1{background:var(--accent);}
+[data-theme="dark"] .pbar.cur{background:#382416;}
+[data-theme="light"] .pbar.cur{background:#c4d9c8;}
+[data-theme="dark"] .pbar.y1{background:#dc5000;}
+[data-theme="light"] .pbar.y1{background:#00522d;}
 .pbar-l{font-family:'Inter',sans-serif;font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:500;}
 .proj-legend{display:flex;gap:14px;margin-bottom:10px;}
 .pl-i{display:flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:10px;color:var(--text3);font-weight:500;}
 .pl-dot{width:10px;height:4px;border-radius:2px;}
-.pl-dot.cur{background:var(--card2);}
-[data-theme="light"] .pl-dot.cur{background:var(--bg3);}
-.pl-dot.y1{background:var(--accent);}
+[data-theme="dark"] .pl-dot.cur{background:#382416;}
+[data-theme="light"] .pl-dot.cur{background:#c4d9c8;}
+[data-theme="dark"] .pl-dot.y1{background:#dc5000;}
+[data-theme="light"] .pl-dot.y1{background:#00522d;}
 .m-note{font-family:'Inter',sans-serif;font-size:11px;color:var(--text3);line-height:1.65;padding:11px 13px;background:var(--ai2);border-radius:var(--rl);margin-top:8px;}
 
 /* ══ TOUR ══ */
@@ -725,7 +727,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
     </div>
     <!-- Referral nudge -->
     <div class="prof-refer">
-      <div class="pr-body"><strong>Refer a friend</strong> — get one session free when they complete their first booking.</div>
+      <div class="pr-body"><strong>Refer a friend</strong> Get one session free when they complete their first booking.</div>
       <div class="pr-cta">Share link →</div>
     </div>
   </div>
@@ -739,7 +741,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
   <div class="hero-tag">Singapore · Performance Recovery</div>
   <h1><span>Recovery</span><span>is</span><span class="ac">the work.</span></h1>
   <div class="hero-rule"></div>
-  <p class="hero-sub">Sports massage and clinical recovery for athletes who take their training seriously. Three outlets, zero compromises.</p>
+  <p class="hero-sub">Sports massage and clinical recovery. Three outlets in Singapore.</p>
   <div class="hero-cta">
     <button class="btn btn-p" onclick="go(1)">Book a session</button>
     <button class="btn btn-g" onclick="toggleProfile()">Our therapists</button>
@@ -769,14 +771,14 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
     <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="svc-body"><div class="svc-name">Stretch Therapy</div><div class="svc-meta">50 min · Mobility</div></div><div class="svc-r"><div class="svc-price">SGD 89</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
     <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><div class="svc-body"><div class="svc-name">Cupping</div><div class="svc-meta">45 min · Fire or hijama</div></div><div class="svc-r"><div class="svc-price">SGD 89</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
   </div>
-  <div class="nudge"><div class="nudge-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="nudge-body"><strong>Save SGD 150</strong> — 10-session bundle at SGD 84/session.</div><div class="nudge-cta" onclick="go(3)">See</div></div>
+  <div class="nudge"><div class="nudge-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="nudge-body"><strong>Save SGD 150</strong> on a 10-session bundle. SGD 84 per session.</div><div class="nudge-cta" onclick="go(3)">See</div></div>
   <div class="sec">Therapist</div>
   <div class="t-scroll">
     <div class="t-pill selected" onclick="selPill(this)"><div class="t-av">IV</div><div><div class="t-n">Ivan</div><div class="t-s">Sports rehab</div></div></div>
     <div class="t-pill" onclick="selPill(this)"><div class="t-av">CI</div><div><div class="t-n">Cindy</div><div class="t-s">Deep tissue</div></div></div>
     <div class="t-pill" onclick="selPill(this)"><div class="t-av">HU</div><div><div class="t-n">Husni</div><div class="t-s">Mobility</div></div></div>
     <div class="t-pill" onclick="selPill(this)"><div class="t-av">CH</div><div><div class="t-n">Christine</div><div class="t-s">Recovery</div></div></div>
-    <div class="t-pill" onclick="selPill(this)"><div class="t-av">—</div><div><div class="t-n">Any</div><div class="t-s">First available</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">/div><div><div class="t-n">Any</div><div class="t-s">First available</div></div></div>
   </div>
   <div class="sec">Thu 22 Aug · Tanjong Pagar</div>
   <div class="slots">
@@ -799,19 +801,19 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 <!-- MEMBER -->
 <div class="screen" id="s2">
 <div class="sc-wrap" style="padding-bottom:0;">
-  <div class="sc-hd"><div class="eyebrow">Membership</div><div class="sc-title">From client to member.</div><div class="sc-sub">Triggered after session three. The pitch is the maths.</div></div>
+  <div class="sc-hd"><div class="eyebrow">Membership</div><div class="sc-title">From client to member.</div><div class="sc-sub">Triggered at session three. The numbers do the talking.</div></div>
   <div class="incl" id="tgt2">
     <div class="incl-hd">Every membership includes</div>
     <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Priority booking across all three outlets</span></div>
     <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>10% off all additional sessions</span></div>
-    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Cross-outlet flexibility — book anywhere</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Cross-outlet flexibility. Book any location.</span></div>
     <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Cancel anytime with 30 days notice</span></div>
   </div>
   <div class="sec">Choose your membership</div>
   <div class="tiers">
     <div class="tier"><div class="t-tier-lbl">Drop in</div><div class="t-prow"><div class="t-price">SGD 99</div><div class="t-per">/ session</div></div><div class="t-desc">No commitment. Pay per visit. Full flexibility.</div><div class="t-pill-tag base">Baseline rate</div><button class="btn btn-g" style="width:100%;font-size:10px;padding:10px;">Book a session</button></div>
-    <div class="tier featured"><div class="t-badge">Most popular</div><div class="t-tier-lbl">Perform — monthly</div><div class="t-prow"><div class="t-price">SGD 149</div><div class="t-per">/ month</div></div><div class="t-desc">One guaranteed session per month. Priority access for the athlete on a training schedule.</div><div class="t-pill-tag up">↑ SGD 40 above rack</div><button class="btn btn-p" style="width:100%;font-size:10px;padding:11px;" onclick="go(3)">Become a Perform member</button></div>
-    <div class="tier"><div class="t-tier-lbl">Recover — monthly</div><div class="t-prow"><div class="t-price">SGD 249</div><div class="t-per">/ month</div></div><div class="t-desc">Two sessions per month for the high-frequency performer.</div><div class="t-pill-tag up">↑ SGD 15 above rack</div><button class="btn btn-g" style="width:100%;font-size:10px;padding:10px;" onclick="go(3)">Become a Recover member</button></div>
+    <div class="tier featured"><div class="t-badge">Most popular</div><div class="t-tier-lbl">Perform · monthly</div><div class="t-prow"><div class="t-price">SGD 149</div><div class="t-per">/ month</div></div><div class="t-desc">One guaranteed session per month. Priority access for the athlete on a training schedule.</div><div class="t-pill-tag up">↑ SGD 40 above rack</div><button class="btn btn-p" style="width:100%;font-size:10px;padding:11px;" onclick="go(3)">Become a Perform member</button></div>
+    <div class="tier"><div class="t-tier-lbl">Recover · monthly</div><div class="t-prow"><div class="t-price">SGD 249</div><div class="t-per">/ month</div></div><div class="t-desc">Two sessions per month for the high-frequency performer.</div><div class="t-pill-tag up">↑ SGD 15 above rack</div><button class="btn btn-g" style="width:100%;font-size:10px;padding:10px;" onclick="go(3)">Become a Recover member</button></div>
   </div>
   <!-- MEMBERSHIP MATHS (from Journey tab) -->
   <div style="padding:0 18px;">
@@ -829,10 +831,9 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <tr class="hl"><td>Recover</td><td>SGD 249</td><td>SGD 124.50</td><td>+SGD 15.50</td></tr>
       <tr><td>10-session pack</td><td>SGD 840 upfront</td><td>SGD 84</td><td style="color:var(--red)">−SGD 25</td></tr>
     </tbody></table>
-    <div class="m-note">Both Perform and Recover price above rack rate. The membership does not discount the business — it funds it.</div>
+    <div class="m-note">Both Perform and Recover price above rack rate. The membership does not discount the business. It funds it.</div>
   </div>
 </div>
-<div class="biz-foot"><div class="biz-pills"><div class="bp"><div class="bp-n">$39.8K</div><div class="bp-l">MRR at 200</div></div><div class="bp"><div class="bp-n">74%</div><div class="bp-l">Fixed costs</div></div><div class="bp"><div class="bp-n">$0</div><div class="bp-l">CAC mo 12</div></div></div></div>
 </div>
 
 <!-- JOURNEY (After + Business Strategy) -->
@@ -854,7 +855,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
   <div class="cj-intro">
     <div class="cj-intro-tag">Marcus · Perform Member · Month 4</div>
     <div class="cj-intro-title">The full journey</div>
-    <div class="cj-intro-sub">From first search to annual commitment. Every touchpoint mapped, every message automated.</div>
+    <div class="cj-intro-sub">From first search to annual commitment. Every touchpoint mapped.</div>
   </div>
 
   <!-- STAGE 1: DISCOVERY -->
@@ -863,7 +864,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <div class="cj-stage-num">01</div>
       <div>
         <div class="cj-stage-title">Discovery</div>
-        <div class="cj-stage-sub">First contact. Zero relationship yet.</div>
+        <div class="cj-stage-sub">First contact.</div>
       </div>
     </div>
     <div class="cj-cards">
@@ -873,7 +874,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
         </div>
         <div class="cj-card-body">
           <div class="cj-card-title">Google search</div>
-          <div class="cj-card-txt">"sports massage Tanjong Pagar" — The Muscle Lab appears in top 3 organic results. SEO foundation built, GEO entries visible in AI-generated answers.</div>
+          <div class="cj-card-txt">"sports massage Tanjong Pagar". The Muscle Lab appears in the top 3 organic results. SEO foundation in place, GEO entries showing in AI answers.</div>
         </div>
       </div>
       <div class="cj-card">
@@ -903,7 +904,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <div class="cj-stage-num">02</div>
       <div>
         <div class="cj-stage-title">First booking</div>
-        <div class="cj-stage-sub">One unified flow. One client identity.</div>
+        <div class="cj-stage-sub">One flow. One client identity across all three outlets.</div>
       </div>
     </div>
     <div class="cj-cards">
@@ -912,8 +913,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
           <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
         <div class="cj-card-body">
-          <div class="cj-card-title">Booking — SGD 99</div>
-          <div class="cj-card-txt">Sports Massage 60 min. Service selected, therapist chosen, slot confirmed. Single flow across all three outlets — no separate Acuity links.</div>
+          <div class="cj-card-title">Booking · SGD 99</div>
+          <div class="cj-card-txt">Sports Massage 60 min. Service selected, therapist chosen, slot confirmed. Single flow across all three outlets. No separate Acuity links.</div>
         </div>
       </div>
       <div class="cj-card">
@@ -922,7 +923,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
         </div>
         <div class="cj-card-body">
           <div class="cj-card-title">WhatsApp confirmation</div>
-          <div class="cj-card-txt">Instant confirmation sent. Reminder fires 24h before. No-show rate drops — cancellation policy enforced automatically.</div>
+          <div class="cj-card-txt">Instant confirmation sent. Reminder fires 24h before. No-show rate drops. Cancellation policy enforced on every booking.</div>
         </div>
       </div>
       <div class="cj-card">
@@ -943,24 +944,24 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <div class="cj-stage-num">03</div>
       <div>
         <div class="cj-stage-title">Post-session lifecycle</div>
-        <div class="cj-stage-sub">Automated. Personalised. Zero manual effort.</div>
+        <div class="cj-stage-sub">Automated. Personalised.</div>
       </div>
     </div>
     <!-- WA preview -->
     <div class="wa" id="tgt3" style="margin-bottom:12px;">
-      <div class="wa-hd"><div class="wa-av">ML</div><div><div class="wa-nm">The Muscle Lab SG</div><div class="wa-st">WhatsApp · Automated</div></div></div>
+      <div class="wa-hd"><div class="wa-av">ML</div><div><div class="wa-nm">The Muscle Lab SG</div><div class="wa-st">WhatsApp</div></div></div>
       <div class="wa-msgs">
-        <div class="wm in">Hey Marcus — hope you are feeling the difference after your session with Ivan. He left a note: keep stretching those hip flexors this week.<div class="t">Today · 7:30 PM</div></div>
-        <div class="wm out">Thanks! Exactly what I needed before Sunday's race<div class="t">8:12 PM</div></div>
-        <div class="wm in">Perfect timing. Good luck Sunday! We will check in next week.<div class="t">8:14 PM</div></div>
+        <div class="wm in">Hey Marcus, hope you are feeling the difference after your session with Ivan. He left a note: keep stretching those hip flexors this week.<div class="t">Today · 7:30 PM</div></div>
+        <div class="wm out">Thanks. Exactly what I needed before Sunday.<div class="t">8:12 PM</div></div>
+        <div class="wm in">Good luck Sunday. We will check in next week.<div class="t">8:14 PM</div></div>
       </div>
     </div>
     <div class="tl">
-      <div class="tli"><div class="tl-dot">1h</div><div class="tl-b"><div class="tl-day">Same day — evening</div><div class="tl-title">Therapist check-in</div><div class="tl-txt">Personalised WhatsApp from Ivan with a specific recovery note. Builds the relationship. Drives rebook intent.</div></div></div>
-      <div class="tli"><div class="tl-dot">24h</div><div class="tl-b"><div class="tl-day">Next day</div><div class="tl-title">Recovery follow-up</div><div class="tl-txt">"How are you feeling? Any soreness is normal — here's what to do." Positions the brand as expert, not just transactional.</div></div></div>
-      <div class="tli"><div class="tl-dot">7d</div><div class="tl-b"><div class="tl-day">Day 7</div><div class="tl-title">Rebooking prompt</div><div class="tl-txt">"Ivan has a slot next Thursday at 1pm — want to lock it in?" Direct link. One tap to confirm.</div></div></div>
-      <div class="tli"><div class="tl-dot">21d</div><div class="tl-b"><div class="tl-day">Day 21 — session 2</div><div class="tl-title">Bundle offer</div><div class="tl-txt">"Two sessions in. A 10-session bundle locks in SGD 84/session and saves you SGD 150. Want me to set that up?"</div></div></div>
-      <div class="tli" style="--dot-color:var(--accent);"><div class="tl-dot">45d</div><div class="tl-b"><div class="tl-day">Day 45 — if no rebook</div><div class="tl-title">Lapsed client reactivation</div><div class="tl-txt">"It has been a while. No pressure — we are here when you need us. First session back is SGD 99."</div></div></div>
+      <div class="tli"><div class="tl-dot">1h</div><div class="tl-b"><div class="tl-day">Same day · evening</div><div class="tl-title">Therapist check-in</div><div class="tl-txt">Personalised WhatsApp from Ivan with a specific recovery note. Builds the relationship. Drives rebook intent.</div></div></div>
+      <div class="tli"><div class="tl-dot">24h</div><div class="tl-b"><div class="tl-day">Next day</div><div class="tl-title">Recovery follow-up</div><div class="tl-txt">"How are you feeling? Any soreness is normal. Here's what to do." Builds the relationship between sessions.</div></div></div>
+      <div class="tli"><div class="tl-dot">7d</div><div class="tl-b"><div class="tl-day">Day 7</div><div class="tl-title">Rebooking prompt</div><div class="tl-txt">"Ivan has a slot next Thursday at 1pm. Want to lock it in?" Direct link. One tap.</div></div></div>
+      <div class="tli"><div class="tl-dot">21d</div><div class="tl-b"><div class="tl-day">Day 21 · session 2</div><div class="tl-title">Bundle offer</div><div class="tl-txt">"Two sessions in. A 10-session bundle locks in SGD 84/session and saves you SGD 150. Want me to set that up?"</div></div></div>
+      <div class="tli" style="--dot-color:var(--accent);"><div class="tl-dot">45d</div><div class="tl-b"><div class="tl-day">Day 45 · no rebook</div><div class="tl-title">Lapsed client reactivation</div><div class="tl-txt">"It's been a while. No pressure. First session back is SGD 99."</div></div></div>
     </div>
   </div>
 
@@ -970,7 +971,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <div class="cj-stage-num">04</div>
       <div>
         <div class="cj-stage-title">Membership conversion</div>
-        <div class="cj-stage-sub">Triggered at session 3. The pitch is the maths.</div>
+        <div class="cj-stage-sub">Triggered at session 3.</div>
       </div>
     </div>
     <div class="cj-cards">
@@ -979,8 +980,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
           <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="cj-card-body">
-          <div class="cj-card-title">Perform — SGD 149/mo</div>
-          <div class="cj-card-txt">SGD 40 above rack rate. One guaranteed session. Priority booking. Margin-accretive — the membership funds the business, not discounts it.</div>
+          <div class="cj-card-title">Perform · SGD 149/mo</div>
+          <div class="cj-card-txt">SGD 40 above rack rate. One guaranteed session. Priority booking. The membership funds the business.</div>
         </div>
       </div>
       <div class="cj-card">
@@ -988,8 +989,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
           <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="cj-card-body">
-          <div class="cj-card-title">Recover — SGD 249/mo</div>
-          <div class="cj-card-txt">Two sessions per month. SGD 15.50 above rack per session. The high-frequency athlete who treats recovery as non-negotiable.</div>
+          <div class="cj-card-title">Recover · SGD 249/mo</div>
+          <div class="cj-card-txt">Two sessions per month. SGD 15.50 above rack per session. For the athlete who treats recovery as a fixed cost.</div>
         </div>
       </div>
       <div class="cj-card">
@@ -1006,15 +1007,15 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
     <div class="cj-sequence">
       <div class="cj-seq-item">
         <div class="cj-seq-dot"></div>
-        <div class="cj-seq-body"><strong>Session 3 — post-visit</strong> "Marcus, you have been in three times this month. A Perform membership locks in your slot and saves you SGD 40 vs drop-in. Want to set it up?"</div>
+        <div class="cj-seq-body"><strong>Session 3 · post-visit</strong> "Marcus, you have been in three times this month. A Perform membership locks in your slot and saves you SGD 40 vs drop-in. Want to set it up?"</div>
       </div>
       <div class="cj-seq-item">
         <div class="cj-seq-dot"></div>
-        <div class="cj-seq-body"><strong>If no response — Day 3</strong> "Still thinking? Here is what Perform gets you — priority booking, 10% off extras, cancel anytime."</div>
+        <div class="cj-seq-body"><strong>If no response · Day 3</strong> "Still thinking? Here is what Perform gets you: priority booking, 10% off extras, cancel anytime."</div>
       </div>
       <div class="cj-seq-item">
         <div class="cj-seq-dot"></div>
-        <div class="cj-seq-body"><strong>If yes</strong> Payment link sent. Membership active. Recurring MRR +SGD 149. CAC = SGD 0 — already a client.</div>
+        <div class="cj-seq-body"><strong>If yes</strong> Payment link sent. Membership active. MRR +SGD 149. CAC is zero. Already a client.</div>
       </div>
     </div>
   </div>
@@ -1025,7 +1026,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <div class="cj-stage-num">05</div>
       <div>
         <div class="cj-stage-title">Annual upgrade</div>
-        <div class="cj-stage-sub">Month 4. Personalised. Not broadcast.</div>
+        <div class="cj-stage-sub">Month 4. Only shown to clients who keep coming back.</div>
       </div>
     </div>
     <div class="cj-cards">
@@ -1034,7 +1035,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
           <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
         <div class="cj-card-body">
-          <div class="cj-card-title">Marcus — 4 months consecutive</div>
+          <div class="cj-card-title">Marcus · 4 months straight</div>
           <div class="cj-card-txt">"You have not missed a month. Lock in 12 months at your current rate and save SGD 298." Triggered only for clients with 3+ consecutive months.</div>
         </div>
       </div>
@@ -1043,8 +1044,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
         <div class="cj-card-body">
-          <div class="cj-card-title">Perform Annual — SGD 1,490</div>
-          <div class="cj-card-txt">12 months upfront. Save SGD 298 vs monthly. Rate locked for 12 months — price-rise protection is the strongest retention argument.</div>
+          <div class="cj-card-title">Perform Annual · SGD 1,490</div>
+          <div class="cj-card-txt">12 months upfront. Save SGD 298 vs monthly. Rate locked for 12 months. Price protection is the strongest retention argument.</div>
         </div>
       </div>
       <div class="cj-card">
@@ -1052,8 +1053,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
           <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
         </div>
         <div class="cj-card-body">
-          <div class="cj-card-title">Recover Annual — SGD 2,490</div>
-          <div class="cj-card-txt">24 sessions. Save SGD 498. Per-session cost SGD 103.75 — 5% below rack, but 2× the volume. LTV doubles.</div>
+          <div class="cj-card-title">Recover Annual · SGD 2,490</div>
+          <div class="cj-card-txt">24 sessions. Save SGD 498. SGD 103.75 per session. LTV doubles.</div>
         </div>
       </div>
     </div>
@@ -1076,7 +1077,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <tr><td>Workshops</td><td>SGD 1,500</td><td>SGD 18K</td></tr>
       <tr class="tot"><td>Total revenue</td><td>SGD 63,678</td><td>SGD 764K</td></tr>
       <tr><td>Labour</td><td>(SGD 21,000)</td><td>(SGD 252K)</td></tr>
-      <tr><td>Rent — 3 outlets</td><td>(SGD 14,000)</td><td>(SGD 168K)</td></tr>
+      <tr><td>Rent · 3 outlets</td><td>(SGD 14,000)</td><td>(SGD 168K)</td></tr>
       <tr><td>Consumables</td><td>(SGD 4,500)</td><td>(SGD 54K)</td></tr>
       <tr><td>Tech and admin</td><td>(SGD 2,000)</td><td>(SGD 24K)</td></tr>
       <tr class="tot hl"><td>Net profit</td><td>SGD 22,178</td><td>SGD 266K</td></tr>
@@ -1106,7 +1107,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <tr><td>Break-even</td><td>38</td><td>1.5</td><td>29%</td></tr>
       <tr><td>To 2x net profit</td><td>104</td><td>4.3</td><td>79%</td></tr>
     </tbody></table>
-    <div class="m-note">To double net profit through sessions alone requires 4.3 sessions per therapist per day — 79% of capacity. The smarter path: memberships that add revenue without consuming additional therapist hours.</div>
+    <div class="m-note">Doubling net profit through sessions alone requires 4.3 sessions per therapist per day, which is 79% of capacity. The smarter path is memberships: more revenue, same hours.</div>
   </div>
 
   <!-- MEMBERSHIP MATHS -->
@@ -1124,7 +1125,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       <tr class="hl"><td>Recover</td><td>SGD 249</td><td>SGD 124.50</td><td>+SGD 15.50</td></tr>
       <tr><td>10-session pack</td><td>SGD 840 upfront</td><td>SGD 84</td><td style="color:var(--red)">−SGD 25</td></tr>
     </tbody></table>
-    <div class="m-note">Both Perform and Recover price above rack rate. The membership does not discount the business — it funds it.</div>
+    <div class="m-note">Both Perform and Recover price above rack rate. The membership does not discount the business. It funds it.</div>
   </div>
 
   <!-- PROJECTION -->
@@ -1159,11 +1160,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
   <!-- ANNUAL (moved here) -->
   <div class="jpanel" id="jp4">
 
-  <div class="sc-hd"><div class="eyebrow">Annual commitment</div><div class="sc-title">You have not missed a month in four.</div><div class="sc-sub">Personalised. Not broadcast.</div></div>
+  <div class="sc-hd"><div class="eyebrow">Annual commitment</div><div class="sc-title">You have not missed a month in four.</div><div class="sc-sub">Only shown to consistent members.</div></div>
   <div class="anl-card">
     <div class="ac-tag">Your journey · Marcus</div>
     <div class="ac-title">Lock in your rate. Save SGD 298.</div>
-    <div class="ac-body">At your current cadence an annual pack saves you SGD 298 and guarantees your rate for 12 months.</div>
+    <div class="ac-body">At this rate, an annual pack saves you SGD 298 and locks in your price for 12 months.</div>
     <div class="ac-stats"><div class="acs"><div class="acs-n">4</div><div class="acs-l">Months</div></div><div class="acs"><div class="acs-n">4</div><div class="acs-l">Sessions</div></div><div class="acs"><div class="acs-n">$298</div><div class="acs-l">Saved</div></div></div>
   </div>
   <div class="sec">Choose your plan</div>
@@ -1238,11 +1239,11 @@ function closeProfile(){document.getElementById('profilePanel').classList.remove
 
 // ── TOUR ──
 var STEPS=[
-  {screen:0,tid:null,title:'Welcome to The Muscle Lab',body:'A prototype of the full consumer journey — first visit to annual membership. Built on real data from the business. Tap Next to walk through each screen.'},
+  {screen:0,tid:null,title:'Welcome to The Muscle Lab',body:'A prototype of the full consumer journey, from first visit to annual membership. Built on real data. Tap Next to walk through each screen.'},
   {screen:0,tid:'tgt0',title:'Built without paid ads',body:'18,000 appointments. 480 five-star reviews. 70 nationalities. All earned on product and word of mouth. Zero paid acquisition. The hardest part is already done.'},
-  {screen:1,tid:'tgt1',title:'The booking experience',body:'Category tabs and service rows — one unified flow replacing three separate Acuity links. Single client identity across all three outlets.'},
+  {screen:1,tid:'tgt1',title:'The booking experience',body:'Category tabs and service rows. One flow replacing three separate Acuity links. Single client identity across all outlets.'},
   {screen:2,tid:'tgt2',title:'The membership architecture',body:'Lead with what every tier includes, then let the client choose. Both tiers price above rack rate. The membership funds the business, not discounts it.'},
-  {screen:3,tid:'tgt3',title:'The post-session lifecycle',body:'Everything on the Journey tab fires automatically after every visit — check-in, rebooking, bundle offer, reactivation. Zero manual effort. The Business Strategy tabs show the full financial model.'}
+  {screen:3,tid:'tgt3',title:'The post-session lifecycle',body:'Everything on the Journey tab runs after every visit: check-in, rebooking, bundle offer, reactivation. The Business Strategy tabs show the full financial model.'}
 ];
 var tIdx=0;
 
