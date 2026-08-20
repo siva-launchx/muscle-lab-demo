@@ -17,17 +17,17 @@
    Flat surfaces, no shadows, warm textural atmosphere.
 ═══════════════════════════════════════════════════════════════════ */
 [data-theme="dark"]{
-  --bg:#100904;
-  --bg2:#1a1008;
+  --bg:#0d0804;
+  --bg2:#181008;
   --bg3:#251810;
   --bg4:#382416;
-  --card:#1a1008;
-  --card2:#251810;
-  --border:#40372e;
+  --card:#221508;
+  --card2:#2e1e0e;
+  --border:#54443a;
   --border2:#dc5000;
   --text:#ffedd7;
-  --text2:#887b6d;
-  --text3:#5c4a38;
+  --text2:#b09a82;
+  --text3:#7a6452;
   --accent:#dc5000;
   --accent2:#e95000;
   --ai:rgba(220,80,0,0.1);
@@ -87,7 +87,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 .top-nav{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;z-index:200;position:relative;}
 
 /* ORYZO: Cork Dust text, compact weight */
-[data-theme="dark"] .logo{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.04em;color:var(--text);line-height:1;text-transform:uppercase;}
+[data-theme="dark"] .logo{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.04em;color:#ffedd7;line-height:1;text-transform:uppercase;}
 /* FOUDRE: Bebas Neue brand mark */
 [data-theme="light"] .logo{font-family:'Bebas Neue',sans-serif;font-size:22px;font-weight:400;letter-spacing:0.06em;color:var(--text);line-height:1;}
 
@@ -155,15 +155,44 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 .hero{padding:32px 18px 40px;position:relative;overflow:hidden;min-height:100%;display:flex;flex-direction:column;justify-content:flex-end;}
 
 /* ORYZO: dark warm gradient atmosphere */
-[data-theme="dark"] .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 10%,rgba(220,80,0,.14) 0%,transparent 50%),radial-gradient(ellipse at 20% 90%,rgba(68,82,49,.15) 0%,transparent 45%);pointer-events:none;}
+[data-theme="dark"] .hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 120%, rgba(220,80,0,.55) 0%, rgba(180,50,0,.2) 35%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 80% -10%, rgba(180,60,0,.22) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 10% 60%, rgba(68,82,49,.18) 0%, transparent 55%);
+}
+[data-theme="dark"] .hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+  mix-blend-mode:overlay;
+  opacity:.28;
+}
+/* ── GRAIN TEXTURE — both themes, full page ── */
+.grain-overlay{
+  position:fixed;inset:0;pointer-events:none;z-index:9998;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+[data-theme="dark"] .grain-overlay{
+  mix-blend-mode:overlay;
+  opacity:.18;
+}
+[data-theme="light"] .grain-overlay{
+  mix-blend-mode:multiply;
+  opacity:.12;
+}
+/* Tour sits above grain but backdrop below it shows bg */
+#tourWrap{z-index:9999;}
 
 /* Eyebrow tags */
-[data-theme="dark"] .hero-tag{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text2);margin-bottom:18px;display:inline-flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);padding:5px 14px;border-radius:36px;}
+[data-theme="dark"] .hero-tag{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#b09a82;margin-bottom:18px;display:inline-flex;align-items:center;gap:8px;background:#2e1e0e;border:1px solid #54443a;padding:5px 14px;border-radius:36px;position:relative;z-index:1;}
 [data-theme="light"] .hero-tag{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.12em;color:var(--text3);margin-bottom:10px;display:block;}
 
 /* Headlines */
 /* ORYZO: Inter 700, tight tracking, very large */
-[data-theme="dark"] .hero h1{font-family:'Inter',sans-serif;font-size:clamp(48px,12vw,80px);font-weight:700;line-height:.92;letter-spacing:-0.04em;margin-bottom:20px;color:var(--text);}
+[data-theme="dark"] .hero h1{font-family:'Inter',sans-serif;font-size:clamp(48px,12vw,80px);font-weight:700;line-height:.92;letter-spacing:-0.04em;margin-bottom:20px;color:#ffedd7 !important;position:relative;z-index:1;}
 /* FOUDRE: Bebas Neue full-width condensed, ultra-tight line-height 0.7 */
 [data-theme="light"] .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,18vw,140px);font-weight:400;line-height:.72;letter-spacing:.02em;margin-bottom:18px;color:var(--text);}
 
@@ -171,11 +200,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 [data-theme="dark"] .hero h1 .ac{color:var(--accent);}
 [data-theme="light"] .hero h1 .ac{color:var(--accent);}
 
-.hero-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:28px;font-weight:400;max-width:320px;}
-[data-theme="dark"] .hero-sub{letter-spacing:.01em;}
+.hero-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:28px;font-weight:400;max-width:320px;position:relative;z-index:1;}
+[data-theme="dark"] .hero-sub{letter-spacing:.01em;color:rgba(255,237,215,0.6) !important;font-size:15px !important;}
 [data-theme="light"] .hero-sub{font-family:'Inter',sans-serif;color:var(--text2);font-size:13px;}
 
-.hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;position:relative;z-index:1;}
 
 /* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;cursor:pointer;touch-action:manipulation;transition:opacity .15s;font-family:'Inter',sans-serif;}
@@ -193,10 +222,10 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 
 /* ── Hero stats ── */
 /* ORYZO: horizontal pill strip with rust borders */
-[data-theme="dark"] .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-[data-theme="dark"] .sc{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;}
-[data-theme="dark"] .sc-n{font-family:'Inter',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.04em;color:var(--text);line-height:1;}
-[data-theme="dark"] .sc-l{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;color:var(--text3);margin-top:3px;letter-spacing:.1em;text-transform:uppercase;}
+[data-theme="dark"] .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:1;}
+[data-theme="dark"] .sc{background:#2e1e0e;border:1px solid #54443a;border-radius:12px;padding:14px;}
+[data-theme="dark"] .sc-n{font-family:'Inter',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.04em;color:#ffedd7;line-height:1;}
+[data-theme="dark"] .sc-l{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#b09a82;margin-top:3px;letter-spacing:.1em;text-transform:uppercase;}
 
 /* FOUDRE: pink-backed large Bebas stat blocks */
 [data-theme="light"] .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -216,7 +245,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 [data-theme="dark"] .sc-title{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.04em;line-height:1.05;margin-bottom:8px;color:var(--text);}
 [data-theme="light"] .sc-title{font-family:'Bebas Neue',sans-serif;font-size:44px;font-weight:400;letter-spacing:.04em;line-height:.85;margin-bottom:10px;color:var(--text);}
 
-.sc-sub{font-size:14px;color:var(--text2);line-height:1.65;font-weight:400;}
+.sc-sub{font-size:14px;color:#b09a82;line-height:1.65;font-weight:400;}
 
 /* Section headers */
 [data-theme="dark"] .sec{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);margin:18px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
@@ -365,7 +394,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 .incl-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
 .incl-row:last-child{border-bottom:none;}
 .incl-row svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2.5;flex-shrink:0;}
-.incl-row span{font-family:'Inter',sans-serif;font-size:13px;color:var(--text2);font-weight:400;}
+.incl-row span{font-family:'Inter',sans-serif;font-size:13px;color:var(--text);font-weight:400;}
 
 /* Tiers */
 .tiers{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
@@ -477,7 +506,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 [data-theme="dark"] .kpi-n{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.04em;color:var(--accent);line-height:1;}
 [data-theme="light"] .kpi-n{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--accent);letter-spacing:.04em;line-height:.95;}
 .kpi-l{font-family:'Inter',sans-serif;font-size:8px;font-weight:500;color:var(--text3);margin-top:3px;letter-spacing:.1em;text-transform:uppercase;}
-.kpi-s{font-family:'Inter',sans-serif;font-size:10px;color:var(--text2);margin-top:2px;}
+.kpi-s{font-family:'Inter',sans-serif;font-size:10px;color:var(--text);opacity:.6;margin-top:2px;}
 
 .ms-lbl{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;margin:14px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 
@@ -521,10 +550,10 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 /* ══ TOUR ══ */
 #tourWrap{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;}
 #tourWrap.show{display:block;}
-#tourBackdrop{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.78);}
+#tourBackdrop{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
 #tourSpot{position:absolute;pointer-events:none;transition:all .25s cubic-bezier(.32,.72,0,1);display:none;}
-[data-theme="dark"] #tourSpot{box-shadow:0 0 0 3px #dc5000, 0 0 0 9999px rgba(0,0,0,0.78);}
-[data-theme="light"] #tourSpot{box-shadow:0 0 0 3px #00522d, 0 0 0 9999px rgba(0,0,0,0.68);}
+[data-theme="dark"] #tourSpot{box-shadow:0 0 0 2px #dc5000, 0 0 0 9999px rgba(0,0,0,0.45);}
+[data-theme="light"] #tourSpot{box-shadow:0 0 0 2px #00522d, 0 0 0 9999px rgba(0,0,0,0.38);}
 #tourBox{position:absolute;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:340px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:20px;z-index:10;}
 [data-theme="dark"] #tourBox{border-color:var(--border2);}
 #tourLbl{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
@@ -583,9 +612,53 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 .pr-body{flex:1;font-family:'Inter',sans-serif;font-size:12px;color:var(--text2);line-height:1.45;}
 .pr-body strong{color:var(--text);font-weight:700;}
 .pr-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;letter-spacing:.04em;white-space:nowrap;}
+
+/* ══ CONSUMER JOURNEY COMPONENTS ══ */
+.cj-intro{padding:4px 0 20px;}
+[data-theme="dark"] .cj-intro-tag{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+[data-theme="light"] .cj-intro-tag{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+[data-theme="dark"] .cj-intro-title{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.04em;color:var(--text);margin-bottom:6px;line-height:1.05;}
+[data-theme="light"] .cj-intro-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:.03em;color:var(--text);margin-bottom:6px;line-height:.9;}
+.cj-intro-sub{font-family:'Inter',sans-serif;font-size:13px;color:var(--text2);line-height:1.65;}
+
+.cj-stage{padding:0 0 28px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+.cj-stage-hd{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+[data-theme="dark"] .cj-stage-num{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);background:var(--ai);border:1px solid var(--border);border-radius:36px;padding:4px 10px;flex-shrink:0;margin-top:2px;}
+[data-theme="light"] .cj-stage-num{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.08em;color:var(--accent);background:var(--ai);border-radius:10px;padding:3px 10px;flex-shrink:0;margin-top:2px;}
+[data-theme="dark"] .cj-stage-title{font-family:'Inter',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.03em;color:var(--text);line-height:1.1;margin-bottom:3px;}
+[data-theme="light"] .cj-stage-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:var(--text);line-height:.9;margin-bottom:4px;}
+.cj-stage-sub{font-family:'Inter',sans-serif;font-size:11px;color:var(--text3);letter-spacing:.02em;}
+
+.cj-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+[data-theme="dark"] .cj-card{display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--card2);border:1px solid var(--border);border-radius:12px;}
+[data-theme="dark"] .cj-card.cj-card-accent{border-color:var(--accent);background:var(--ai2);}
+[data-theme="light"] .cj-card{display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--card);border-radius:20px;}
+[data-theme="light"] .cj-card.cj-card-accent{background:var(--accent);}
+
+.cj-card-ico{width:34px;height:34px;border-radius:var(--rpill);background:var(--ai);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.cj-card-ico svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="light"] .cj-card.cj-card-accent .cj-card-ico{background:rgba(255,248,246,.2);}
+[data-theme="light"] .cj-card.cj-card-accent .cj-card-ico svg{stroke:#fff8f6;}
+
+.cj-card-body{flex:1;min-width:0;}
+[data-theme="dark"] .cj-card-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:-.01em;color:var(--text);margin-bottom:3px;}
+[data-theme="dark"] .cj-card.cj-card-accent .cj-card-title{color:var(--accent);}
+[data-theme="light"] .cj-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.04em;color:var(--text);margin-bottom:3px;line-height:1;}
+[data-theme="light"] .cj-card.cj-card-accent .cj-card-title{color:#fff8f6;}
+.cj-card-txt{font-family:'Inter',sans-serif;font-size:11px;color:var(--text);opacity:.7;line-height:1.6;}
+[data-theme="light"] .cj-card.cj-card-accent .cj-card-txt{color:rgba(255,248,246,.8);}
+
+/* Conversion sequence */
+.cj-sequence{display:flex;flex-direction:column;gap:0;}
+.cj-seq-item{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);position:relative;}
+.cj-seq-item:last-child{border-bottom:none;}
+.cj-seq-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px;}
+.cj-seq-body{font-family:'Inter',sans-serif;font-size:12px;color:var(--text2);line-height:1.6;}
+.cj-seq-body strong{color:var(--text);font-weight:700;}
 </style>
 </head>
 <body>
+<div class="grain-overlay" aria-hidden="true"></div>
 <div class="safe-top"></div>
 
 <!-- TOP NAV -->
@@ -767,7 +840,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 <div class="sc-wrap" style="padding:0;padding-bottom:0;">
   <div style="padding:20px 18px 0;"><div class="eyebrow">Consumer journey &amp; business strategy</div><div class="sc-title">How it works.</div></div>
   <div class="journey-tabs">
-    <button class="jt active" onclick="setJourney(0)">Post-session</button>
+    <button class="jt active" onclick="setJourney(0)">Journey</button>
     <button class="jt" onclick="setJourney(1)">P&amp;L</button>
     <button class="jt" onclick="setJourney(2)">LPH</button>
     <button class="jt" onclick="setJourney(3)">Projection</button>
@@ -776,7 +849,105 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
 
   <!-- POST SESSION -->
   <div class="jpanel active" id="jp0">
-    <div class="wa" id="tgt3">
+
+  <!-- STAGE HEADER -->
+  <div class="cj-intro">
+    <div class="cj-intro-tag">Marcus · Perform Member · Month 4</div>
+    <div class="cj-intro-title">The full journey</div>
+    <div class="cj-intro-sub">From first search to annual commitment. Every touchpoint mapped, every message automated.</div>
+  </div>
+
+  <!-- STAGE 1: DISCOVERY -->
+  <div class="cj-stage">
+    <div class="cj-stage-hd">
+      <div class="cj-stage-num">01</div>
+      <div>
+        <div class="cj-stage-title">Discovery</div>
+        <div class="cj-stage-sub">First contact. Zero relationship yet.</div>
+      </div>
+    </div>
+    <div class="cj-cards">
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Google search</div>
+          <div class="cj-card-txt">"sports massage Tanjong Pagar" — The Muscle Lab appears in top 3 organic results. SEO foundation built, GEO entries visible in AI-generated answers.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Instagram referral</div>
+          <div class="cj-card-txt">Friend tags Marcus in a post. 480 five-star reviews visible on profile. Recovery content builds credibility before the first click.</div>
+        </div>
+      </div>
+      <div class="cj-card cj-card-accent">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Word of mouth</div>
+          <div class="cj-card-txt">Zero paid acquisition to this point. Every client earned on product alone. The highest-trust channel at zero marginal cost.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 2: FIRST BOOKING -->
+  <div class="cj-stage">
+    <div class="cj-stage-hd">
+      <div class="cj-stage-num">02</div>
+      <div>
+        <div class="cj-stage-title">First booking</div>
+        <div class="cj-stage-sub">One unified flow. One client identity.</div>
+      </div>
+    </div>
+    <div class="cj-cards">
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Booking — SGD 99</div>
+          <div class="cj-card-txt">Sports Massage 60 min. Service selected, therapist chosen, slot confirmed. Single flow across all three outlets — no separate Acuity links.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">WhatsApp confirmation</div>
+          <div class="cj-card-txt">Instant confirmation sent. Reminder fires 24h before. No-show rate drops — cancellation policy enforced automatically.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Client profile created</div>
+          <div class="cj-card-txt">Name, number, outlet preference, intake reason. Single identity across all three outlets from session one.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 3: POST-SESSION LIFECYCLE -->
+  <div class="cj-stage">
+    <div class="cj-stage-hd">
+      <div class="cj-stage-num">03</div>
+      <div>
+        <div class="cj-stage-title">Post-session lifecycle</div>
+        <div class="cj-stage-sub">Automated. Personalised. Zero manual effort.</div>
+      </div>
+    </div>
+    <!-- WA preview -->
+    <div class="wa" id="tgt3" style="margin-bottom:12px;">
       <div class="wa-hd"><div class="wa-av">ML</div><div><div class="wa-nm">The Muscle Lab SG</div><div class="wa-st">WhatsApp · Automated</div></div></div>
       <div class="wa-msgs">
         <div class="wm in">Hey Marcus — hope you are feeling the difference after your session with Ivan. He left a note: keep stretching those hip flexors this week.<div class="t">Today · 7:30 PM</div></div>
@@ -785,12 +956,110 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;f
       </div>
     </div>
     <div class="tl">
-      <div class="tli"><div class="tl-dot">1h</div><div class="tl-b"><div class="tl-day">Same day</div><div class="tl-title">Post-session check-in</div><div class="tl-txt">Personalised WhatsApp from the therapist. Recovery note specific to the treatment. Zero manual effort.</div></div></div>
-      <div class="tli"><div class="tl-dot">7d</div><div class="tl-b"><div class="tl-day">Day 7</div><div class="tl-title">Rebooking prompt</div><div class="tl-txt">"It has been a week. Ivan has availability next week — want to lock in your slot?" Direct booking link.</div></div></div>
-      <div class="tli"><div class="tl-dot">21d</div><div class="tl-b"><div class="tl-day">Day 21</div><div class="tl-title">Bundle offer</div><div class="tl-txt">"Two sessions in. A bundle saves you SGD 150 and locks in your rate. Want me to set that up?"</div></div></div>
-      <div class="tli"><div class="tl-dot">45d</div><div class="tl-b"><div class="tl-day">Day 45</div><div class="tl-title">Lapsed client reactivation</div><div class="tl-txt">"It has been a while. No pressure. First session back is SGD 99."</div></div></div>
+      <div class="tli"><div class="tl-dot">1h</div><div class="tl-b"><div class="tl-day">Same day — evening</div><div class="tl-title">Therapist check-in</div><div class="tl-txt">Personalised WhatsApp from Ivan with a specific recovery note. Builds the relationship. Drives rebook intent.</div></div></div>
+      <div class="tli"><div class="tl-dot">24h</div><div class="tl-b"><div class="tl-day">Next day</div><div class="tl-title">Recovery follow-up</div><div class="tl-txt">"How are you feeling? Any soreness is normal — here's what to do." Positions the brand as expert, not just transactional.</div></div></div>
+      <div class="tli"><div class="tl-dot">7d</div><div class="tl-b"><div class="tl-day">Day 7</div><div class="tl-title">Rebooking prompt</div><div class="tl-txt">"Ivan has a slot next Thursday at 1pm — want to lock it in?" Direct link. One tap to confirm.</div></div></div>
+      <div class="tli"><div class="tl-dot">21d</div><div class="tl-b"><div class="tl-day">Day 21 — session 2</div><div class="tl-title">Bundle offer</div><div class="tl-txt">"Two sessions in. A 10-session bundle locks in SGD 84/session and saves you SGD 150. Want me to set that up?"</div></div></div>
+      <div class="tli" style="--dot-color:var(--accent);"><div class="tl-dot">45d</div><div class="tl-b"><div class="tl-day">Day 45 — if no rebook</div><div class="tl-title">Lapsed client reactivation</div><div class="tl-txt">"It has been a while. No pressure — we are here when you need us. First session back is SGD 99."</div></div></div>
     </div>
   </div>
+
+  <!-- STAGE 4: MEMBERSHIP CONVERSION -->
+  <div class="cj-stage">
+    <div class="cj-stage-hd">
+      <div class="cj-stage-num">04</div>
+      <div>
+        <div class="cj-stage-title">Membership conversion</div>
+        <div class="cj-stage-sub">Triggered at session 3. The pitch is the maths.</div>
+      </div>
+    </div>
+    <div class="cj-cards">
+      <div class="cj-card cj-card-accent">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Perform — SGD 149/mo</div>
+          <div class="cj-card-txt">SGD 40 above rack rate. One guaranteed session. Priority booking. Margin-accretive — the membership funds the business, not discounts it.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Recover — SGD 249/mo</div>
+          <div class="cj-card-txt">Two sessions per month. SGD 15.50 above rack per session. The high-frequency athlete who treats recovery as non-negotiable.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Revenue floor</div>
+          <div class="cj-card-txt">200 members = SGD 39,800 MRR floor. 74% of fixed costs covered before a single walk-in books. The business becomes structurally resilient.</div>
+        </div>
+      </div>
+    </div>
+    <!-- Conversion sequence -->
+    <div class="cj-sequence">
+      <div class="cj-seq-item">
+        <div class="cj-seq-dot"></div>
+        <div class="cj-seq-body"><strong>Session 3 — post-visit</strong> "Marcus, you have been in three times this month. A Perform membership locks in your slot and saves you SGD 40 vs drop-in. Want to set it up?"</div>
+      </div>
+      <div class="cj-seq-item">
+        <div class="cj-seq-dot"></div>
+        <div class="cj-seq-body"><strong>If no response — Day 3</strong> "Still thinking? Here is what Perform gets you — priority booking, 10% off extras, cancel anytime."</div>
+      </div>
+      <div class="cj-seq-item">
+        <div class="cj-seq-dot"></div>
+        <div class="cj-seq-body"><strong>If yes</strong> Payment link sent. Membership active. Recurring MRR +SGD 149. CAC = SGD 0 — already a client.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 5: ANNUAL UPGRADE -->
+  <div class="cj-stage" style="border-bottom:none;padding-bottom:0;">
+    <div class="cj-stage-hd">
+      <div class="cj-stage-num">05</div>
+      <div>
+        <div class="cj-stage-title">Annual upgrade</div>
+        <div class="cj-stage-sub">Month 4. Personalised. Not broadcast.</div>
+      </div>
+    </div>
+    <div class="cj-cards">
+      <div class="cj-card cj-card-accent">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Marcus — 4 months consecutive</div>
+          <div class="cj-card-txt">"You have not missed a month. Lock in 12 months at your current rate and save SGD 298." Triggered only for clients with 3+ consecutive months.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Perform Annual — SGD 1,490</div>
+          <div class="cj-card-txt">12 months upfront. Save SGD 298 vs monthly. Rate locked for 12 months — price-rise protection is the strongest retention argument.</div>
+        </div>
+      </div>
+      <div class="cj-card">
+        <div class="cj-card-ico">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="cj-card-body">
+          <div class="cj-card-title">Recover Annual — SGD 2,490</div>
+          <div class="cj-card-txt">24 sessions. Save SGD 498. Per-session cost SGD 103.75 — 5% below rack, but 2× the volume. LTV doubles.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
   <!-- P&L -->
   <div class="jpanel" id="jp1">
@@ -1040,5 +1309,81 @@ document.addEventListener('DOMContentLoaded',function(){
   if(!localStorage.getItem('ml-tour'))setTimeout(startTour,800);
 });
 </script>
+<style>
+/* ── DARK MODE CONTRAST OVERRIDES ── */
+[data-theme="dark"] .hero,
+[data-theme="dark"] .hero *:not(.btn):not(button){
+  color:#ffedd7;
+}
+[data-theme="dark"] .hero h1 .ac{color:#dc5000 !important;}
+[data-theme="dark"] .hero-tag{color:#b09a82 !important;}
+[data-theme="dark"] .hero-sub{color:#b09a82 !important;}
+[data-theme="dark"] .hero-cta .btn-p{color:#100904 !important;}
+[data-theme="dark"] .hero-cta .btn-g{color:#ffedd7 !important;}
+[data-theme="dark"] .sc-n{color:#ffedd7 !important;font-size:28px;}
+[data-theme="dark"] .sc-l{color:#7a6452 !important;}
+[data-theme="dark"] .sc{background:rgba(255,237,215,0.05) !important;border:1px solid rgba(255,237,215,0.1) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important;}
+[data-theme="dark"] .top-nav{background:rgba(16,9,4,0.97) !important;}
+[data-theme="dark"] .logo{color:#ffedd7 !important;}
+[data-theme="dark"] .nl{color:#7a6452 !important;}
+[data-theme="dark"] .ni.active .nl{color:#dc5000 !important;}
+[data-theme="dark"] .ni svg{stroke:#7a6452 !important;}
+[data-theme="dark"] .ni.active svg{stroke:#dc5000 !important;}
+[data-theme="dark"] .sc-title{color:#ffedd7 !important;}
+[data-theme="dark"] .eyebrow{color:#7a6452 !important;}
+[data-theme="dark"] .sec{color:#7a6452 !important;}
+[data-theme="dark"] .svc-name{color:#ffedd7 !important;}
+[data-theme="dark"] .svc-price{color:#ffedd7 !important;}
+[data-theme="dark"] .svc-meta{color:#7a6452 !important;}
+[data-theme="dark"] .t-n{color:#ffedd7 !important;}
+[data-theme="dark"] .slot{color:#b09a82 !important;}
+[data-theme="dark"] .slot.sel{color:#100904 !important;}
+[data-theme="dark"] .sum-v{color:#ffedd7 !important;}
+[data-theme="dark"] .sum-l{color:#7a6452 !important;}
+[data-theme="dark"] .bf-val{color:#ffedd7 !important;}
+[data-theme="dark"] .bf-label{color:#7a6452 !important;}
+[data-theme="dark"] .bf-meta{color:#7a6452 !important;}
+[data-theme="dark"] .incl-hd{color:#ffedd7 !important;}
+[data-theme="dark"] .incl-row span{color:#ffedd7 !important;}
+[data-theme="dark"] .t-price{color:#ffedd7 !important;}
+[data-theme="dark"] .t-tier-lbl{color:#7a6452 !important;}
+[data-theme="dark"] .t-per{color:#7a6452 !important;}
+[data-theme="dark"] .t-desc{color:#b09a82 !important;opacity:1 !important;}
+[data-theme="dark"] .kpi-n{color:#dc5000 !important;}
+[data-theme="dark"] .kpi-l{color:#7a6452 !important;}
+[data-theme="dark"] .kpi-s{color:#b09a82 !important;opacity:1 !important;}
+[data-theme="dark"] .ms-lbl{color:#7a6452 !important;}
+[data-theme="dark"] .mt td{color:#b09a82 !important;}
+[data-theme="dark"] .mt td:first-child{color:#ffedd7 !important;}
+[data-theme="dark"] .mt th{color:#7a6452 !important;}
+[data-theme="dark"] .mt tr.hl td{color:#dc5000 !important;}
+[data-theme="dark"] .mt tr.tot td{color:#ffedd7 !important;}
+[data-theme="dark"] .lph-v{color:#ffedd7 !important;}
+[data-theme="dark"] .lph-l{color:#b09a82 !important;}
+[data-theme="dark"] .m-note{color:#b09a82 !important;opacity:1 !important;}
+[data-theme="dark"] .sc-sub{color:#b09a82 !important;opacity:1 !important;}
+[data-theme="dark"] .tl-title{color:#ffedd7 !important;}
+[data-theme="dark"] .tl-txt{color:#b09a82 !important;opacity:1 !important;}
+[data-theme="dark"] .tl-day{color:#7a6452 !important;}
+[data-theme="dark"] .wa-nm{color:#ffedd7 !important;}
+[data-theme="dark"] .wm.in{color:#ffedd7 !important;}
+[data-theme="dark"] .cj-stage-title{color:#ffedd7 !important;}
+[data-theme="dark"] .cj-stage-sub{color:#7a6452 !important;}
+[data-theme="dark"] .cj-card-title{color:#ffedd7 !important;}
+[data-theme="dark"] .cj-card-txt{color:#b09a82 !important;opacity:1 !important;}
+[data-theme="dark"] .cj-intro-title{color:#ffedd7 !important;}
+[data-theme="dark"] .cj-intro-sub{color:#b09a82 !important;}
+[data-theme="dark"] .plan-price{color:#ffedd7 !important;}
+[data-theme="dark"] .plan-row.sel .plan-price{color:#dc5000 !important;}
+[data-theme="dark"] .ac-title{color:#ffedd7 !important;}
+[data-theme="dark"] .ac-body{color:#b09a82 !important;}
+[data-theme="dark"] .bp-n{color:#dc5000 !important;}
+[data-theme="dark"] .prof-name{color:#ffedd7 !important;}
+[data-theme="dark"] .prof-stat-n{color:#dc5000 !important;}
+[data-theme="dark"] .pn-title{color:#ffedd7 !important;}
+[data-theme="dark"] #tourH{color:#ffedd7 !important;}
+[data-theme="dark"] #tourB{color:#b09a82 !important;}
+[data-theme="dark"] #tourLbl{color:#7a6452 !important;}
+</style>
 </body>
 </html>
