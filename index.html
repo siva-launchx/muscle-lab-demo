@@ -8,1387 +8,949 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>The Muscle Lab</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  [data-theme="dark"] {
-    --bg:         #080810;
-    --bg2:        #10101C;
-    --bg3:        #18182A;
-    --bg4:        #1E1E30;
-    --surface:    rgba(255,255,255,0.05);
-    --border:     rgba(255,255,255,0.07);
-    --border-hi:  #FF6B1A;
-    --text:       #F2F0FF;
-    --text2:      #8A88AA;
-    --text3:      #50506A;
-    --accent:     #FF6B1A;
-    --accent2:    #FF9B5C;
-    --accent-bg:  rgba(255,107,26,0.12);
-    --accent-bg2: rgba(255,107,26,0.06);
-    --green:      #3EFFA0;
-    --green-bg:   rgba(62,255,160,0.1);
-    --red:        #FF5A6E;
-    --red-bg:     rgba(255,90,110,0.1);
-    --nav-bg:     rgba(8,8,16,0.88);
-    --tab-active: #FF6B1A;
-    --card-bg:    rgba(255,255,255,0.04);
-    --input-bg:   rgba(255,255,255,0.06);
-    --wa-bg:      #0C0C18;
-    --wa-in:      #1A1A2E;
-    --wa-out:     #0E2A1A;
-    --wa-out-t:   #A8E6C0;
-    --pill:       rgba(255,255,255,0.08);
-  }
-
-  [data-theme="light"] {
-    --bg:         #F7F5F0;
-    --bg2:        #EEEAE3;
-    --bg3:        #E4DFD6;
-    --bg4:        #DAD4C9;
-    --surface:    rgba(0,0,0,0.03);
-    --border:     rgba(0,0,0,0.08);
-    --border-hi:  #C84400;
-    --text:       #18140E;
-    --text2:      #6A6258;
-    --text3:      #A09880;
-    --accent:     #C84400;
-    --accent2:    #E86020;
-    --accent-bg:  rgba(200,68,0,0.1);
-    --accent-bg2: rgba(200,68,0,0.05);
-    --green:      #007A42;
-    --green-bg:   rgba(0,122,66,0.09);
-    --red:        #B8002A;
-    --red-bg:     rgba(184,0,42,0.08);
-    --nav-bg:     rgba(247,245,240,0.9);
-    --tab-active: #C84400;
-    --card-bg:    rgba(255,255,255,0.7);
-    --input-bg:   rgba(255,255,255,0.8);
-    --wa-bg:      #EBE7E0;
-    --wa-in:      #DDD9D0;
-    --wa-out:     #D4EDD9;
-    --wa-out-t:   #18401E;
-    --pill:       rgba(0,0,0,0.06);
-  }
-
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    height: 100dvh;
-    transition: background 0.25s, color 0.25s;
-    overscroll-behavior: none;
-  }
-
-  /* ── STATUS BAR SAFE AREA ── */
-  .safe-top {
-    height: env(safe-area-inset-top, 0px);
-    background: var(--nav-bg);
-    flex-shrink: 0;
-  }
-
-  /* ── TOP NAV ── */
-  .top-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--text);
-    line-height: 1;
-  }
-
-  .logo em { font-style: italic; color: var(--accent); }
-
-  .nav-actions { display: flex; align-items: center; gap: 8px; }
-
-  .icon-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    transition: transform 0.15s;
-    touch-action: manipulation;
-    color: var(--text2);
-  }
-
-  .icon-btn:active { transform: scale(0.88); }
-
-  [data-theme="dark"] .icon-sun { display: none; }
-  [data-theme="light"] .icon-moon { display: none; }
-
-  /* ── SCROLL AREA ── */
-  .scroll-area {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: none;
-    scroll-behavior: smooth;
-  }
-
-  /* ── SCREENS ── */
-  .screen { display: none; min-height: 100%; }
-  .screen.active { display: block; }
-
-  /* slide animation */
-  .screen.slide-in {
-    animation: slideIn 0.28s cubic-bezier(0.32,0.72,0,1) forwards;
-  }
-
-  @keyframes slideIn {
-    from { transform: translateX(32px); opacity: 0; }
-    to   { transform: translateX(0);    opacity: 1; }
-  }
-
-  /* ── BOTTOM NAV ── */
-  .bottom-nav {
-    display: flex;
-    background: var(--nav-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
-    padding: 8px 0;
-    padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
-    flex-shrink: 0;
-    z-index: 100;
-  }
-
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    cursor: pointer;
-    padding: 4px 0;
-    border: none;
-    background: none;
-    touch-action: manipulation;
-    transition: opacity 0.15s;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .nav-item:active { opacity: 0.6; }
-
-  .nav-icon {
-    font-size: 20px;
-    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
-    line-height: 1;
-  }
-
-  .nav-item.active .nav-icon { transform: scale(1.15); }
-
-  .nav-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--text3);
-    text-transform: uppercase;
-    transition: color 0.15s;
-  }
-
-  .nav-item.active .nav-label { color: var(--accent); }
-
-  .nav-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.2s;
-    margin-top: -2px;
-  }
-
-  .nav-item.active .nav-dot { opacity: 1; }
-
-  /* ── HERO ── */
-  .hero {
-    padding: 36px 22px 40px;
-    position: relative;
-    overflow: hidden;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .glow-orb {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .glow-1 {
-    width: 280px; height: 280px;
-    top: -80px; right: -80px;
-    background: radial-gradient(circle, rgba(255,107,26,0.18) 0%, transparent 70%);
-  }
-
-  .glow-2 {
-    width: 220px; height: 220px;
-    bottom: 40px; left: -60px;
-    background: radial-gradient(circle, rgba(120,80,255,0.09) 0%, transparent 70%);
-  }
-
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--accent-bg);
-    border: 1px solid rgba(255,107,26,0.2);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px;
-    width: fit-content;
-  }
-
-  .hero-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.5; transform: scale(0.8); }
-  }
-
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(54px, 14vw, 90px);
-    line-height: 0.92;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 20px;
-    position: relative;
-  }
-
-  .hero h1 span { display: block; }
-  .hero h1 .accent { color: var(--accent); font-style: italic; }
-
-  .hero-sub {
-    font-size: 14px;
-    color: var(--text2);
-    line-height: 1.75;
-    margin-bottom: 32px;
-    font-weight: 400;
-    max-width: 320px;
-    position: relative;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    position: relative;
-  }
-
-  /* ── BUTTONS ── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    touch-action: manipulation;
-    transition: transform 0.15s, box-shadow 0.15s;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .btn:active { transform: scale(0.95); }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    padding: 14px 24px;
-    box-shadow: 0 4px 20px rgba(255,107,26,0.35);
-  }
-
-  .btn-primary:active { box-shadow: 0 2px 8px rgba(255,107,26,0.2); }
-
-  .btn-ghost {
-    background: var(--surface);
-    color: var(--text2);
-    border: 1px solid var(--border);
-    padding: 14px 20px;
-  }
-
-  .btn-block { width: 100%; padding: 16px; font-size: 14px; }
-
-  /* hero stats */
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 36px;
-    position: relative;
-  }
-
-  .stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px;
-    backdrop-filter: blur(8px);
-  }
-
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--text);
-  }
-
-  .stat-label {
-    font-size: 10px;
-    color: var(--text3);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-top: 3px;
-  }
-
-  /* ── SHARED SCREEN ── */
-  .screen-content {
-    padding: 24px 18px 32px;
-  }
-
-  .screen-header { margin-bottom: 24px; }
-
-  .eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .eyebrow::before {
-    content: '';
-    width: 14px; height: 1.5px;
-    background: var(--accent);
-    border-radius: 2px;
-  }
-
-  .screen-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    margin-bottom: 6px;
-  }
-
-  .screen-sub {
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.7;
-  }
-
-  /* section headers */
-  .sec-head {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin: 20px 0 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* ── BOOKING CARDS ── */
-  .option-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .option-card {
-    background: var(--card-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    touch-action: manipulation;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .option-card.selected {
-    border-color: var(--accent);
-    background: var(--accent-bg2);
-  }
-
-  .option-card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--accent-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-
-  .option-card.selected .option-card-icon { background: var(--accent); }
-
-  .option-card-body { flex: 1; min-width: 0; }
-  .option-card-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-  .option-card-sub { font-size: 11px; color: var(--text3); }
-
-  .option-card-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .selected-check {
-    position: absolute;
-    top: 10px; right: 10px;
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .option-card.selected .selected-check { opacity: 1; }
-
-  /* therapists */
-  .therapist-scroll {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .therapist-scroll::-webkit-scrollbar { display: none; }
-
-  .therapist-pill {
-    flex-shrink: 0;
-    border: 1.5px solid var(--border);
-    border-radius: 50px;
-    padding: 8px 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--card-bg);
-    transition: all 0.2s;
-    touch-action: manipulation;
-    white-space: nowrap;
-  }
-
-  .therapist-pill.selected {
-    border-color: var(--accent);
-    background: var(--accent-bg);
-  }
-
-  .t-avatar {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #FF4000);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: white;
-    font-family: 'Cormorant Garamond', serif;
-  }
-
-  .t-info {}
-  .t-name { font-size: 12px; font-weight: 600; color: var(--text); }
-  .t-spec { font-size: 10px; color: var(--text3); }
-
-  /* time slots */
-  .slots-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-
-  .slot {
-    background: var(--card-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 6px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: var(--text);
-    touch-action: manipulation;
-  }
-
-  .slot.selected { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); }
-  .slot.unavailable { opacity: 0.2; pointer-events: none; }
-
-  /* summary card */
-  .summary-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-top: 20px;
-  }
-
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-    font-size: 13px;
-  }
-
-  .summary-row:last-child { border-bottom: none; }
-  .summary-row .lbl { color: var(--text3); font-size: 12px; font-weight: 500; }
-  .summary-row .val { font-weight: 600; color: var(--text); text-align: right; }
-  .summary-row.total .val { color: var(--accent); font-size: 20px; font-family: 'Cormorant Garamond', serif; }
-
-  /* nudge */
-  .nudge {
-    background: var(--accent-bg);
-    border: 1px solid rgba(255,107,26,0.18);
-    border-radius: 12px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-top: 12px;
-  }
-
-  .nudge-icon { font-size: 16px; flex-shrink: 0; }
-  .nudge-body { flex: 1; font-size: 12px; color: var(--text2); line-height: 1.5; }
-  .nudge-body strong { color: var(--text); font-weight: 600; }
-  .nudge-action { font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; cursor: pointer; align-self: center; }
-
-  /* forms */
-  .form-group { margin-bottom: 14px; }
-
-  .form-label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 6px;
-  }
-
-  .form-input, .form-select {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 13px 14px;
-    font-size: 16px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  .form-input:focus, .form-select:focus { border-color: var(--accent); }
-  .form-select option { background: var(--bg2); }
-
-  /* ── WHATSAPP ── */
-  .wa-wrapper {
-    background: var(--wa-bg);
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
-  .wa-bar {
-    background: var(--bg3);
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .wa-av {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #FF4000);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .wa-nm { font-size: 13px; font-weight: 600; color: var(--text); }
-  .wa-st { font-size: 10px; color: var(--text3); }
-
-  .wa-msgs {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: var(--wa-bg);
-  }
-
-  .wa-msg {
-    max-width: 82%;
-    padding: 10px 12px;
-    border-radius: 16px;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  .wa-msg.in {
-    background: var(--wa-in);
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-    color: var(--text);
-  }
-
-  .wa-msg.out {
-    background: var(--wa-out);
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-    color: var(--wa-out-t);
-  }
-
-  .wa-msg .t { font-size: 10px; color: var(--text3); margin-top: 5px; text-align: right; }
-
-  /* timeline */
-  .timeline { display: flex; flex-direction: column; margin-top: 4px; }
-
-  .tl-item { display: flex; gap: 14px; position: relative; }
-
-  .tl-item::before {
-    content: '';
-    position: absolute;
-    left: 17px; top: 36px;
-    width: 1px;
-    height: calc(100% - 10px);
-    background: linear-gradient(to bottom, var(--accent), transparent);
-    opacity: 0.25;
-  }
-
-  .tl-item:last-child::before { display: none; }
-
-  .tl-dot {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--accent-bg);
-    border: 1.5px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 9px;
-    color: var(--accent);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-
-  .tl-body { padding-bottom: 24px; flex: 1; }
-  .tl-day { font-size: 9px; color: var(--accent); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; }
-  .tl-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
-  .tl-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
-
-  /* ── PRICING ── */
-  .pricing-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-
-  .pricing-card {
-    background: var(--card-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    padding: 20px;
-    position: relative;
-    transition: border-color 0.2s;
-  }
-
-  .pricing-card.featured {
-    border-color: var(--accent);
-    background: var(--accent-bg2);
-  }
-
-  .pricing-badge {
-    position: absolute;
-    top: -10px; left: 20px;
-    background: var(--accent);
-    color: white;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(255,107,26,0.4);
-  }
-
-  .pc-tier { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
-
-  .pc-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
-  .pc-price { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 700; color: var(--text); line-height: 1; }
-  .pricing-card.featured .pc-price { color: var(--accent); }
-  .pc-period { font-size: 12px; color: var(--text3); }
-
-  .pc-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; margin-top: 4px; }
-
-  .pc-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    margin-bottom: 14px;
-  }
-
-  .pc-pill.up { background: var(--green-bg); color: var(--green); }
-  .pc-pill.base { background: var(--pill); color: var(--text3); }
-
-  .pc-features { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
-
-  .pc-features li {
-    font-size: 12px;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    color: var(--text2);
-  }
-
-  .pc-features li::before {
-    content: '✓';
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 11px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  /* stat pills */
-  .stat-pills { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-
-  .stat-pill {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px 10px;
-    text-align: center;
-  }
-
-  .sp-num { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .sp-label { font-size: 9px; color: var(--text3); margin-top: 4px; line-height: 1.4; font-weight: 500; }
-
-  /* ── ANNUAL ── */
-  .personal-card {
-    background: var(--accent-bg2);
-    border: 1.5px solid rgba(255,107,26,0.2);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .personal-card::after {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(255,107,26,0.14), transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .pc-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-  .pc-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--text); position: relative; line-height: 1.2; }
-  .pc-body { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
-
-  .mini-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-
-  .mini-stat {
-    background: rgba(0,0,0,0.2);
-    border-radius: 10px;
-    padding: 10px 6px;
-    text-align: center;
-  }
-
-  [data-theme="light"] .mini-stat { background: rgba(255,255,255,0.5); }
-
-  .ms-num { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--accent); }
-  .ms-label { font-size: 9px; color: var(--text3); margin-top: 2px; font-weight: 500; line-height: 1.3; }
-
-  .annual-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-
-  .annual-card {
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 18px;
-    cursor: pointer;
-    background: var(--card-bg);
-    transition: all 0.2s;
-    touch-action: manipulation;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .annual-card.selected { border-color: var(--accent); background: var(--accent-bg2); }
-
-  .annual-card-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    background: var(--accent-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-
-  .annual-card.selected .annual-card-icon { background: var(--accent); }
-
-  .annual-card-body { flex: 1; }
-  .ac-tier { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); font-weight: 700; margin-bottom: 4px; }
-  .ac-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 2px; }
-  .ac-save { font-size: 11px; color: var(--green); font-weight: 600; }
-
-  .annual-check {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: white;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .annual-card.selected .annual-check {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .order-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-
-  .order-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    gap: 12px;
-  }
-
-  .order-row:last-child { border-bottom: none; }
-  .order-row .lbl { color: var(--text3); font-size: 12px; }
-  .order-row .val { font-weight: 600; color: var(--text); }
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+/* ══════════════════════════════════════════════════════
+   DARK = DROPSET
+   Pure black. Pure white. Elevated dark-grey cards.
+   Zero colour. SF Pro weight discipline replicated with Inter.
+   Circular icon buttons. Bold 900-weight headlines.
+══════════════════════════════════════════════════════ */
+[data-theme="dark"]{
+  --bg:#000000;
+  --bg2:#111114;
+  --bg3:#1C1C24;
+  --bg4:#2C2C34;
+  --card:#1C1C24;
+  --card2:#2C2C34;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --text:#FFFFFF;
+  --text2:#8E8E93;
+  --text3:#48484A;
+  --accent:#FFFFFF;
+  --accent-inv:#000000;
+  --green:#32D74B;
+  --red:#FF453A;
+  --amber:#FFD60A;
+  --tint:rgba(255,255,255,0.08);
+  --tint2:rgba(255,255,255,0.04);
+  --nav:rgba(0,0,0,0.94);
+  --input:rgba(255,255,255,0.06);
+  --pill-bg:rgba(255,255,255,0.1);
+  --wa:#0A0A0A;--wa-in:#1C1C1C;--wa-out:#1A3A1A;--wa-t:#32D74B;
+  --fh:'Inter',sans-serif;--fb:'Inter',sans-serif;
+  --fw-hero:900;--fw-title:700;--fw-label:600;
+  --r:10px;--rl:12px;--rxl:16px;--rpill:100px;
+  --btn-r:10px;
+}
+
+/* ══════════════════════════════════════════════════════
+   LIGHT = GENTLER STREAK
+   Warm off-white #F2F0EE. Orange #FB853E accent.
+   Rounded Nunito. Pill-shaped rows. Soft and tactile.
+   Zero sharp edges. Large rounded buttons.
+══════════════════════════════════════════════════════ */
+[data-theme="light"]{
+  --bg:#F2F0EE;
+  --bg2:#FFFFFF;
+  --bg3:#F7F5F3;
+  --bg4:#EDEAE6;
+  --card:#FFFFFF;
+  --card2:#F7F5F3;
+  --border:rgba(0,0,0,0.06);
+  --border2:rgba(251,133,62,0.3);
+  --text:#000000;
+  --text2:#6C6C70;
+  --text3:#AEAEB2;
+  --accent:#FB853E;
+  --accent-inv:#FFFFFF;
+  --green:#34C759;
+  --red:#FF3B30;
+  --amber:#FF9500;
+  --tint:rgba(251,133,62,0.1);
+  --tint2:rgba(251,133,62,0.05);
+  --nav:rgba(242,240,238,0.94);
+  --input:rgba(0,0,0,0.04);
+  --pill-bg:rgba(251,133,62,0.1);
+  --wa:#F7F5F3;--wa-in:#EDEAE6;--wa-out:#D4EDD9;--wa-t:#1A4020;
+  --fh:'Nunito',sans-serif;--fb:'Nunito',sans-serif;
+  --fw-hero:900;--fw-title:800;--fw-label:700;
+  --r:14px;--rl:16px;--rxl:20px;--rpill:100px;
+  --btn-r:100px;
+}
+
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100dvh;transition:background .2s,color .2s;overscroll-behavior:none;}
+
+.safe-top{height:env(safe-area-inset-top,0);background:var(--nav);flex-shrink:0;z-index:200;position:relative;}
+
+/* ── TOP NAV ── */
+.top-nav{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;z-index:200;position:relative;}
+
+/* DROPSET: bold large left-aligned title, no logo styling */
+[data-theme="dark"] .logo{font-family:var(--fh);font-size:22px;font-weight:900;letter-spacing:-.5px;color:var(--text);line-height:1;}
+/* GENTLER: smaller centred-ish rounded title */
+[data-theme="light"] .logo{font-family:var(--fh);font-size:17px;font-weight:800;letter-spacing:-.2px;color:var(--text);line-height:1;}
+
+.logo em{font-style:normal;color:var(--accent);}
+[data-theme="light"] .logo em{color:var(--accent);}
+
+.nav-r{display:flex;align-items:center;gap:8px;}
+
+/* DROPSET: circular grey icon buttons, like the filter/+ buttons */
+[data-theme="dark"] .nav-btn{width:32px;height:32px;border-radius:50%;background:var(--card);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
+/* GENTLER: softer rounded square */
+[data-theme="light"] .nav-btn{width:32px;height:32px;border-radius:10px;background:var(--card);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
+
+.nav-btn:active{transform:scale(.88);}
+.nav-btn svg{width:14px;height:14px;stroke:var(--text2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="dark"] .sun-ico{display:none;}
+[data-theme="light"] .moon-ico{display:none;}
+
+/* ── SCROLL ── */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:none;position:relative;z-index:1;}
+.screen{display:none;min-height:100%;}
+.screen.active{display:block;}
+.screen.in{animation:sIn .22s ease-out forwards;}
+@keyframes sIn{from{transform:translateX(20px);opacity:0;}to{transform:none;opacity:1;}}
+
+/* ── BOTTOM NAV ── */
+.bnav{display:flex;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom,6px));flex-shrink:0;z-index:200;}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;border:none;background:none;touch-action:manipulation;}
+
+/* DROPSET nav: monochrome, active = white */
+[data-theme="dark"] .ni svg{width:22px;height:22px;stroke:#48484A;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s,transform .2s cubic-bezier(.34,1.56,.64,1);}
+[data-theme="dark"] .ni.active svg{stroke:#FFFFFF;transform:scale(1.12);}
+[data-theme="dark"] .nl{font-size:9px;font-weight:600;color:#48484A;text-transform:none;letter-spacing:0;transition:color .15s;}
+[data-theme="dark"] .ni.active .nl{color:#FFFFFF;}
+
+/* GENTLER nav: orange active */
+[data-theme="light"] .ni svg{width:22px;height:22px;stroke:#AEAEB2;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:all .2s;}
+[data-theme="light"] .ni.active svg{stroke:var(--accent);transform:scale(1.12);}
+[data-theme="light"] .nl{font-size:9px;font-weight:700;color:#AEAEB2;letter-spacing:0;transition:color .15s;}
+[data-theme="light"] .ni.active .nl{color:var(--accent);}
+
+.nd{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s;margin-top:-1px;}
+.ni.active .nd{opacity:1;}
+
+/* ════════════════════════════
+   HERO
+════════════════════════════ */
+.hero{padding:24px 16px 36px;position:relative;overflow:hidden;min-height:100%;display:flex;flex-direction:column;justify-content:center;}
+
+/* DROPSET hero: pure black, no glows, bold headline left-aligned */
+[data-theme="dark"] .hero-tag{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.02em;margin-bottom:16px;display:block;}
+/* GENTLER hero: orange pill tag */
+[data-theme="light"] .hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--tint);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:700;color:var(--accent);margin-bottom:16px;}
+[data-theme="light"] .hero-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);}
+
+/* DROPSET: massive 900-weight white headline */
+[data-theme="dark"] .hero h1{font-size:clamp(44px,11vw,78px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:16px;color:var(--text);}
+/* GENTLER: large rounded 900-weight, slightly smaller */
+[data-theme="light"] .hero h1{font-size:clamp(40px,10vw,68px);font-weight:900;line-height:.95;letter-spacing:-.02em;margin-bottom:16px;color:var(--text);}
+
+.hero h1 span{display:block;}
+/* DROPSET: accent line uses a dimmer grey, not colour */
+[data-theme="dark"] .hero h1 .ac{color:var(--text2);}
+/* GENTLER: orange accent */
+[data-theme="light"] .hero h1 .ac{color:var(--accent);}
+
+.hero-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:28px;font-weight:400;max-width:320px;}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:none;font-family:var(--fb);cursor:pointer;touch-action:manipulation;transition:all .15s;}
+.btn:active{transform:scale(.95);}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+/* DROPSET: rounded rect, white fill, heavy weight, square-ish */
+[data-theme="dark"] .btn-p{background:#FFFFFF;color:#000000;padding:13px 22px;font-size:14px;font-weight:700;border-radius:var(--btn-r);}
+/* GENTLER: large pill, orange fill */
+[data-theme="light"] .btn-p{background:var(--accent);color:#FFFFFF;padding:13px 22px;font-size:14px;font-weight:800;border-radius:var(--btn-r);}
+
+/* DROPSET: ghost = dark grey card */
+[data-theme="dark"] .btn-g{background:var(--card);color:var(--text);border:none;padding:13px 18px;font-size:14px;font-weight:600;border-radius:var(--btn-r);}
+/* GENTLER: ghost = white pill */
+[data-theme="light"] .btn-g{background:var(--card);color:var(--text2);border:1px solid var(--border);padding:13px 18px;font-size:14px;font-weight:700;border-radius:var(--btn-r);}
+
+.btn-b{width:100%;padding:15px;font-size:15px;}
+
+/* DROPSET: 2×2 dark card stats */
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px;}
+[data-theme="dark"] .sc{background:var(--card);border-radius:var(--rl);padding:16px;}
+[data-theme="light"] .sc{background:var(--card);border-radius:var(--rl);padding:16px;box-shadow:0 1px 8px rgba(0,0,0,.06);}
+[data-theme="dark"] .sc-n{font-size:26px;font-weight:900;letter-spacing:-.02em;color:var(--text);}
+[data-theme="light"] .sc-n{font-size:26px;font-weight:900;letter-spacing:-.02em;color:var(--accent);}
+.sc-l{font-size:11px;font-weight:var(--fw-label);color:var(--text2);margin-top:2px;}
+
+/* ════════════════════════════
+   SHARED CONTENT
+════════════════════════════ */
+.sc-wrap{padding:20px 16px 32px;}
+.sc-hd{margin-bottom:20px;}
+
+/* DROPSET: large bold left-aligned title */
+[data-theme="dark"] .sc-title{font-size:22px;font-weight:900;letter-spacing:-.03em;margin-bottom:5px;line-height:1.1;}
+/* GENTLER: large rounded title */
+[data-theme="light"] .sc-title{font-size:22px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;line-height:1.1;}
+
+.eyebrow{font-size:11px;font-weight:var(--fw-label);color:var(--text2);margin-bottom:6px;display:block;letter-spacing:.02em;}
+.sc-sub{font-size:13px;color:var(--text2);line-height:1.65;font-weight:400;}
+
+/* DROPSET: minimal divider label */
+[data-theme="dark"] .sec{font-size:13px;font-weight:600;color:var(--text2);margin:18px 0 10px;letter-spacing:.01em;}
+/* GENTLER: slightly bolder */
+[data-theme="light"] .sec{font-size:13px;font-weight:700;color:var(--text2);margin:18px 0 10px;}
+
+/* ════════════════════════════
+   BOOKING
+════════════════════════════ */
+/* Category tabs */
+.cat-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.cat-tabs::-webkit-scrollbar{display:none;}
+/* DROPSET: dark pill tabs */
+[data-theme="dark"] .cat-tab{flex-shrink:0;font-size:13px;font-weight:600;padding:7px 14px;border-radius:100px;background:var(--card);color:var(--text2);border:none;cursor:pointer;white-space:nowrap;touch-action:manipulation;}
+[data-theme="dark"] .cat-tab.active{background:#FFFFFF;color:#000000;}
+/* GENTLER: orange tint active */
+[data-theme="light"] .cat-tab{flex-shrink:0;font-size:13px;font-weight:700;padding:7px 14px;border-radius:100px;background:var(--card);color:var(--text2);border:none;cursor:pointer;white-space:nowrap;touch-action:manipulation;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+[data-theme="light"] .cat-tab.active{background:var(--accent);color:#FFFFFF;}
+
+/* Service rows */
+.svc-list{display:flex;flex-direction:column;gap:1px;border-radius:var(--rl);overflow:hidden;background:var(--border);}
+/* DROPSET: dark card rows */
+[data-theme="dark"] .svc-row{display:flex;align-items:center;padding:14px;gap:12px;cursor:pointer;background:var(--card);touch-action:manipulation;transition:background .12s;}
+[data-theme="dark"] .svc-row.selected{background:var(--card2);}
+[data-theme="dark"] .svc-row:active{background:var(--card2);}
+/* GENTLER: white rows with left orange bar on selected */
+[data-theme="light"] .svc-row{display:flex;align-items:center;padding:14px;gap:12px;cursor:pointer;background:var(--card);touch-action:manipulation;transition:all .12s;border-left:3px solid transparent;}
+[data-theme="light"] .svc-row.selected{border-left-color:var(--accent);background:#FFF8F5;}
+
+.svc-ico{width:38px;height:38px;border-radius:var(--r);background:var(--tint);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .12s;}
+.svc-ico svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="dark"] .svc-ico svg{stroke:var(--text2);}
+[data-theme="dark"] .svc-row.selected .svc-ico svg{stroke:#FFFFFF;}
+[data-theme="dark"] .svc-row.selected .svc-ico{background:var(--text);}
+.svc-body{flex:1;min-width:0;}
+.svc-name{font-size:14px;font-weight:var(--fw-label);color:var(--text);margin-bottom:1px;}
+.svc-meta{font-size:11px;color:var(--text2);}
+.svc-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.svc-price{font-size:16px;font-weight:700;color:var(--text);}
+[data-theme="light"] .svc-row.selected .svc-price{color:var(--accent);}
+.svc-add{width:22px;height:22px;border-radius:50%;background:var(--tint);border:none;display:flex;align-items:center;justify-content:center;}
+.svc-add svg{width:10px;height:10px;stroke:var(--text2);fill:none;stroke-width:2.5;}
+[data-theme="dark"] .svc-row.selected .svc-add{background:var(--text);}
+[data-theme="dark"] .svc-row.selected .svc-add svg{stroke:#000000;}
+[data-theme="light"] .svc-row.selected .svc-add{background:var(--accent);}
+[data-theme="light"] .svc-row.selected .svc-add svg{stroke:#FFFFFF;}
+
+/* Therapist pills */
+.t-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.t-scroll::-webkit-scrollbar{display:none;}
+[data-theme="dark"] .t-pill{flex-shrink:0;border:none;border-radius:100px;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:7px;background:var(--card);touch-action:manipulation;transition:all .15s;}
+[data-theme="dark"] .t-pill.selected{background:var(--text);color:var(--accent-inv);}
+[data-theme="light"] .t-pill{flex-shrink:0;border:none;border-radius:100px;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:7px;background:var(--card);touch-action:manipulation;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+[data-theme="light"] .t-pill.selected{background:var(--accent);}
+.t-av{width:26px;height:26px;border-radius:50%;background:var(--tint2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text2);flex-shrink:0;}
+[data-theme="dark"] .t-pill.selected .t-av{background:rgba(0,0,0,.2);color:var(--accent-inv);}
+[data-theme="light"] .t-pill.selected .t-av{background:rgba(255,255,255,.3);color:#FFFFFF;}
+.t-n{font-size:12px;font-weight:var(--fw-label);color:var(--text);}
+[data-theme="dark"] .t-pill.selected .t-n{color:#000000;}
+[data-theme="light"] .t-pill.selected .t-n{color:#FFFFFF;}
+.t-s{font-size:9px;color:var(--text3);}
+
+/* Time slots */
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+[data-theme="dark"] .slot{background:var(--card);border:none;border-radius:var(--r);padding:10px 4px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;touch-action:manipulation;color:var(--text2);transition:all .12s;}
+[data-theme="dark"] .slot.sel{background:#FFFFFF;color:#000000;}
+[data-theme="light"] .slot{background:var(--card);border:none;border-radius:var(--r);padding:10px 4px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;color:var(--text2);transition:all .12s;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+[data-theme="light"] .slot.sel{background:var(--accent);color:#FFFFFF;}
+.slot.off{opacity:.2;pointer-events:none;}
+
+/* Summary */
+.sum-card{background:var(--card);border-radius:var(--rl);overflow:hidden;margin-top:16px;}
+[data-theme="light"] .sum-card{box-shadow:0 1px 8px rgba(0,0,0,.06);}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);gap:12px;}
+.sum-row:last-child{border-bottom:none;}
+.sum-l{font-size:11px;font-weight:var(--fw-label);color:var(--text2);}
+.sum-v{font-size:13px;font-weight:var(--fw-label);color:var(--text);text-align:right;}
+.sum-row.total .sum-v{font-size:20px;font-weight:900;color:var(--text);}
+[data-theme="light"] .sum-row.total .sum-v{color:var(--accent);}
+
+/* Bundle nudge */
+.nudge{background:var(--tint);border-radius:var(--rl);padding:12px 13px;display:flex;align-items:center;gap:9px;margin-top:10px;}
+[data-theme="dark"] .nudge{background:var(--card);}
+.nudge-ico svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.5;flex-shrink:0;}
+[data-theme="dark"] .nudge-ico svg{stroke:var(--text2);}
+.nudge-body{flex:1;font-size:12px;color:var(--text2);line-height:1.45;}
+.nudge-body strong{color:var(--text);font-weight:700;}
+.nudge-cta{font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;}
+[data-theme="dark"] .nudge-cta{color:var(--text2);}
+
+/* Sticky book footer */
+.book-foot{position:sticky;bottom:0;background:var(--nav);border-top:1px solid var(--border);padding:12px 16px max(12px,env(safe-area-inset-bottom,12px));display:flex;align-items:center;justify-content:space-between;gap:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+.bf-label{font-size:10px;font-weight:var(--fw-label);color:var(--text2);text-transform:uppercase;letter-spacing:.04em;}
+.bf-val{font-size:22px;font-weight:900;color:var(--text);letter-spacing:-.02em;}
+[data-theme="light"] .bf-val{color:var(--accent);}
+.bf-meta{font-size:11px;color:var(--text3);}
+
+/* Forms */
+.fg{margin-bottom:11px;}
+.fl{display:block;font-size:11px;font-weight:var(--fw-label);color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;}
+.fi,.fs{width:100%;background:var(--input);border:none;border-radius:var(--r);padding:12px 14px;font-size:16px;color:var(--text);font-family:var(--fb);outline:none;-webkit-appearance:none;appearance:none;}
+[data-theme="dark"] .fi,.fs{background:var(--card);}
+.fs option{background:var(--bg2);}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+
+/* ════════════════════════════
+   WHATSAPP
+════════════════════════════ */
+.wa{background:var(--wa);border-radius:var(--rxl);overflow:hidden;border:1px solid var(--border);margin-bottom:18px;}
+.wa-hd{background:var(--bg3);padding:12px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--border);}
+.wa-av{width:34px;height:34px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent-inv);flex-shrink:0;}
+[data-theme="dark"] .wa-av{background:var(--card2);}
+.wa-nm{font-size:13px;font-weight:700;color:var(--text);}
+.wa-st{font-size:10px;color:var(--text3);}
+.wa-msgs{padding:14px;display:flex;flex-direction:column;gap:8px;}
+.wm{max-width:84%;padding:9px 12px;font-size:13px;line-height:1.5;border-radius:var(--rxl);}
+.wm.in{background:var(--wa-in);align-self:flex-start;border-bottom-left-radius:4px;color:var(--text);}
+.wm.out{background:var(--wa-out);align-self:flex-end;border-bottom-right-radius:4px;color:var(--wa-t);}
+.wm .t{font-size:10px;color:var(--text3);margin-top:4px;text-align:right;}
+
+/* Timeline */
+.tl{display:flex;flex-direction:column;}
+.tli{display:flex;gap:12px;position:relative;}
+.tli::before{content:'';position:absolute;left:15px;top:32px;width:1px;height:calc(100% - 4px);background:var(--border);}
+.tli:last-child::before{display:none;}
+[data-theme="dark"] .tl-dot{width:30px;height:30px;border-radius:50%;background:var(--card2);border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px;color:var(--text2);font-weight:700;}
+[data-theme="light"] .tl-dot{width:30px;height:30px;border-radius:50%;background:var(--tint);border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px;color:var(--accent);font-weight:800;}
+.tl-b{padding-bottom:20px;flex:1;}
+.tl-day{font-size:10px;color:var(--accent);font-weight:var(--fw-label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;}
+[data-theme="dark"] .tl-day{color:var(--text2);}
+.tl-title{font-size:14px;font-weight:var(--fw-title);color:var(--text);margin-bottom:3px;}
+.tl-txt{font-size:12px;color:var(--text2);line-height:1.6;}
+
+/* ════════════════════════════
+   MEMBERSHIP
+════════════════════════════ */
+/* MasterClass benefits list — adapted to each theme */
+.incl{background:var(--card);border-radius:var(--rl);padding:16px;margin-bottom:14px;}
+[data-theme="light"] .incl{box-shadow:0 1px 8px rgba(0,0,0,.06);}
+.incl-hd{font-size:15px;font-weight:var(--fw-title);color:var(--text);margin-bottom:11px;}
+.incl-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);}
+.incl-row:last-child{border-bottom:none;}
+.incl-row svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2.5;flex-shrink:0;}
+[data-theme="dark"] .incl-row svg{stroke:var(--text2);}
+.incl-row span{font-size:13px;color:var(--text2);font-weight:500;}
+
+/* Tier cards */
+.tiers{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.tier{background:var(--card);border-radius:var(--rl);padding:18px;position:relative;}
+[data-theme="light"] .tier{box-shadow:0 1px 8px rgba(0,0,0,.06);}
+/* DROPSET: selected = white border */
+[data-theme="dark"] .tier.featured{border:1px solid rgba(255,255,255,.2);}
+/* GENTLER: selected = orange border + tint */
+[data-theme="light"] .tier.featured{border:1.5px solid var(--accent);background:#FFF8F5;}
+.t-badge{position:absolute;top:-9px;left:14px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
+[data-theme="dark"] .t-badge{background:#FFFFFF;color:#000000;}
+[data-theme="light"] .t-badge{background:var(--accent);color:#FFFFFF;}
+.t-tier-lbl{font-size:11px;font-weight:var(--fw-label);color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;}
+.t-prow{display:flex;align-items:baseline;gap:4px;margin-bottom:2px;}
+.t-price{font-size:34px;font-weight:900;letter-spacing:-.03em;color:var(--text);}
+[data-theme="light"] .tier.featured .t-price{color:var(--accent);}
+.t-per{font-size:12px;color:var(--text2);font-weight:500;}
+.t-desc{font-size:13px;color:var(--text2);line-height:1.55;margin:5px 0 12px;}
+.t-pill-tag{display:inline-flex;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;margin-bottom:12px;}
+.t-pill-tag.up{background:rgba(50,215,75,.12);color:var(--green);}
+.t-pill-tag.base{background:var(--tint2);color:var(--text2);}
+[data-theme="dark"] .t-pill-tag.up{background:rgba(255,255,255,.08);color:var(--text2);}
+
+/* Biz pills footer */
+.biz-foot{position:sticky;bottom:0;background:var(--nav);border-top:1px solid var(--border);padding:12px 16px max(12px,env(safe-area-inset-bottom,12px));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+.biz-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.bp{text-align:center;padding:10px 6px;background:var(--card);border-radius:var(--r);}
+.bp-n{font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--text);}
+[data-theme="light"] .bp-n{color:var(--accent);}
+.bp-l{font-size:8px;font-weight:var(--fw-label);color:var(--text3);margin-top:2px;line-height:1.3;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ════════════════════════════
+   ANNUAL
+════════════════════════════ */
+.anl-card{border-radius:var(--rl);padding:18px;margin-bottom:16px;position:relative;overflow:hidden;}
+[data-theme="dark"] .anl-card{background:var(--card);}
+[data-theme="light"] .anl-card{background:var(--tint);border:1px solid var(--border2);}
+.ac-tag{font-size:10px;font-weight:var(--fw-label);color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+[data-theme="light"] .ac-tag{color:var(--accent);}
+.ac-title{font-size:19px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px;color:var(--text);line-height:1.2;}
+.ac-body{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:14px;}
+.ac-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+[data-theme="dark"] .acs{background:var(--bg3);border-radius:var(--r);padding:10px 6px;text-align:center;}
+[data-theme="light"] .acs{background:rgba(255,255,255,.6);border-radius:var(--r);padding:10px 6px;text-align:center;}
+.acs-n{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--text);}
+[data-theme="light"] .acs-n{color:var(--accent);}
+.acs-l{font-size:8px;font-weight:var(--fw-label);color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* Plan rows */
+.plan-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+[data-theme="dark"] .plan-row{display:flex;align-items:center;padding:14px;border:none;border-radius:var(--rl);background:var(--card);cursor:pointer;touch-action:manipulation;transition:all .15s;gap:12px;}
+[data-theme="dark"] .plan-row.sel{background:var(--card2);outline:1px solid rgba(255,255,255,.2);}
+[data-theme="light"] .plan-row{display:flex;align-items:center;padding:14px;border:none;border-radius:var(--rl);background:var(--card);cursor:pointer;touch-action:manipulation;transition:all .15s;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,.06);}
+[data-theme="light"] .plan-row.sel{background:#FFF8F5;outline:1.5px solid var(--accent);}
+.plan-check{width:20px;height:20px;border-radius:50%;background:var(--tint);border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.plan-check svg{width:10px;height:10px;stroke:transparent;fill:none;stroke-width:2.5;transition:stroke .15s;}
+[data-theme="dark"] .plan-row.sel .plan-check{background:#FFFFFF;}
+[data-theme="dark"] .plan-row.sel .plan-check svg{stroke:#000000;}
+[data-theme="light"] .plan-row.sel .plan-check{background:var(--accent);}
+[data-theme="light"] .plan-row.sel .plan-check svg{stroke:#FFFFFF;}
+.plan-body{flex:1;}
+.plan-tier-lbl{font-size:10px;font-weight:var(--fw-label);color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.plan-price{font-size:22px;font-weight:900;letter-spacing:-.02em;color:var(--text);}
+[data-theme="light"] .plan-row.sel .plan-price{color:var(--accent);}
+.plan-save{font-size:11px;font-weight:var(--fw-label);color:var(--green);margin-top:1px;}
+.plan-badge{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;flex-shrink:0;}
+[data-theme="dark"] .plan-badge{background:var(--amber);color:#000000;}
+[data-theme="light"] .plan-badge{background:var(--amber);color:#FFFFFF;}
+
+.order-box{background:var(--card);border-radius:var(--rl);overflow:hidden;margin-bottom:14px;}
+[data-theme="light"] .order-box{box-shadow:0 1px 8px rgba(0,0,0,.06);}
+.o-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);gap:12px;}
+.o-row:last-child{border-bottom:none;}
+.o-l{font-size:10px;font-weight:var(--fw-label);color:var(--text2);text-transform:uppercase;letter-spacing:.04em;}
+.o-v{font-size:13px;font-weight:var(--fw-label);color:var(--text);}
+
+/* ════════════════════════════
+   METRICS SHEET
+════════════════════════════ */
+.s-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;}
+.s-ov.open{opacity:1;pointer-events:all;}
+.sheet{position:fixed;bottom:0;left:0;right:0;z-index:400;background:var(--bg2);border-top:1px solid var(--border);border-radius:20px 20px 0 0;max-height:88dvh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);padding-bottom:max(0px,env(safe-area-inset-bottom,0px));}
+.sheet.open{transform:none;}
+.sheet-hd{display:flex;flex-direction:column;align-items:center;padding:10px 16px 0;flex-shrink:0;cursor:pointer;}
+.handle{width:32px;height:4px;border-radius:2px;background:var(--border);margin-bottom:11px;}
+[data-theme="dark"] .handle{background:var(--card2);}
+.sheet-tr{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:10px;}
+.sheet-title{font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--text);}
+.sheet-meta{display:flex;align-items:center;gap:7px;}
+.conf{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px;background:var(--tint);color:var(--text2);}
+.s-close{width:26px;height:26px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
+.s-close svg{width:12px;height:12px;stroke:var(--text2);fill:none;stroke-width:2;stroke-linecap:round;}
+
+.s-tabs{display:flex;gap:2px;padding:3px;border-radius:100px;margin:0 16px 12px;flex-shrink:0;}
+[data-theme="dark"] .s-tabs{background:var(--card);}
+[data-theme="light"] .s-tabs{background:var(--bg3);}
+.s-tab{flex:1;padding:7px 3px;border-radius:100px;font-size:11px;font-weight:700;color:var(--text2);border:none;background:transparent;cursor:pointer;transition:all .16s;touch-action:manipulation;}
+[data-theme="dark"] .s-tab.active{background:#FFFFFF;color:#000000;}
+[data-theme="light"] .s-tab.active{background:var(--accent);color:#FFFFFF;}
+
+.s-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 24px;}
+.mp{display:none;}
+.mp.active{display:block;}
+
+/* KPI grid */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+[data-theme="dark"] .kpi{background:var(--card);border-radius:var(--rl);padding:14px;}
+[data-theme="light"] .kpi{background:var(--card);border-radius:var(--rl);padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.kpi-n{font-size:20px;font-weight:900;letter-spacing:-.02em;color:var(--text);}
+[data-theme="light"] .kpi-n{color:var(--accent);}
+.kpi-l{font-size:9px;font-weight:var(--fw-label);color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:2px;}
+
+/* Table */
+.mt{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;}
+.mt th{text-align:left;font-size:9px;font-weight:var(--fw-label);color:var(--text3);padding:7px 9px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.04em;}
+.mt th:not(:first-child){text-align:right;}
+.mt td{padding:8px 9px;border-bottom:1px solid var(--border);color:var(--text2);}
+.mt td:first-child{color:var(--text);font-weight:500;}
+.mt td:not(:first-child){text-align:right;}
+.mt tr.hl td{font-weight:700;}
+[data-theme="dark"] .mt tr.hl td{color:#FFFFFF;}
+[data-theme="light"] .mt tr.hl td{color:var(--accent);}
+.mt tr.tot td{border-top:1px solid var(--border);font-weight:700;color:var(--text);}
+.mt tr:last-child td{border-bottom:none;}
+.ms-lbl{font-size:10px;font-weight:var(--fw-label);color:var(--text3);margin:13px 0 8px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* LPH bars */
+.lph-bars{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;}
+.lph-row{display:flex;align-items:center;gap:9px;}
+.lph-l{font-size:11px;color:var(--text2);width:70px;flex-shrink:0;font-weight:500;}
+[data-theme="dark"] .lph-track{flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden;}
+[data-theme="light"] .lph-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.lph-fill{height:100%;border-radius:3px;transition:width .4s ease;}
+.lph-fill.main{background:var(--accent);}
+[data-theme="dark"] .lph-fill.main{background:#FFFFFF;}
+.lph-fill.dim{background:var(--text3);}
+.lph-fill.warn{background:var(--red);}
+.lph-v{font-size:11px;font-weight:700;color:var(--text);width:46px;text-align:right;flex-shrink:0;}
+
+/* Proj bars */
+.proj-bars{display:flex;align-items:flex-end;gap:5px;height:88px;margin-bottom:7px;}
+.pbar-w{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.pbar{width:100%;border-radius:4px 4px 0 0;}
+[data-theme="dark"] .pbar.cur{background:var(--card2);}
+[data-theme="light"] .pbar.cur{background:var(--bg3);}
+.pbar.y1{background:var(--accent);}
+[data-theme="dark"] .pbar.y1{background:#FFFFFF;}
+.pbar-l{font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;font-weight:var(--fw-label);}
+.proj-legend{display:flex;gap:12px;margin-bottom:10px;}
+.pl-i{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);font-weight:var(--fw-label);}
+.pl-dot{width:8px;height:8px;border-radius:2px;}
+[data-theme="dark"] .pl-dot.cur{background:var(--card2);}
+[data-theme="light"] .pl-dot.cur{background:var(--bg3);}
+.pl-dot.y1{background:var(--accent);}
+[data-theme="dark"] .pl-dot.y1{background:#FFFFFF;}
+.m-note{font-size:11px;color:var(--text3);line-height:1.6;padding:10px;background:var(--tint2);border-radius:var(--r);margin-top:7px;}
+[data-theme="dark"] .m-note{background:var(--card);}
+
+/* ════════════════════════════
+   TOUR
+════════════════════════════ */
+.tour-ov{position:fixed;inset:0;z-index:500;pointer-events:none;}
+.tour-ov.active{pointer-events:all;}
+.tour-bd{position:absolute;inset:0;background:rgba(0,0,0,.7);}
+.tour-hl{position:absolute;border-radius:var(--rxl);pointer-events:none;transition:all .26s cubic-bezier(.32,.72,0,1);}
+[data-theme="dark"] .tour-hl{border:2px solid #FFFFFF;box-shadow:0 0 0 4px rgba(255,255,255,.1);}
+[data-theme="light"] .tour-hl{border:2px solid var(--accent);box-shadow:0 0 0 4px var(--tint);}
+.tour-card{position:absolute;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:340px;background:var(--bg2);border-radius:var(--rxl);padding:18px;pointer-events:all;}
+[data-theme="dark"] .tour-card{border:1px solid var(--border2);}
+[data-theme="light"] .tour-card{box-shadow:0 8px 32px rgba(0,0,0,.12);}
+.tour-step{font-size:10px;font-weight:var(--fw-label);color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
+.tour-title{font-size:17px;font-weight:900;letter-spacing:-.02em;color:var(--text);margin-bottom:5px;line-height:1.2;}
+.tour-body{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:14px;}
+.tour-actions{display:flex;align-items:center;justify-content:space-between;}
+.tour-dots{display:flex;gap:4px;}
+.tour-dot{width:6px;height:6px;border-radius:50%;background:var(--tint);transition:all .2s;}
+[data-theme="dark"] .tour-dot{background:var(--card2);}
+.tour-dot.active{width:16px;border-radius:3px;background:var(--accent);}
+[data-theme="dark"] .tour-dot.active{background:#FFFFFF;}
+.tour-btns{display:flex;gap:8px;align-items:center;}
+.tour-skip{font-size:13px;font-weight:600;color:var(--text2);background:none;border:none;cursor:pointer;padding:8px 0;}
+.tour-next{font-size:13px;font-weight:700;padding:9px 16px;border-radius:var(--btn-r);border:none;cursor:pointer;}
+[data-theme="dark"] .tour-next{background:#FFFFFF;color:#000000;}
+[data-theme="light"] .tour-next{background:var(--accent);color:#FFFFFF;}
+
+@media(min-width:600px){
+  .top-nav{padding:12px 28px;}
+  .sc-wrap{padding:26px 28px 40px;}
+  .hero{padding:52px 32px;}
+  .hero-stats{display:flex;gap:10px;grid-template-columns:none;}
+  .hero-stats .sc{flex:1;}
+  .slots{grid-template-columns:repeat(6,1fr);}
+  .f2{grid-template-columns:1fr 1fr;}
+  .sheet{max-width:500px;left:50%;right:auto;transform:translateX(-50%) translateY(100%);}
+  .sheet.open{transform:translateX(-50%);}
+}
 </style>
 </head>
 <body>
-
 <div class="safe-top"></div>
-
-<!-- TOP NAV -->
 <div class="top-nav">
-  <div class="logo">Muscle Lab <em>·</em> SG</div>
-  <div class="nav-actions">
-    <button class="icon-btn" onclick="toggleTheme()">
-      <span class="icon-moon">🌙</span>
-      <span class="icon-sun">☀️</span>
+  <div class="logo">Muscle Lab<em>.</em></div>
+  <div class="nav-r">
+    <button class="nav-btn" onclick="startTour()" title="Tour"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></button>
+    <button class="nav-btn" onclick="toggleTheme()">
+      <svg class="moon-ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
   </div>
 </div>
 
-<!-- SCROLL AREA -->
-<div class="scroll-area" id="scrollArea">
+<div class="scroll" id="scrollArea">
 
-  <!-- SCREEN 0: HOME -->
-  <div class="screen active" id="screen0">
-    <div class="hero">
-      <div class="glow-orb glow-1"></div>
-      <div class="glow-orb glow-2"></div>
-      <div class="hero-tag">Singapore · Performance Recovery</div>
-      <h1>
-        <span>Recovery</span>
-        <span>is</span>
-        <span class="accent">the work.</span>
-      </h1>
-      <p class="hero-sub">Sports massage and clinical recovery for athletes who take their training seriously. Three outlets, zero compromises.</p>
-      <div class="hero-cta">
-        <button class="btn btn-primary" onclick="showScreen(1)">Book a session</button>
-        <button class="btn btn-ghost">Our therapists</button>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-card"><div class="stat-num">18K+</div><div class="stat-label">Appointments</div></div>
-        <div class="stat-card"><div class="stat-num">480</div><div class="stat-label">Five-star reviews</div></div>
-        <div class="stat-card"><div class="stat-num">70</div><div class="stat-label">Nationalities</div></div>
-        <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Outlets</div></div>
-      </div>
+<!-- HOME -->
+<div class="screen active" id="s0">
+<div class="hero">
+  <div class="hero-tag">Singapore · Performance Recovery</div>
+  <h1><span>Recovery</span><span>is</span><span class="ac">the work.</span></h1>
+  <p class="hero-sub">Sports massage and clinical recovery for athletes who take their training seriously. Three outlets, zero compromises.</p>
+  <div class="hero-cta">
+    <button class="btn btn-p" onclick="go(1)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Book a session</button>
+    <button class="btn btn-g"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Therapists</button>
+  </div>
+  <div class="hero-stats" id="tgt0">
+    <div class="sc"><div class="sc-n">18K+</div><div class="sc-l">Appointments</div></div>
+    <div class="sc"><div class="sc-n">480</div><div class="sc-l">Five-star reviews</div></div>
+    <div class="sc"><div class="sc-n">70</div><div class="sc-l">Nationalities</div></div>
+    <div class="sc"><div class="sc-n">3</div><div class="sc-l">Outlets</div></div>
+  </div>
+</div>
+</div>
+
+<!-- BOOK -->
+<div class="screen" id="s1">
+<div class="sc-wrap" style="padding-bottom:0;">
+  <div class="sc-hd"><div class="eyebrow">New client</div><div class="sc-title">Book your session</div><div class="sc-sub">First visit. No commitment.</div></div>
+  <div class="sec">Service</div>
+  <div class="cat-tabs" id="tgt1">
+    <div class="cat-tab active" onclick="setCat(this)">All</div>
+    <div class="cat-tab" onclick="setCat(this)">Massage</div>
+    <div class="cat-tab" onclick="setCat(this)">Stretch</div>
+    <div class="cat-tab" onclick="setCat(this)">Cupping</div>
+  </div>
+  <div class="svc-list">
+    <div class="svc-row selected" onclick="selSvc(this)">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="svc-body"><div class="svc-name">Sports Massage</div><div class="svc-meta">60 min · Most popular</div></div>
+      <div class="svc-r"><div class="svc-price">SGD 99</div><div class="svc-add"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+    </div>
+    <div class="svc-row" onclick="selSvc(this)">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="svc-body"><div class="svc-name">Sports Massage</div><div class="svc-meta">90 min · Post-race</div></div>
+      <div class="svc-r"><div class="svc-price">SGD 139</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+    </div>
+    <div class="svc-row" onclick="selSvc(this)">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+      <div class="svc-body"><div class="svc-name">Stretch Therapy</div><div class="svc-meta">50 min · Mobility</div></div>
+      <div class="svc-r"><div class="svc-price">SGD 89</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+    </div>
+    <div class="svc-row" onclick="selSvc(this)">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div>
+      <div class="svc-body"><div class="svc-name">Cupping</div><div class="svc-meta">45 min · Fire or hijama</div></div>
+      <div class="svc-r"><div class="svc-price">SGD 89</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
     </div>
   </div>
+  <div class="nudge">
+    <div class="nudge-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <div class="nudge-body"><strong>Save SGD 150</strong> — 10-session bundle at SGD 84/session.</div>
+    <div class="nudge-cta" onclick="go(3)">See →</div>
+  </div>
+  <div class="sec">Therapist</div>
+  <div class="t-scroll">
+    <div class="t-pill selected" onclick="selPill(this)"><div class="t-av">IV</div><div><div class="t-n">Ivan</div><div class="t-s">Sports rehab</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">CI</div><div><div class="t-n">Cindy</div><div class="t-s">Deep tissue</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">HU</div><div><div class="t-n">Husni</div><div class="t-s">Mobility</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">CH</div><div><div class="t-n">Christine</div><div class="t-s">Recovery</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">—</div><div><div class="t-n">Any</div><div class="t-s">First available</div></div></div>
+  </div>
+  <div class="sec">Thu 22 Aug · Tanjong Pagar</div>
+  <div class="slots">
+    <div class="slot off">10:00</div><div class="slot off">11:00</div>
+    <div class="slot" onclick="selSlot(this)">12:00</div>
+    <div class="slot sel" onclick="selSlot(this)">13:00</div>
+    <div class="slot" onclick="selSlot(this)">14:00</div>
+    <div class="slot off">15:00</div>
+    <div class="slot" onclick="selSlot(this)">16:00</div>
+    <div class="slot" onclick="selSlot(this)">17:00</div>
+    <div class="slot off">18:00</div>
+    <div class="slot" onclick="selSlot(this)">19:00</div>
+    <div class="slot" onclick="selSlot(this)">20:00</div>
+    <div class="slot off">21:00</div>
+  </div>
+  <div class="sum-card" style="margin-bottom:16px;">
+    <div class="sum-row"><span class="sum-l">Session</span><span class="sum-v">Sports Massage · 60 min</span></div>
+    <div class="sum-row"><span class="sum-l">With</span><span class="sum-v">Ivan · Tanjong Pagar</span></div>
+    <div class="sum-row"><span class="sum-l">When</span><span class="sum-v">Thu 22 Aug · 1:00 PM</span></div>
+    <div class="sum-row total"><span class="sum-l">Total</span><span class="sum-v">SGD 99</span></div>
+  </div>
+  <div class="f2"><div class="fg"><label class="fl">Name</label><input class="fi" type="text" placeholder="First name" autocomplete="given-name"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+65 9XXX XXXX"></div></div>
+  <div class="fg"><label class="fl">What brings you in?</label><select class="fs"><option>Post-training recovery</option><option>Chronic pain</option><option>Race prep</option><option>Injury rehab</option><option>Maintenance</option></select></div>
+</div>
+<div class="book-foot">
+  <div><div class="bf-label">Total today</div><div class="bf-val">SGD 99</div><div class="bf-meta">Sports Massage · Ivan</div></div>
+  <button class="btn btn-p" onclick="go(2)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Confirm</button>
+</div>
+</div>
 
-  <!-- SCREEN 1: BOOK -->
-  <div class="screen" id="screen1">
-    <div class="screen-content">
-      <div class="screen-header">
-        <div class="eyebrow">New client booking</div>
-        <div class="screen-title">Book your session</div>
-        <div class="screen-sub">First visit. No commitment.</div>
-      </div>
-
-      <div class="sec-head">Session type</div>
-      <div class="option-list">
-        <div class="option-card selected" onclick="selectOption(this,'session')">
-          <div class="option-card-icon">💆</div>
-          <div class="option-card-body">
-            <div class="option-card-name">Sports Massage</div>
-            <div class="option-card-sub">60 min · Most popular</div>
-          </div>
-          <div class="option-card-price">SGD 99</div>
-          <div class="selected-check">✓</div>
-        </div>
-        <div class="option-card" onclick="selectOption(this,'session')">
-          <div class="option-card-icon">💆</div>
-          <div class="option-card-body">
-            <div class="option-card-name">Sports Massage</div>
-            <div class="option-card-sub">90 min · Recommended post-race</div>
-          </div>
-          <div class="option-card-price">SGD 139</div>
-          <div class="selected-check">✓</div>
-        </div>
-        <div class="option-card" onclick="selectOption(this,'session')">
-          <div class="option-card-icon">🧘</div>
-          <div class="option-card-body">
-            <div class="option-card-name">Stretch Therapy</div>
-            <div class="option-card-sub">50 min · Mobility and range</div>
-          </div>
-          <div class="option-card-price">SGD 89</div>
-          <div class="selected-check">✓</div>
-        </div>
-        <div class="option-card" onclick="selectOption(this,'session')">
-          <div class="option-card-icon">🔥</div>
-          <div class="option-card-body">
-            <div class="option-card-name">Cupping</div>
-            <div class="option-card-sub">45 min · Fire or hijama</div>
-          </div>
-          <div class="option-card-price">SGD 89</div>
-          <div class="selected-check">✓</div>
-        </div>
-      </div>
-
-      <div class="sec-head">Therapist</div>
-      <div class="therapist-scroll">
-        <div class="therapist-pill selected" onclick="selectPill(this,'therapist')">
-          <div class="t-avatar">I</div>
-          <div class="t-info"><div class="t-name">Ivan</div><div class="t-spec">Sports rehab</div></div>
-        </div>
-        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
-          <div class="t-avatar">C</div>
-          <div class="t-info"><div class="t-name">Cindy</div><div class="t-spec">Deep tissue</div></div>
-        </div>
-        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
-          <div class="t-avatar">H</div>
-          <div class="t-info"><div class="t-name">Husni</div><div class="t-spec">Mobility</div></div>
-        </div>
-        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
-          <div class="t-avatar">Ch</div>
-          <div class="t-info"><div class="t-name">Christine</div><div class="t-spec">Recovery</div></div>
-        </div>
-        <div class="therapist-pill" onclick="selectPill(this,'therapist')">
-          <div class="t-avatar">?</div>
-          <div class="t-info"><div class="t-name">Any</div><div class="t-spec">First available</div></div>
-        </div>
-      </div>
-
-      <div class="sec-head">Thu 22 Aug · Tanjong Pagar</div>
-      <div class="slots-grid">
-        <div class="slot unavailable">10:00</div>
-        <div class="slot unavailable">11:00</div>
-        <div class="slot" onclick="selectSlot(this)">12:00</div>
-        <div class="slot selected" onclick="selectSlot(this)">13:00</div>
-        <div class="slot" onclick="selectSlot(this)">14:00</div>
-        <div class="slot unavailable">15:00</div>
-        <div class="slot" onclick="selectSlot(this)">16:00</div>
-        <div class="slot" onclick="selectSlot(this)">17:00</div>
-        <div class="slot unavailable">18:00</div>
-        <div class="slot" onclick="selectSlot(this)">19:00</div>
-        <div class="slot" onclick="selectSlot(this)">20:00</div>
-        <div class="slot unavailable">21:00</div>
-      </div>
-
-      <div class="nudge">
-        <div class="nudge-icon">💡</div>
-        <div class="nudge-body"><strong>Save SGD 150</strong> — a 10-session bundle works out to SGD 84/session. Add after your first visit.</div>
-        <div class="nudge-action" onclick="showScreen(3)">See →</div>
-      </div>
-
-      <div class="summary-card">
-        <div class="summary-row"><span class="lbl">Session</span><span class="val">Sports Massage · 60 min</span></div>
-        <div class="summary-row"><span class="lbl">With</span><span class="val">Ivan · Tanjong Pagar</span></div>
-        <div class="summary-row"><span class="lbl">When</span><span class="val">Thu 22 Aug · 1:00 PM</span></div>
-        <div class="summary-row total"><span class="lbl">Total</span><span class="val">SGD 99</span></div>
-      </div>
-
-      <div class="form-group" style="margin-top:16px;">
-        <label class="form-label">Your name</label>
-        <input class="form-input" type="text" placeholder="First name" autocomplete="given-name">
-      </div>
-      <div class="form-group">
-        <label class="form-label">WhatsApp</label>
-        <input class="form-input" type="tel" placeholder="+65 9XXX XXXX" autocomplete="tel">
-      </div>
-      <div class="form-group">
-        <label class="form-label">What brings you in?</label>
-        <select class="form-select">
-          <option>Post-training recovery</option>
-          <option>Chronic pain or tension</option>
-          <option>Race preparation</option>
-          <option>Injury rehabilitation</option>
-          <option>General maintenance</option>
-        </select>
-      </div>
-
-      <button class="btn btn-primary btn-block" style="margin-top:8px;" onclick="showScreen(2)">Confirm — SGD 99</button>
+<!-- AFTER -->
+<div class="screen" id="s2">
+<div class="sc-wrap">
+  <div class="sc-hd"><div class="eyebrow">Post-session</div><div class="sc-title">The session ends. The system begins.</div><div class="sc-sub">Fires automatically after every visit. Zero manual effort.</div></div>
+  <div class="wa" id="tgt2">
+    <div class="wa-hd"><div class="wa-av">ML</div><div><div class="wa-nm">The Muscle Lab SG</div><div class="wa-st">WhatsApp · Automated</div></div></div>
+    <div class="wa-msgs">
+      <div class="wm in">Hey Marcus — hope you're feeling the difference after your session with Ivan. He left a note: keep stretching those hip flexors this week.<div class="t">Today · 7:30 PM</div></div>
+      <div class="wm out">Thanks! Exactly what I needed before Sunday's race<div class="t">8:12 PM</div></div>
+      <div class="wm in">Perfect timing. Good luck Sunday! We'll check in next week.<div class="t">8:14 PM</div></div>
     </div>
   </div>
+  <div class="sec">Lifecycle sequence</div>
+  <div class="tl">
+    <div class="tli"><div class="tl-dot">1h</div><div class="tl-b"><div class="tl-day">Same day</div><div class="tl-title">Post-session check-in</div><div class="tl-txt">Personalised WhatsApp from the therapist with a specific recovery note. Builds the relationship automatically.</div></div></div>
+    <div class="tli"><div class="tl-dot">7d</div><div class="tl-b"><div class="tl-day">Day 7</div><div class="tl-title">Rebooking prompt</div><div class="tl-txt">"It's been a week. Ivan has availability next week — want to lock in your slot?" Direct booking link.</div></div></div>
+    <div class="tli"><div class="tl-dot">21d</div><div class="tl-b"><div class="tl-day">Day 21</div><div class="tl-title">Bundle offer</div><div class="tl-txt">"Two sessions in. A bundle saves you SGD 150 and locks in your rate. Want me to set that up?"</div></div></div>
+    <div class="tli"><div class="tl-dot">45d</div><div class="tl-b"><div class="tl-day">Day 45</div><div class="tl-title">Lapsed client reactivation</div><div class="tl-txt">"It's been a while. No pressure. First session back is SGD 99."</div></div></div>
+  </div>
+  <button class="btn btn-p btn-b" onclick="go(3)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>See membership options</button>
+</div>
+</div>
 
-  <!-- SCREEN 2: AFTER -->
-  <div class="screen" id="screen2">
-    <div class="screen-content">
-      <div class="screen-header">
-        <div class="eyebrow">Post-session</div>
-        <div class="screen-title">The session ends.<br>The system begins.</div>
-        <div class="screen-sub">What fires automatically after every visit. Zero manual effort required.</div>
-      </div>
-
-      <div class="wa-wrapper" style="margin-bottom:24px;">
-        <div class="wa-bar">
-          <div class="wa-av">ML</div>
-          <div>
-            <div class="wa-nm">The Muscle Lab SG</div>
-            <div class="wa-st">WhatsApp · Automated</div>
-          </div>
-        </div>
-        <div class="wa-msgs">
-          <div class="wa-msg in">Hey Marcus — hope you're feeling the difference after your session with Ivan. He left a note: keep stretching those hip flexors this week, especially after runs. 🙌<div class="t">Today · 7:30 PM</div></div>
-          <div class="wa-msg out">Thanks! Exactly what I needed before the race on Sunday<div class="t">8:12 PM</div></div>
-          <div class="wa-msg in">Perfect timing. Good luck Sunday! We'll check in next week. 🏁<div class="t">8:14 PM</div></div>
-        </div>
-      </div>
-
-      <div class="sec-head">Lifecycle sequence</div>
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-dot">1h</div>
-          <div class="tl-body">
-            <div class="tl-day">Same day — evening</div>
-            <div class="tl-title">Post-session check-in</div>
-            <div class="tl-text">Personalised WhatsApp from the therapist with a recovery note. Builds the relationship automatically.</div>
-          </div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot">7d</div>
-          <div class="tl-body">
-            <div class="tl-day">Day 7</div>
-            <div class="tl-title">Rebooking prompt</div>
-            <div class="tl-text">"It's been a week. Ivan has availability next week — want to lock in your slot?" Direct booking link.</div>
-          </div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot">21d</div>
-          <div class="tl-body">
-            <div class="tl-day">Day 21</div>
-            <div class="tl-title">Bundle offer</div>
-            <div class="tl-text">"Two sessions in. A bundle saves you SGD 150 and locks in your rate. Want me to set that up?"</div>
-          </div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot">45d</div>
-          <div class="tl-body">
-            <div class="tl-day">Day 45 — if no rebook</div>
-            <div class="tl-title">Lapsed client reactivation</div>
-            <div class="tl-text">"It's been a while. No pressure — we're here when you need us. First session back is SGD 99."</div>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-block" onclick="showScreen(3)">See membership options →</button>
+<!-- MEMBER -->
+<div class="screen" id="s3">
+<div class="sc-wrap" style="padding-bottom:0;">
+  <div class="sc-hd"><div class="eyebrow">Membership</div><div class="sc-title">From client to member.</div><div class="sc-sub">Triggered after session three. The pitch is the maths, not the sell.</div></div>
+  <div class="incl" id="tgt3">
+    <div class="incl-hd">Every membership includes</div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Priority booking across all three outlets</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>10% off all additional sessions</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Cross-outlet flexibility — book anywhere</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Cancel anytime with 30 days notice</span></div>
+  </div>
+  <div class="sec">Choose your membership</div>
+  <div class="tiers">
+    <div class="tier">
+      <div class="t-tier-lbl">Drop in</div>
+      <div class="t-prow"><div class="t-price">SGD 99</div><div class="t-per">/ session</div></div>
+      <div class="t-desc">No commitment. Pay per visit. Full flexibility for the occasional visitor.</div>
+      <div class="t-pill-tag base">Baseline rate</div>
+      <button class="btn btn-g" style="width:100%;font-size:13px;padding:11px;">Book a session</button>
+    </div>
+    <div class="tier featured">
+      <div class="t-badge">Most popular</div>
+      <div class="t-tier-lbl">Perform — monthly</div>
+      <div class="t-prow"><div class="t-price">SGD 149</div><div class="t-per">/ month</div></div>
+      <div class="t-desc">One guaranteed session per month. Priority access for the athlete on a training schedule.</div>
+      <div class="t-pill-tag up">↑ SGD 40 above rack · margin-accretive</div>
+      <button class="btn btn-p" style="width:100%;font-size:13px;padding:11px;" onclick="go(4)">Become a Perform member</button>
+    </div>
+    <div class="tier">
+      <div class="t-tier-lbl">Recover — monthly</div>
+      <div class="t-prow"><div class="t-price">SGD 249</div><div class="t-per">/ month</div></div>
+      <div class="t-desc">Two sessions per month for the high-frequency performer who treats recovery as non-negotiable.</div>
+      <div class="t-pill-tag up">↑ SGD 15 above rack per session</div>
+      <button class="btn btn-g" style="width:100%;font-size:13px;padding:11px;" onclick="go(4)">Become a Recover member</button>
     </div>
   </div>
+</div>
+<div class="biz-foot">
+  <div class="biz-pills">
+    <div class="bp"><div class="bp-n">$39.8K</div><div class="bp-l">MRR at 200</div></div>
+    <div class="bp"><div class="bp-n">74%</div><div class="bp-l">Fixed costs</div></div>
+    <div class="bp"><div class="bp-n">$0</div><div class="bp-l">CAC month 12</div></div>
+  </div>
+</div>
+</div>
 
-  <!-- SCREEN 3: MEMBER -->
-  <div class="screen" id="screen3">
-    <div class="screen-content">
-      <div class="screen-header">
-        <div class="eyebrow">Membership</div>
-        <div class="screen-title">From client<br>to member.</div>
-        <div class="screen-sub">Triggered after session three. The pitch is the maths, not the sell.</div>
-      </div>
-
-      <div class="pricing-stack">
-        <div class="pricing-card">
-          <div class="pc-tier">Drop in</div>
-          <div class="pc-price-row"><div class="pc-price">SGD 99</div><div class="pc-period">/ session</div></div>
-          <div class="pc-desc">No commitment. Pay per visit. Full flexibility.</div>
-          <div class="pc-pill base">Baseline rate</div>
-          <ul class="pc-features">
-            <li>Any outlet, any therapist</li>
-            <li>Book online anytime</li>
-          </ul>
-          <button class="btn btn-ghost" style="width:100%;font-size:12px;padding:12px;">Book a session</button>
-        </div>
-
-        <div class="pricing-card featured">
-          <div class="pricing-badge">Most popular</div>
-          <div class="pc-tier">Perform — monthly</div>
-          <div class="pc-price-row"><div class="pc-price">SGD 149</div><div class="pc-period">/ month</div></div>
-          <div class="pc-desc">One guaranteed session per month. Priority access for the athlete on a training schedule.</div>
-          <div class="pc-pill up">↑ SGD 40 above rack · margin-accretive</div>
-          <ul class="pc-features">
-            <li>1 session per month included</li>
-            <li>Priority booking guaranteed</li>
-            <li>10% off additional sessions</li>
-            <li>Cross-outlet flexibility</li>
-            <li>Cancel anytime with 30 days notice</li>
-          </ul>
-          <button class="btn btn-primary" style="width:100%;font-size:12px;padding:12px;" onclick="showScreen(4)">Become a Perform member</button>
-        </div>
-
-        <div class="pricing-card">
-          <div class="pc-tier">Recover — monthly</div>
-          <div class="pc-price-row"><div class="pc-price">SGD 249</div><div class="pc-period">/ month</div></div>
-          <div class="pc-desc">Two sessions per month for the high-frequency performer who treats recovery as non-negotiable.</div>
-          <div class="pc-pill up">↑ SGD 15 above rack per session</div>
-          <ul class="pc-features">
-            <li>2 sessions per month included</li>
-            <li>Priority booking all outlets</li>
-            <li>10% off additional sessions</li>
-            <li>Cross-outlet flexibility</li>
-            <li>Cancel anytime with 30 days notice</li>
-          </ul>
-          <button class="btn btn-ghost" style="width:100%;font-size:12px;padding:12px;" onclick="showScreen(4)">Become a Recover member</button>
-        </div>
-      </div>
-
-      <div class="sec-head">The business case</div>
-      <div class="stat-pills">
-        <div class="stat-pill"><div class="sp-num">$39.8K</div><div class="sp-label">Monthly MRR at 200 members</div></div>
-        <div class="stat-pill"><div class="sp-num">74%</div><div class="sp-label">Fixed costs covered before walk-ins book</div></div>
-        <div class="stat-pill"><div class="sp-num">$0</div><div class="sp-label">CAC for a member's 12th session</div></div>
-      </div>
+<!-- ANNUAL -->
+<div class="screen" id="s4">
+<div class="sc-wrap">
+  <div class="sc-hd"><div class="eyebrow">Annual commitment</div><div class="sc-title">You haven't missed a month in four.</div><div class="sc-sub">Personalised. Not broadcast.</div></div>
+  <div class="anl-card">
+    <div class="ac-tag">Your journey · Marcus</div>
+    <div class="ac-title">Lock in your rate. Save SGD 298.</div>
+    <div class="ac-body">At your current cadence an annual pack saves you SGD 298 and guarantees your rate for 12 months — whatever happens to pricing.</div>
+    <div class="ac-stats"><div class="acs"><div class="acs-n">4</div><div class="acs-l">Months</div></div><div class="acs"><div class="acs-n">4</div><div class="acs-l">Sessions</div></div><div class="acs"><div class="acs-n">$298</div><div class="acs-l">Saved</div></div></div>
+  </div>
+  <div class="sec">Choose your plan</div>
+  <div class="plan-rows">
+    <div class="plan-row" onclick="selPlan(this)">
+      <div class="plan-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="plan-body"><div class="plan-tier-lbl">Perform Annual</div><div class="plan-price">SGD 1,490</div><div class="plan-save">Save SGD 298 vs monthly</div></div>
+    </div>
+    <div class="plan-row sel" onclick="selPlan(this)">
+      <div class="plan-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="plan-body"><div class="plan-tier-lbl">Recover Annual</div><div class="plan-price">SGD 2,490</div><div class="plan-save">Save SGD 498 vs monthly</div></div>
+      <div class="plan-badge">Best value</div>
     </div>
   </div>
-
-  <!-- SCREEN 4: ANNUAL -->
-  <div class="screen" id="screen4">
-    <div class="screen-content">
-      <div class="screen-header">
-        <div class="eyebrow">Annual commitment</div>
-        <div class="screen-title">You haven't missed<br>a month in four.</div>
-        <div class="screen-sub">This offer is personalised. Not broadcast. Shown only to consistent members.</div>
-      </div>
-
-      <div class="personal-card">
-        <div class="pc-tag">Your journey · Marcus</div>
-        <div class="pc-title">Lock in your rate. Save SGD 298.</div>
-        <div class="pc-body">At your current cadence an annual pack saves you SGD 298 and guarantees your rate for 12 months — whatever happens to pricing.</div>
-        <div class="mini-stats">
-          <div class="mini-stat"><div class="ms-num">4</div><div class="ms-label">Months as member</div></div>
-          <div class="mini-stat"><div class="ms-num">4</div><div class="ms-label">Sessions done</div></div>
-          <div class="mini-stat"><div class="ms-num">$298</div><div class="ms-label">Saved with annual</div></div>
-        </div>
-      </div>
-
-      <div class="sec-head">Choose your plan</div>
-      <div class="annual-stack">
-        <div class="annual-card selected" onclick="selectAnnual(this)">
-          <div class="annual-card-icon">⚡</div>
-          <div class="annual-card-body">
-            <div class="ac-tier">Perform Annual</div>
-            <div class="ac-price">SGD 1,490</div>
-            <div class="ac-save">Save SGD 298 vs monthly</div>
-          </div>
-          <div class="annual-check">✓</div>
-        </div>
-        <div class="annual-card" onclick="selectAnnual(this)">
-          <div class="annual-card-icon">🏆</div>
-          <div class="annual-card-body">
-            <div class="ac-tier">Recover Annual</div>
-            <div class="ac-price">SGD 2,490</div>
-            <div class="ac-save">Save SGD 498 vs monthly</div>
-          </div>
-          <div class="annual-check">✓</div>
-        </div>
-      </div>
-
-      <div class="order-card">
-        <div class="order-row"><span class="lbl">Plan</span><span class="val">Perform Annual · 12 sessions</span></div>
-        <div class="order-row"><span class="lbl">Per session</span><span class="val">SGD 124.17</span></div>
-        <div class="order-row"><span class="lbl">Saving</span><span class="val" style="color:var(--green);">SGD 298 vs monthly</span></div>
-        <div class="order-row">
-          <span class="lbl" style="font-size:14px;">Total today</span>
-          <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--accent);">SGD 1,490</span>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-block">Lock in annual membership</button>
-      <p style="text-align:center;font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6;">One payment. 12 months of priority access. No further admin.</p>
-    </div>
+  <div class="order-box">
+    <div class="o-row"><span class="o-l">Plan</span><span class="o-v">Recover Annual · 24 sessions</span></div>
+    <div class="o-row"><span class="o-l">Per session</span><span class="o-v">SGD 103.75</span></div>
+    <div class="o-row"><span class="o-l">Saving</span><span class="o-v" style="color:var(--green);">SGD 498 vs monthly</span></div>
+    <div class="o-row"><span class="o-l">Total today</span><span style="font-size:22px;font-weight:900;letter-spacing:-.02em;color:var(--text);">SGD 2,490</span></div>
   </div>
+  <button class="btn btn-p btn-b"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Lock in annual membership</button>
+  <p style="text-align:center;font-size:11px;color:var(--text3);margin-top:9px;line-height:1.6;">One payment · 12 months · No further admin</p>
+</div>
+</div>
 
-</div><!-- end scroll-area -->
+</div>
 
 <!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <button class="nav-item active" onclick="showScreen(0)" id="nav0">
-    <div class="nav-icon">🏠</div>
-    <div class="nav-label">Home</div>
-    <div class="nav-dot"></div>
-  </button>
-  <button class="nav-item" onclick="showScreen(1)" id="nav1">
-    <div class="nav-icon">📅</div>
-    <div class="nav-label">Book</div>
-    <div class="nav-dot"></div>
-  </button>
-  <button class="nav-item" onclick="showScreen(2)" id="nav2">
-    <div class="nav-icon">💬</div>
-    <div class="nav-label">After</div>
-    <div class="nav-dot"></div>
-  </button>
-  <button class="nav-item" onclick="showScreen(3)" id="nav3">
-    <div class="nav-icon">⭐</div>
-    <div class="nav-label">Member</div>
-    <div class="nav-dot"></div>
-  </button>
-  <button class="nav-item" onclick="showScreen(4)" id="nav4">
-    <div class="nav-icon">🔑</div>
-    <div class="nav-label">Annual</div>
-    <div class="nav-dot"></div>
-  </button>
+<div class="bnav">
+  <button class="ni active" onclick="go(0)" id="n0"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nl">Home</div><div class="nd"></div></button>
+  <button class="ni" onclick="go(1)" id="n1"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="nl">Book</div><div class="nd"></div></button>
+  <button class="ni" onclick="go(2)" id="n2"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="nl">After</div><div class="nd"></div></button>
+  <button class="ni" onclick="go(3)" id="n3"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><div class="nl">Member</div><div class="nd"></div></button>
+  <button class="ni" onclick="openSheet()" id="n4"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><div class="nl">Metrics</div><div class="nd"></div></button>
+</div>
+
+<!-- SHEET -->
+<div class="s-ov" id="sOv" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-hd" onclick="closeSheet()">
+    <div class="handle"></div>
+    <div class="sheet-tr">
+      <div class="sheet-title">Business Metrics</div>
+      <div class="sheet-meta"><div class="conf">Confidential</div><div class="s-close" onclick="closeSheet()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    </div>
+  </div>
+  <div class="s-tabs">
+    <button class="s-tab active" onclick="sTab(0)">P&L</button>
+    <button class="s-tab" onclick="sTab(1)">LPH</button>
+    <button class="s-tab" onclick="sTab(2)">Membership</button>
+    <button class="s-tab" onclick="sTab(3)">Projection</button>
+  </div>
+  <div class="s-body">
+    <div class="mp active" id="mp0">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-n">SGD 792K</div><div class="kpi-l">Annual revenue</div><div class="kpi-s">At 70% utilisation</div></div>
+        <div class="kpi"><div class="kpi-n">37%</div><div class="kpi-l">Net margin</div><div class="kpi-s">SGD 294K annual net</div></div>
+        <div class="kpi"><div class="kpi-n">SGD 66K</div><div class="kpi-l">Monthly revenue</div><div class="kpi-s">Blended 3 outlets</div></div>
+        <div class="kpi"><div class="kpi-n">SGD 0</div><div class="kpi-l">Recurring MRR</div><div class="kpi-s">All transactional today</div></div>
+      </div>
+      <div class="ms-lbl">Monthly P&L estimate</div>
+      <table class="mt"><thead><tr><th>Line item</th><th>Monthly</th><th>Annual</th></tr></thead><tbody>
+        <tr><td>Session revenue</td><td>SGD 54,178</td><td>SGD 650K</td></tr>
+        <tr><td>Corporate and events</td><td>SGD 8,000</td><td>SGD 96K</td></tr>
+        <tr><td>Workshops</td><td>SGD 1,500</td><td>SGD 18K</td></tr>
+        <tr class="tot"><td>Total revenue</td><td>SGD 63,678</td><td>SGD 764K</td></tr>
+        <tr><td>Labour (9–10 therapists)</td><td>(SGD 21,000)</td><td>(SGD 252K)</td></tr>
+        <tr><td>Rent — 3 outlets</td><td>(SGD 14,000)</td><td>(SGD 168K)</td></tr>
+        <tr><td>Consumables and ops</td><td>(SGD 4,500)</td><td>(SGD 54K)</td></tr>
+        <tr><td>Tech and admin</td><td>(SGD 2,000)</td><td>(SGD 24K)</td></tr>
+        <tr class="tot hl"><td>Net operating profit</td><td>SGD 22,178</td><td>SGD 266K</td></tr>
+      </tbody></table>
+      <div class="m-note">All figures estimated from published session counts, public pricing, and Singapore labour and commercial rent benchmarks.</div>
+    </div>
+    <div class="mp" id="mp1">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-n">1,320</div><div class="kpi-l">Available LPH/mo</div><div class="kpi-s">10 × 5.5h × 24 days</div></div>
+        <div class="kpi"><div class="kpi-n">924</div><div class="kpi-l">Delivered LPH/mo</div><div class="kpi-s">70% net utilisation</div></div>
+        <div class="kpi"><div class="kpi-n">SGD 109.50</div><div class="kpi-l">Revenue per LPH</div><div class="kpi-s">Blended session rate</div></div>
+        <div class="kpi"><div class="kpi-n">3.5</div><div class="kpi-l">Sessions/therapist/day</div><div class="kpi-s">vs 5.0 ceiling</div></div>
+      </div>
+      <div class="ms-lbl">Utilisation</div>
+      <div class="lph-bars">
+        <div class="lph-row"><div class="lph-l">Available</div><div class="lph-track"><div class="lph-fill dim" style="width:100%"></div></div><div class="lph-v" style="color:var(--text3)">1,320h</div></div>
+        <div class="lph-row"><div class="lph-l">Delivered</div><div class="lph-track"><div class="lph-fill main" style="width:70%"></div></div><div class="lph-v">924h</div></div>
+        <div class="lph-row"><div class="lph-l">Idle</div><div class="lph-track"><div class="lph-fill warn" style="width:30%"></div></div><div class="lph-v" style="color:var(--red)">396h</div></div>
+        <div class="lph-row"><div class="lph-l">Break-even</div><div class="lph-track"><div class="lph-fill dim" style="width:23%"></div></div><div class="lph-v" style="color:var(--text3)">379h</div></div>
+      </div>
+      <div class="ms-lbl">Per therapist targets</div>
+      <table class="mt"><thead><tr><th>Metric</th><th>LPH/mo</th><th>Sessions/day</th><th>% capacity</th></tr></thead><tbody>
+        <tr><td>Ceiling</td><td>132</td><td>5.0</td><td>100%</td></tr>
+        <tr class="hl"><td>Current (70%)</td><td>92</td><td>3.5</td><td>70%</td></tr>
+        <tr><td>Break-even</td><td>38</td><td>1.5</td><td>29%</td></tr>
+        <tr><td>To 2× net profit</td><td>104</td><td>4.3</td><td>79%</td></tr>
+      </tbody></table>
+      <div class="m-note">To double net profit through sessions alone requires 4.3 sessions per therapist per day — 79% of available capacity. The smarter path: memberships that add revenue without consuming additional therapist hours.</div>
+    </div>
+    <div class="mp" id="mp2">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-n">SGD 39.8K</div><div class="kpi-l">MRR at 200 members</div><div class="kpi-s">Blended SGD 199/mo avg</div></div>
+        <div class="kpi"><div class="kpi-n">74%</div><div class="kpi-l">Fixed costs covered</div><div class="kpi-s">Before a walk-in books</div></div>
+        <div class="kpi"><div class="kpi-n">+SGD 40</div><div class="kpi-l">Perform above rack</div><div class="kpi-s">SGD 149 vs SGD 109</div></div>
+        <div class="kpi"><div class="kpi-n">SGD 0</div><div class="kpi-l">CAC at month 12</div><div class="kpi-s">Member already acquired</div></div>
+      </div>
+      <div class="ms-lbl">Tier comparison</div>
+      <table class="mt"><thead><tr><th>Tier</th><th>Price/mo</th><th>Per session</th><th>vs Rack</th></tr></thead><tbody>
+        <tr><td>Rack rate</td><td>Pay per visit</td><td>SGD 109</td><td>Baseline</td></tr>
+        <tr class="hl"><td>Perform</td><td>SGD 149</td><td>SGD 149</td><td style="color:var(--green)">+SGD 40</td></tr>
+        <tr class="hl"><td>Recover</td><td>SGD 249</td><td>SGD 124.50</td><td style="color:var(--green)">+SGD 15.50</td></tr>
+        <tr><td>10-session pack</td><td>SGD 840 upfront</td><td>SGD 84</td><td style="color:var(--red)">−SGD 25</td></tr>
+      </tbody></table>
+      <div class="ms-lbl">Revenue floor scenarios</div>
+      <table class="mt"><thead><tr><th>Members</th><th>MRR floor</th><th>% fixed costs</th></tr></thead><tbody>
+        <tr><td>50 members</td><td>SGD 9,950</td><td>24%</td></tr>
+        <tr><td>100 members</td><td>SGD 19,900</td><td>48%</td></tr>
+        <tr class="hl"><td>150 members</td><td>SGD 29,850</td><td>72%</td></tr>
+        <tr><td>200 members</td><td>SGD 39,800</td><td>96%</td></tr>
+      </tbody></table>
+      <div class="m-note">Both Perform and Recover price above rack rate. The membership does not discount the business — it funds it.</div>
+    </div>
+    <div class="mp" id="mp3">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-n">1.6×</div><div class="kpi-l">Revenue growth</div><div class="kpi-s">From growth system</div></div>
+        <div class="kpi"><div class="kpi-n">2.2×</div><div class="kpi-l">Net profit growth</div><div class="kpi-s">Year 1 vs current</div></div>
+        <div class="kpi"><div class="kpi-n">SGD 36K</div><div class="kpi-l">Recurring MRR</div><div class="kpi-s">Year 1 target</div></div>
+        <div class="kpi"><div class="kpi-n">2.5×</div><div class="kpi-l">Revenue ROI</div><div class="kpi-s">On total marketing spend</div></div>
+      </div>
+      <div class="ms-lbl">Revenue by line — current vs year 1</div>
+      <div class="proj-legend"><div class="pl-i"><div class="pl-dot cur"></div>Current</div><div class="pl-i"><div class="pl-dot y1"></div>Year 1</div></div>
+      <div class="proj-bars">
+        <div class="pbar-w"><div class="pbar cur" style="height:42px"></div><div class="pbar y1" style="height:50px"></div><div class="pbar-l">Walk-in</div></div>
+        <div class="pbar-w"><div class="pbar cur" style="height:15px"></div><div class="pbar y1" style="height:23px"></div><div class="pbar-l">Packs</div></div>
+        <div class="pbar-w"><div class="pbar cur" style="height:1px"></div><div class="pbar y1" style="height:28px"></div><div class="pbar-l">Members</div></div>
+        <div class="pbar-w"><div class="pbar cur" style="height:8px"></div><div class="pbar y1" style="height:18px"></div><div class="pbar-l">Corp.</div></div>
+        <div class="pbar-w"><div class="pbar cur" style="height:1px"></div><div class="pbar y1" style="height:8px"></div><div class="pbar-l">B2B</div></div>
+      </div>
+      <div class="ms-lbl">Year 1 P&L</div>
+      <table class="mt"><thead><tr><th>Line item</th><th>Current/mo</th><th>Year 1/mo</th><th>Change</th></tr></thead><tbody>
+        <tr class="tot"><td>Total revenue</td><td>SGD 63.5K</td><td>SGD 127.5K</td><td style="color:var(--green)">+SGD 64K</td></tr>
+        <tr><td>Total costs</td><td>(SGD 41.5K)</td><td>(SGD 44.7K)</td><td>+SGD 3.2K</td></tr>
+        <tr class="hl"><td>Net profit</td><td>SGD 22K</td><td>SGD 82.8K</td><td style="color:var(--green)">+SGD 60.8K</td></tr>
+        <tr class="hl"><td>Net margin</td><td>35%</td><td>65%</td><td style="color:var(--green)">+30pts</td></tr>
+        <tr class="hl"><td>Recurring MRR</td><td>SGD 0</td><td>SGD 36K</td><td style="color:var(--green)">+SGD 36K</td></tr>
+      </tbody></table>
+      <div class="m-note">Revenue doubles. Costs rise 8%. The recurring MRR floor means a fourth outlet is de-risked before it opens.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOUR -->
+<div class="tour-ov" id="tourOv">
+  <div class="tour-bd" onclick="skipTour()"></div>
+  <div class="tour-hl" id="tourHl"></div>
+  <div class="tour-card" id="tourCard">
+    <div class="tour-step" id="tourStep"></div>
+    <div class="tour-title" id="tourTitle"></div>
+    <div class="tour-body" id="tourBody"></div>
+    <div class="tour-actions"><div class="tour-dots" id="tourDots"></div><div class="tour-btns"><button class="tour-skip" onclick="skipTour()">Skip</button><button class="tour-next" id="tourNext" onclick="nextTour()">Next</button></div></div>
+  </div>
 </div>
 
 <script>
-  let current = 0;
-
-  function showScreen(n) {
-    document.querySelectorAll('.screen').forEach((s,i) => {
-      if (i === n && i !== current) {
-        s.classList.add('active');
-        s.classList.remove('slide-in');
-        void s.offsetWidth;
-        s.classList.add('slide-in');
-      } else {
-        s.classList.toggle('active', i === n);
+let cur=0;
+function go(n){
+  document.querySelectorAll('.screen').forEach((s,i)=>{
+    if(i===n&&i!==cur){s.classList.add('active');s.classList.remove('in');void s.offsetWidth;s.classList.add('in');}
+    else s.classList.toggle('active',i===n);
+  });
+  document.querySelectorAll('.ni').forEach((t,i)=>t.classList.toggle('active',i===n&&n<4));
+  document.getElementById('n4').classList.remove('active');
+  document.getElementById('scrollArea').scrollTo({top:0,behavior:'instant'});
+  cur=n;
+}
+function setCat(el){document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+function selSvc(el){document.querySelectorAll('.svc-row').forEach(r=>r.classList.remove('selected'));el.classList.add('selected');}
+function selPill(el){el.closest('.t-scroll').querySelectorAll('.t-pill').forEach(p=>p.classList.remove('selected'));el.classList.add('selected');}
+function selSlot(el){el.closest('.slots').querySelectorAll('.slot').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');}
+function selPlan(el){document.querySelectorAll('.plan-row').forEach(r=>r.classList.remove('sel'));el.classList.add('sel');}
+function toggleTheme(){const h=document.documentElement;h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('ml-t',h.getAttribute('data-theme'));}
+const st=localStorage.getItem('ml-t');if(st)document.documentElement.setAttribute('data-theme',st);
+function openSheet(){document.getElementById('sOv').classList.add('open');document.getElementById('sheet').classList.add('open');document.getElementById('n4').classList.add('active');}
+function closeSheet(){document.getElementById('sOv').classList.remove('open');document.getElementById('sheet').classList.remove('open');document.getElementById('n4').classList.remove('active');}
+function sTab(n){document.querySelectorAll('.s-tab').forEach((t,i)=>t.classList.toggle('active',i===n));document.querySelectorAll('.mp').forEach((p,i)=>p.classList.toggle('active',i===n));}
+const steps=[
+  {screen:0,tid:null,title:'Welcome to The Muscle Lab',body:"A prototype of the full consumer journey — from first visit to annual membership. Built on real data from the business. Tap Next to walk through, or explore on your own."},
+  {screen:0,tid:'tgt0',title:'18,000 appointments. Zero paid ads.',body:'Every number earned on product and word of mouth alone. Three outlets, 70 nationalities, 480 named therapist reviews. The hardest part is already done.'},
+  {screen:1,tid:'tgt1',title:'The booking experience',body:'Fresha-style category tabs and service rows. Replaces three separate Acuity links with one unified flow and a single client identity across all three outlets.'},
+  {screen:2,tid:'tgt2',title:'The post-session lifecycle',body:'Personalised WhatsApp, rebooking prompt, bundle offer, lapsed client reactivation — all firing automatically after every visit. Zero manual effort.'},
+  {screen:3,tid:'tgt3',title:'The membership architecture',body:"Lead with what every tier includes, then let the client choose. Both Perform and Recover price above rack rate. The membership funds the business, not discounts it. Open Metrics in the bottom nav to see the full business case."}
+];
+let tStep=0;
+function startTour(){tStep=0;renderTour();document.getElementById('tourOv').classList.add('active');}
+function renderTour(){
+  const s=steps[tStep];
+  if(s.screen!==cur)go(s.screen);
+  document.getElementById('tourStep').textContent='Step '+(tStep+1)+' of '+steps.length;
+  document.getElementById('tourTitle').textContent=s.title;
+  document.getElementById('tourBody').textContent=s.body;
+  document.getElementById('tourNext').textContent=tStep===steps.length-1?'Done':'Next';
+  const dots=document.getElementById('tourDots');
+  dots.innerHTML='';
+  steps.forEach((_,i)=>{const d=document.createElement('div');d.className='tour-dot'+(i===tStep?' active':'');dots.appendChild(d);});
+  const hl=document.getElementById('tourHl');
+  const card=document.getElementById('tourCard');
+  setTimeout(()=>{
+    if(s.tid){
+      const el=document.getElementById(s.tid);
+      if(el){
+        const r=el.getBoundingClientRect();
+        hl.style.cssText='display:block;top:'+(r.top-5)+'px;left:'+(r.left-5)+'px;width:'+(r.width+10)+'px;height:'+(r.height+10)+'px;';
+        const below=window.innerHeight-r.bottom-16,above=r.top-16;
+        card.style.cssText=(below>180||below>=above)?'top:'+(r.bottom+12)+'px;bottom:auto;transform:translateX(-50%);':'bottom:'+(window.innerHeight-r.top+12)+'px;top:auto;transform:translateX(-50%);';
       }
-    });
-    document.querySelectorAll('.nav-item').forEach((t,i) => t.classList.toggle('active', i === n));
-    document.getElementById('scrollArea').scrollTo({ top: 0, behavior: 'instant' });
-    current = n;
-  }
-
-  function selectOption(el, group) {
-    el.closest('.option-list').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-  }
-
-  function selectPill(el, group) {
-    el.closest('.therapist-scroll').querySelectorAll('.therapist-pill').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-  }
-
-  function selectSlot(el) {
-    el.closest('.slots-grid').querySelectorAll('.slot').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-  }
-
-  function selectAnnual(el) {
-    document.querySelectorAll('.annual-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-  }
-
-  function toggleTheme() {
-    const html = document.documentElement;
-    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    localStorage.setItem('ml-theme', html.getAttribute('data-theme'));
-  }
-
-  const saved = localStorage.getItem('ml-theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
+    } else {
+      hl.style.display='none';
+      card.style.cssText='top:50%;bottom:auto;transform:translate(-50%,-50%);';
+    }
+  },140);
+}
+function nextTour(){if(tStep>=steps.length-1){skipTour();return;}tStep++;renderTour();}
+function skipTour(){document.getElementById('tourOv').classList.remove('active');document.getElementById('tourHl').style.display='none';localStorage.setItem('ml-tour','1');}
+window.addEventListener('load',()=>{if(!localStorage.getItem('ml-tour'))setTimeout(startTour,700);});
 </script>
 </body>
 </html>
