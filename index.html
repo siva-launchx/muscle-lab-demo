@@ -162,7 +162,7 @@ body{min-height:100%;min-height:-webkit-fill-available;overflow:hidden;font-fami
 .pr-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;letter-spacing:.04em;}
 
 /* ── HERO ── */
-.hero{padding:28px 18px 24px;position:relative;overflow:hidden;min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:0;}
+.hero{padding:28px 18px 24px;position:relative;overflow:hidden;min-height:100%;display:flex;flex-direction:column;justify-content:flex-start;gap:0;padding-top:max(28px,env(safe-area-inset-top,28px));}
 /* SANDLAND DARK: midnight ink bg, subtle navy gradient depth */
 [data-theme="dark"] .hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(175,80,255,.15) 0%,transparent 55%),radial-gradient(ellipse 40% 30% at 15% 70%,rgba(175,80,255,.07) 0%,transparent 50%);}
 /* SUPAHUB LIGHT: soft amethyst gradient bloom */
@@ -277,7 +277,7 @@ body{min-height:100%;min-height:-webkit-fill-available;overflow:hidden;font-fami
 .nudge-body strong{color:var(--text);font-weight:700;}
 .nudge-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;letter-spacing:.06em;}
 
-.book-foot{position:sticky;bottom:calc(72px + env(safe-area-inset-bottom,0px));background:var(--nav);border-top:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+.book-foot{position:fixed;bottom:calc(56px + env(safe-area-inset-bottom,0px));left:0;right:0;background:var(--nav);border-top:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:300;}
 .bf-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);}
 [data-theme="dark"] .bf-val{font-family:'Inter',sans-serif;font-size:24px;font-weight:300;letter-spacing:-.04em;color:#f7f9fa;line-height:1;}[data-theme="light"] .bf-val{font-family:'Inter',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--text);line-height:1;}
 .bf-meta{font-family:'Inter',sans-serif;font-size:10px;color:var(--text3);}
@@ -527,6 +527,57 @@ body{min-height:100%;min-height:-webkit-fill-available;overflow:hidden;font-fami
 [data-theme="dark"] .incl-row{border-bottom-color:rgba(247,249,250,0.08);}
 [data-theme="dark"] .tli::before{background:rgba(247,249,250,0.08);}
 
+
+/* ── HERO THERAPIST CARDS ── */
+.hero-therapists{margin-top:16px;position:relative;z-index:1;}
+.ht-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;}
+[data-theme="dark"] .ht-label{color:#6b6b6b;}
+[data-theme="light"] .ht-label{color:var(--text3);}
+
+.ht-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.ht-scroll::-webkit-scrollbar{display:none;}
+
+.ht-card{flex-shrink:0;width:150px;cursor:pointer;touch-action:manipulation;}
+.ht-card:active{opacity:.8;}
+
+.ht-photo{width:150px;height:190px;border-radius:19.2px;overflow:hidden;position:relative;display:flex;align-items:flex-end;}
+[data-theme="dark"] .ht-photo{border:1px solid rgba(247,249,250,0.1);}
+[data-theme="light"] .ht-photo{box-shadow:0 4px 16px rgba(0,0,0,0.12);}
+
+/* Photo backgrounds — gradient avatars styled per therapist */
+.ht-photo-ivan{background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);}
+.ht-photo-cindy{background:linear-gradient(160deg,#1a1a1a 0%,#2d1b4e 50%,#1a0a3e 100%);}
+.ht-photo-husni{background:linear-gradient(160deg,#0a1628 0%,#1a2a1a 50%,#0f2d20 100%);}
+.ht-photo-christine{background:linear-gradient(160deg,#1a0a1a 0%,#2d0a2d 50%,#1a0a28 100%);}
+.ht-photo-herman{background:linear-gradient(160deg,#0a0a0a 0%,#1a1a2e 40%,#2d1a0a 100%);}
+[data-theme="light"] .ht-photo-ivan{background:linear-gradient(160deg,#dde8f0 0%,#b8cfe0 100%);}
+[data-theme="light"] .ht-photo-cindy{background:linear-gradient(160deg,#ede8f5 0%,#d0b8e8 100%);}
+[data-theme="light"] .ht-photo-husni{background:linear-gradient(160deg,#e8f0e8 0%,#b8d8c0 100%);}
+[data-theme="light"] .ht-photo-christine{background:linear-gradient(160deg,#f5e8f0 0%,#e0b8d4 100%);}
+[data-theme="light"] .ht-photo-herman{background:linear-gradient(160deg,#1a1a2e 0%,#2d2d4e 100%);}
+
+/* Initials in photo */
+.ht-photo::before{content:attr(data-initials);position:absolute;top:50%;left:50%;transform:translate(-50%,-65%);font-family:'Inter',sans-serif;font-size:48px;font-weight:200;letter-spacing:-.03em;opacity:.18;color:#f7f9fa;}
+
+/* Overlay at bottom of photo card */
+.ht-overlay{position:relative;z-index:1;padding:12px;width:100%;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.4) 60%,transparent 100%);}
+[data-theme="light"] .ht-photo-herman .ht-overlay{background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 100%);}
+[data-theme="light"] .ht-overlay{background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 100%);}
+
+.ht-name{font-family:'Inter',sans-serif;font-size:16px;font-weight:300;color:#f7f9fa;letter-spacing:-.02em;line-height:1;margin-bottom:3px;}
+.ht-cred{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;color:rgba(247,249,250,.65);letter-spacing:.02em;line-height:1.4;margin-bottom:4px;}
+.ht-reviews{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;letter-spacing:.04em;}
+[data-theme="dark"] .ht-reviews{color:#af50ff;}
+[data-theme="light"] .ht-reviews{color:#e1bdff;}
+
+/* Tags below photo */
+.ht-tags{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
+.ht-tag{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:6px;}
+[data-theme="dark"] .ht-tag{background:rgba(247,249,250,0.07);color:#828384;border:1px solid rgba(247,249,250,0.1);}
+[data-theme="light"] .ht-tag{background:rgba(0,0,0,0.06);color:var(--text3);}
+
+/* Book CTA hint */
+.ht-card:hover .ht-photo,[data-theme="dark"] .ht-card .ht-photo{transition:border-color .2s;}
 </style>
 </head>
 <body>
@@ -615,18 +666,97 @@ body{min-height:100%;min-height:-webkit-fill-available;overflow:hidden;font-fami
     <button class="btn btn-p" onclick="go(1)">Book a session</button>
     <button class="btn btn-g" onclick="toggleProfile()">Our therapists</button>
   </div>
+  <!-- STATS ROW -->
   <div class="hero-stats" id="tgt0">
     <div class="sc"><div class="sc-n">18K+</div><div class="sc-l">Appointments</div></div>
     <div class="sc"><div class="sc-n">480</div><div class="sc-l">Reviews</div></div>
     <div class="sc"><div class="sc-n">70</div><div class="sc-l">Nationalities</div></div>
     <div class="sc"><div class="sc-n">3</div><div class="sc-l">Outlets</div></div>
   </div>
+
+  <!-- THERAPIST CARDS -->
+  <div class="hero-therapists">
+    <div class="ht-label">Our therapists</div>
+    <div class="ht-scroll">
+
+      <div class="ht-card" onclick="go(1)">
+        <div class="ht-photo ht-photo-ivan" data-initials="IV">
+          <div class="ht-overlay">
+            <div class="ht-name">Ivan</div>
+            <div class="ht-cred">Sports rehabilitation · 8 yrs</div>
+            <div class="ht-reviews">★ 4.9 · 94 reviews</div>
+          </div>
+        </div>
+        <div class="ht-tags">
+          <span class="ht-tag">Deep tissue</span>
+          <span class="ht-tag">Post-injury</span>
+        </div>
+      </div>
+
+      <div class="ht-card" onclick="go(1)">
+        <div class="ht-photo ht-photo-cindy" data-initials="CI">
+          <div class="ht-overlay">
+            <div class="ht-name">Cindy</div>
+            <div class="ht-cred">Deep tissue specialist · 6 yrs</div>
+            <div class="ht-reviews">★ 4.9 · 112 reviews</div>
+          </div>
+        </div>
+        <div class="ht-tags">
+          <span class="ht-tag">Mobility</span>
+          <span class="ht-tag">Athletes</span>
+        </div>
+      </div>
+
+      <div class="ht-card" onclick="go(1)">
+        <div class="ht-photo ht-photo-husni" data-initials="HU">
+          <div class="ht-overlay">
+            <div class="ht-name">Husni</div>
+            <div class="ht-cred">Mobility and stretch · 5 yrs</div>
+            <div class="ht-reviews">★ 4.9 · 67 reviews</div>
+          </div>
+        </div>
+        <div class="ht-tags">
+          <span class="ht-tag">Stretch</span>
+          <span class="ht-tag">Flexibility</span>
+        </div>
+      </div>
+
+      <div class="ht-card" onclick="go(1)">
+        <div class="ht-photo ht-photo-christine" data-initials="CH">
+          <div class="ht-overlay">
+            <div class="ht-name">Christine</div>
+            <div class="ht-cred">Recovery and cupping · 7 yrs</div>
+            <div class="ht-reviews">★ 4.9 · 88 reviews</div>
+          </div>
+        </div>
+        <div class="ht-tags">
+          <span class="ht-tag">Cupping</span>
+          <span class="ht-tag">Recovery</span>
+        </div>
+      </div>
+
+      <div class="ht-card" onclick="go(1)">
+        <div class="ht-photo ht-photo-herman" data-initials="HM">
+          <div class="ht-overlay">
+            <div class="ht-name">Herman</div>
+            <div class="ht-cred">Founder · Sports therapy · 12 yrs</div>
+            <div class="ht-reviews">★ 5.0 · 119 reviews</div>
+          </div>
+        </div>
+        <div class="ht-tags">
+          <span class="ht-tag">Founder</span>
+          <span class="ht-tag">Elite</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 </div>
 
 <!-- BOOK -->
 <div class="screen" id="s1">
-<div class="sc-wrap" style="padding-bottom:0;">
+<div class="sc-wrap" style="padding-bottom:160px;">
   <div class="sc-hd"><div class="eyebrow">New client</div><div class="sc-title">Book your session</div><div class="sc-sub">First visit. No commitment.</div></div>
   <div class="cat-tabs" id="tgt1">
     <div class="cat-tab active" onclick="setCat(this)">All</div>
